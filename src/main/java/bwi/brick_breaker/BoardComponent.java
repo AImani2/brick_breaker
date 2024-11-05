@@ -1,4 +1,4 @@
-package brickBreaker;
+package bwi.brick_breaker;
 
 import javax.swing.*;
 import java.awt.*;
