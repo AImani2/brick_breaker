@@ -19,6 +19,15 @@ public class BrickBreakerModel {
     private Panel panel;
 
     // what methods do I need here?
+    public BrickBreakerModel(Ball ball, List<Brick> bricks, Panel panel) {
+        this.ball = ball;
+        this.bricks = bricks;
+        this.panel = panel;
+    }
+
+    public void endGame() {
+        //figure out the logic here on how to end the game
+    }
 
 
 }
