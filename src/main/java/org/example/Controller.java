@@ -6,9 +6,9 @@ public class Controller
     private Brick brick;
     BrickBreakerModel model;
 
-    private Component view;
+    private BoardComponent view;
 
-    public Controller(Ball ball, Brick brick, BrickBreakerModel model, Component view)
+    public Controller(Ball ball, Brick brick, BrickBreakerModel model, BoardComponent view)
     {
         this.ball = ball;
         this.brick = brick;
@@ -35,7 +35,7 @@ public class Controller
         //TODO: we need to figure out if the Brick class
         // holds a single brick or multiple
         // Should we put the bricks in a grid? (kind of similar to the sand / conways project?)
-        brick.setBroken(0);
+        brick.setBrickState(0);
     }
 
     public void hitPaddle()
@@ -58,7 +58,18 @@ public class Controller
     	- Hit wall
 	- Hit brick
 	- Hit padel
-Fall and person loses
+    Fall and person loses
+     */
+
+    //TODO:
+    /*
+    we still need:
+        paddle class
+        wall class.
+        figure out how to actually lay it all out on the Frame
+        move method in the ball class
+        end game method in the model class
+
      */
 
 

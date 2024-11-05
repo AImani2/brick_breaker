@@ -22,11 +22,11 @@ public class Brick {
         // set the color
     }
 
-    public int getBroken() {
+    public int isBroken() {
         return brickState;
     }
 
-    public void setBroken(int brickState) {
+    public void setBrickState(int brickState) {
         this.brickState = brickState;
     }
 
