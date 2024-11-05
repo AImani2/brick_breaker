@@ -2,7 +2,6 @@ package org.example;
 
 public class Controller
 {
-    // testing making a change
     private Ball ball;
     private Brick brick;
     BrickBreakerModel model;
