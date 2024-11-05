@@ -5,17 +5,13 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Random;
 
 public class GameFrame extends JFrame {
 
     private final Ball ball;
     private final Paddle paddle;
-//    private final int numOfBricks = 10;
     private final int boardWidth = 800;
     private final int boardHeight = 600;
-//    private final int brickWidth = 100;
-//    private final int brickHeight = 20;
     private ArrayList<Brick> bricks = new ArrayList<>();
     private final Panel panel;
     private BoardComponent view = null;

@@ -12,8 +12,6 @@ public class Brick extends Rectangle2D.Double{
     private double x, y;
     private Color color;
 
-    // should this be a list or a single brick?
-
     public Brick(boolean brickState, double height, double width, double x, double y, Color color) {
         super(x, y, width, height);
         this.brickState = brickState;

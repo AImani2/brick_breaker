@@ -44,7 +44,6 @@ public class BoardComponent extends JComponent implements MouseMotionListener {
         g2.setColor(paddle.getColor());
         g2.fill(paddle);
 
-        //draw the bricks
 
         //draw the bricks
         for (int i = 0; i < bricks.size(); i++) {
@@ -58,12 +57,11 @@ public class BoardComponent extends JComponent implements MouseMotionListener {
 
     }
     public void updateBoard() {
-//        ball.move();
 
         checkBricks();
         checksPaddle();
+        checkBounds();
 
-        //check walls
         repaint();
     }
 
@@ -85,6 +83,7 @@ public class BoardComponent extends JComponent implements MouseMotionListener {
         }
     }
 
+    //TODO fix this method so that it checks that the ball doesn't go too high or to the left
     public void checkBounds() {
 
     }
