@@ -1,18 +1,19 @@
-package org.example;
+package bwi.brick_breaker;
 
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
+import java.util.Random;
 
-public class Brick {
+public class Brick extends Rectangle2D.Double{
 
-    private int brickState;
+    private boolean brickState;
     private double height;
     private double width;
     private double x, y;
     private Color color;
 
-    // should this be a list or a single brick?
-
-    public Brick(int brickState, double height, double width, double x, double y, Color color) {
+    public Brick(boolean brickState, double height, double width, double x, double y, Color color) {
+        super(x, y, width, height);
         this.brickState = brickState;
         this.height = height; // set the height and width
         this.width = width;
@@ -22,11 +23,15 @@ public class Brick {
         // set the color
     }
 
-    public int isBroken() {
+    /**
+     * I changed this method to be a boolean so if its broken it is true, if its not then
+     *  its false
+     */
+    public boolean getBroken() {
         return brickState;
     }
 
-    public void setBrickState(int brickState) {
+    public void setBroken(boolean brickState) {
         this.brickState = brickState;
     }
 
@@ -45,5 +50,14 @@ public class Brick {
     public void setY(double y) {
         this.y = y;
     }
+
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
 
 }

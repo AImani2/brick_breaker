@@ -1,17 +1,23 @@
-package org.example;
+package bwi.brick_breaker;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 
-// copied from Avigayil's work:
-public class Ball extends Ellipse2D.Double
-{
+public class Ball extends Ellipse2D.Double {
 
     private double angle;
     private double velocity;
-    private double x, y;
-    private double diameter;
+//    private double x, y;
+//    private double diameter;
     private Color color;
+
+    public Ball(double angle, double velocity, double x, double y, double diameter, Color color) {
+        super(x, y, diameter, diameter);
+        this.angle = angle;
+        this.velocity = velocity; // should velocity always be the same?
+        this.color = color;
+        // set the color and diameter here
+    }
 
     public double getAngle() {
         return angle;
@@ -49,13 +55,13 @@ public class Ball extends Ellipse2D.Double
 
     // do we need the following methods?
 
-    public double getDiameter() {
-        return diameter;
-    }
-
-    public void setDiameter(double diameter) {
-        this.diameter = diameter;
-    }
+//    public double getDiameter() {
+//        return diameter;
+//    }
+//
+//    public void setDiameter(double diameter) {
+//        this.diameter = diameter;
+//    }
 
     public Color getColor() {
         return color;
@@ -64,4 +70,5 @@ public class Ball extends Ellipse2D.Double
     public void setColor(Color color) {
         this.color = color;
     }
+
 }
