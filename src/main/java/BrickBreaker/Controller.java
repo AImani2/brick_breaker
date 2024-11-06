@@ -1,4 +1,4 @@
-package bwi.brickBreaker;
+package BrickBreaker;
 import java.util.ArrayList;
 
 public class Controller

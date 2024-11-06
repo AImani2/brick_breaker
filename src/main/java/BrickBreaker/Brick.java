@@ -1,9 +1,9 @@
-package bwi.brickBreaker;
+package BrickBreaker;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
-public class Brick extends Rectangle2D.Double{
+public class Brick extends Rectangle2D.Double {
 
     private boolean brickState;
     private double height;
