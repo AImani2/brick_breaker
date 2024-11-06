@@ -91,10 +91,6 @@ public class Controller
             }
 
         }
-//
-//        if (ball.getY() > paddle.getY() + paddle.getHeight()) {
-//            fallBall();
-//        }
     }
 
     public void hitWall(String side)
