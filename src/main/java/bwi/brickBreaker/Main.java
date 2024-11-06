@@ -1,4 +1,4 @@
-package bwi.brick_breaker;
+package bwi.brickBreaker;
 
 public class Main {
 

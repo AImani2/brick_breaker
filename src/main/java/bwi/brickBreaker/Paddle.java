@@ -1,44 +1,44 @@
-package bwi.brick_breaker;
+package bwi.brickBreaker;
 
 import java.awt.*;
 
 public class Paddle extends Rectangle {
 
-    private double x;
-    private double y;
+    private double xVal;
+    private double yVal;
     private double width;
     private double height;
     private Color color;
 
-    public Paddle(double x, double y, double height, double width, Color color) {
-        super((int) x, (int) y, (int) width, (int) height);
-        this.x = x;
-        this.y = y;
+    public Paddle(double xVal, double yVal, double height, double width, Color color) {
+        super((int) xVal, (int) yVal, (int) width, (int) height);
+        this.xVal = xVal;
+        this.yVal = yVal;
         this.width = width;
         this.height = height;
         this.color = color;
     }
 
     public void move(double amountToMove, double totalWidth) {
-        x += amountToMove;
+        xVal += amountToMove;
 
-        if (x < 0) {
-            x = 0;
-        } else if (x + width > totalWidth) {
-            x = totalWidth;
+        if (xVal < 0) {
+            xVal = 0;
+        } else if (xVal + width > totalWidth) {
+            xVal = totalWidth;
         }
 
-        setBounds((int) x, (int) y, (int) width, (int) height);
+        setBounds((int) xVal, (int) yVal, (int) width, (int) height);
     }
 
     @Override
     public double getX() {
-        return x;
+        return xVal;
     }
 
     @Override
     public double getY() {
-        return y;
+        return yVal;
     }
 
     @Override
@@ -67,11 +67,11 @@ public class Paddle extends Rectangle {
         this.width = width;
     }
 
-    public void setX(double x) {
-        this.x = x;
+    public void setxVal(double xVal) {
+        this.xVal = xVal;
     }
 
-    public void setY(double y) {
-        this.y = y;
+    public void setyVal(double yVal) {
+        this.yVal = yVal;
     }
 }

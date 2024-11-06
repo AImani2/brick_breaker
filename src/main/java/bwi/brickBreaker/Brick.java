@@ -1,8 +1,7 @@
-package bwi.brick_breaker;
+package bwi.brickBreaker;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
-import java.util.Random;
 
 public class Brick extends Rectangle2D.Double{
 

@@ -1,4 +1,4 @@
-package bwi.brick_breaker;
+package bwi.brickBreaker;
 
 import javax.swing.*;
 import java.awt.*;
@@ -167,7 +167,7 @@ public class BoardComponent extends JComponent implements MouseMotionListener {
             } else if (x > getWidth() - paddle.getWidth()) {
                 x = getWidth() - (int)paddle.getWidth();
             }
-            paddle.setX(x);
+            paddle.setxVal(x);
             repaint();
         }
     }

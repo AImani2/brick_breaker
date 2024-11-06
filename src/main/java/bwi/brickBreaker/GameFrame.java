@@ -1,4 +1,4 @@
-package bwi.brick_breaker;
+package bwi.brickBreaker;
 
 import javax.swing.*;
 import java.awt.*;
@@ -26,7 +26,7 @@ public class GameFrame extends JFrame {
 
         //create the ball and paddle
         paddle = new Paddle(350, 550, 20, 100, Color.MAGENTA);
-        int x = (int)paddle.getX() + ((int)paddle.getWidth() / 2) - 10;
+        int x = (int) paddle.getX() + ((int) paddle.getWidth() / 2) - 10;
         int y = (int) paddle.getY() - 20;
         ball = new Ball(45, 5, x, y, 20, Color.CYAN);
 

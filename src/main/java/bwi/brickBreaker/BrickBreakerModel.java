@@ -1,6 +1,5 @@
-package bwi.brick_breaker;
+package bwi.brickBreaker;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class BrickBreakerModel {
