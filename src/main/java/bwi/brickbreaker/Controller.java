@@ -1,6 +1,7 @@
 package bwi.brickbreaker;
 
 import java.util.ArrayList;
+
 import javax.swing.*;
 
 public class Controller
