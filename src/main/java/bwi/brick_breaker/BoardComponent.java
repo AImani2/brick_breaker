@@ -67,7 +67,6 @@ public class BoardComponent extends JComponent implements MouseMotionListener {
 
     public void checksPaddle() {
         if (ball.getBounds2D().intersects(paddle.getBounds())) {
-            System.out.println("hitting the paddle!!!!!! current angle: " + ball.getAngle());
             controller.hitPaddle();
         }
     }
@@ -77,7 +76,6 @@ public class BoardComponent extends JComponent implements MouseMotionListener {
             Brick brick = bricks.get(i);
             //does 0 mean broken?
             if (!brick.getBroken() && ball.getBounds2D().intersects(brick.getBounds())) {
-                System.out.println("hitting a brick!!");
                 controller.hitBrick(brick);
             }
         }
@@ -114,7 +112,6 @@ public class BoardComponent extends JComponent implements MouseMotionListener {
 
             if (!intersect) {
                 bricks.add(brick);
-                System.out.println("added a new brick at " + brick.getX() + " , " + brick.getY());
             }
         }
         return bricks;
