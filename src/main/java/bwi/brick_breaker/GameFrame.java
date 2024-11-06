@@ -28,7 +28,7 @@ public class GameFrame extends JFrame {
         paddle = new Paddle(350, 550, 20, 100, Color.MAGENTA);
         int x = (int)paddle.getX() + ((int)paddle.getWidth() / 2) - 10;
         int y = (int) paddle.getY() - 20;
-        ball = new Ball(45, 5, x, y, 20, Color.CYAN);
+        ball = new Ball(45, 3, x, y, 20, Color.CYAN);
 
         BrickBreakerModel model = new BrickBreakerModel(ball, bricks, panel);
         Controller controller = new Controller(ball, paddle, bricks, model, view);
