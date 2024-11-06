@@ -85,7 +85,23 @@ public class BoardComponent extends JComponent implements MouseMotionListener {
 
     //TODO fix this method so that it checks that the ball doesn't go too high or to the left
     public void checkBounds() {
+        int screenWidth = getWidth();
+        int screenHeight = getHeight();
 
+        // Check left and right boundaries
+        if (ball.getX() <= 0 || ball.getX() + ball.getWidth() >= screenWidth) {
+            controller.hitWall("vertical"); // Left or right wall
+        }
+
+        // Check top boundary
+        if (ball.getY() <= 0) {
+            controller.hitWall("horizontal"); // Top wall
+        }
+
+        // handle bottom boundary for game over
+        if (ball.getY() + ball.getHeight() >= screenHeight) {
+            controller.fallBall(); // Player loses if ball goes below screen
+        }
     }
 
     public ArrayList<Brick> layBricksOnGrid() {

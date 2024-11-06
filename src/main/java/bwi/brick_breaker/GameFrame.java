@@ -35,6 +35,8 @@ public class GameFrame extends JFrame {
 
         view = new BoardComponent(ball, paddle, bricks, controller);
         add(view);
+        view.setPreferredSize(new Dimension(boardWidth, boardHeight - 100));
+
         bricks = view.layBricksOnGrid();
         controller.setBricks(bricks);
 

@@ -19,12 +19,21 @@ public class Controller
         this.view = view;
     }
 
-    public void hitWall()
+    public void hitWall(String side)
     {
         // get current angle of ball:
         double angle = ball.getAngle();
-        angle = 180 - angle;
-        ball.setAngle(angle);
+        /*angle = 180 - angle;
+        ball.setAngle(angle);*/
+
+        /*if ("horizontal".equals(side)) {
+            angle = -angle; // Reflect angle vertically for top/bottom walls
+        } else if ("vertical".equals(side)) {
+            angle = 180 - angle; // Reflect angle horizontally for left/right walls
+        }*/
+        ball.setVelocity(ball.getVelocity() * -1);
+        ball.setAngle(-angle);
+
     }
 
     public void hitBrick(Brick brick)
@@ -45,6 +54,13 @@ public class Controller
         double angle = ball.getAngle();
         ball.setAngle(-angle);
         ball.setVelocity(ball.getVelocity() * -1);
+
+        // Adjust angle based on where ball hits the paddle
+        /*double paddleCenter = paddle.getX() + (paddle.getWidth() / 2);
+        double ballCenter = ball.getX() + (ball.getWidth() / 2);
+        angle += (ballCenter - paddleCenter) * 0.1; // Adjust angle based on offset from paddle center
+        */
+
     }
 
     // when ball falls below screen and player loses
