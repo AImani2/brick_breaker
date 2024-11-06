@@ -13,13 +13,10 @@ public class GameFrame extends JFrame {
     private final int boardWidth = 800;
     private final int boardHeight = 600;
     private ArrayList<Brick> bricks = new ArrayList<>();
-    private final Panel panel;
     private BoardComponent view = null;
 
 
     public GameFrame() {
-        this.panel = new Panel();
-
         setSize(boardWidth, boardHeight);
         setTitle("Brick Breaker");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -30,21 +27,22 @@ public class GameFrame extends JFrame {
         int y = (int) paddle.getY() - 20;
         ball = new Ball(45, 5, x, y, 20, Color.CYAN);
 
-        BrickBreakerModel model = new BrickBreakerModel(ball, bricks, panel);
+        view = new BoardComponent(ball, paddle, bricks);
+        bricks = view.layBricksOnGrid();
+
+        BrickBreakerModel model = new BrickBreakerModel(ball, bricks);
         Controller controller = new Controller(ball, paddle, bricks, model, view);
 
-        view = new BoardComponent(ball, paddle, bricks, controller);
+        controller.setBricks(bricks);
+
         add(view);
         view.setPreferredSize(new Dimension(boardWidth, boardHeight - 100));
-
-        bricks = view.layBricksOnGrid();
-        controller.setBricks(bricks);
 
         JButton startButton = new JButton("Start");
         startButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                view.startGame();
+                controller.startGame();
             }
         });
         add(startButton, BorderLayout.SOUTH);
