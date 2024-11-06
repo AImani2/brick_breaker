@@ -1,4 +1,4 @@
-package BrickBreaker;
+package bwi.brickbreaker;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
@@ -8,7 +8,8 @@ public class Brick extends Rectangle2D.Double {
     private boolean brickState;
     private double height;
     private double width;
-    private double x, y;
+    private double x;
+    private double y;
     private Color color;
 
     public Brick(boolean brickState, double height, double width, double x, double y, Color color) {
