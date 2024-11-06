@@ -56,6 +56,7 @@ public class BoardComponent extends JComponent implements MouseMotionListener {
         updateBoard();
 
     }
+
     public void updateBoard() {
 
         checkBricks();
@@ -114,7 +115,7 @@ public class BoardComponent extends JComponent implements MouseMotionListener {
 
         int x = 0;
         int y = 0;
-        while(bricks.size() < numOfBricks) {
+        while (bricks.size() < numOfBricks) {
             x = rand.nextInt(boardWidth - brickWidth);
             y = rand.nextInt(boardHeight / 2);
 
@@ -165,7 +166,7 @@ public class BoardComponent extends JComponent implements MouseMotionListener {
             if (x < 0) {
                 x = 0;
             } else if (x > getWidth() - paddle.getWidth()) {
-                x = getWidth() - (int)paddle.getWidth();
+                x = getWidth() - (int) paddle.getWidth();
             }
             paddle.setValX(x);
             repaint();

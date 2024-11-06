@@ -8,17 +8,17 @@ public class Brick extends Rectangle2D.Double {
     private boolean brickState;
     private double height;
     private double width;
-    private double x;
-    private double y;
+    private double valX;
+    private double valY;
     private Color color;
 
-    public Brick(boolean brickState, double height, double width, double x, double y, Color color) {
-        super(x, y, width, height);
+    public Brick(boolean brickState, double height, double width, double valX, double valY, Color color) {
+        super(valX, valY, width, height);
         this.brickState = brickState;
         this.height = height; // set the height and width
         this.width = width;
-        this.x = x;
-        this.y = y;
+        this.valX = valX;
+        this.valY = valY;
         this.color = color;
         // set the color
     }
@@ -36,19 +36,19 @@ public class Brick extends Rectangle2D.Double {
     }
 
     public double getX() {
-        return x;
+        return valX;
     }
 
-    public void setX(double x) {
-        this.x = x;
+    public void setValX(double valX) {
+        this.valX = valX;
     }
 
     public double getY() {
-        return y;
+        return valY;
     }
 
-    public void setY(double y) {
-        this.y = y;
+    public void setValY(double valY) {
+        this.valY = valY;
     }
 
     public void setColor(Color color) {
