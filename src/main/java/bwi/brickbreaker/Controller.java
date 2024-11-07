@@ -48,13 +48,34 @@ public class Controller
     }
 
     public void checkPaddleCollision() {
-        if (ball.getY() + ball.getHeight() >= view.getHeight()) {
-            if (ball.getY() + ball.getHeight() <= paddle.getY()) {
+/*        if (ball.getY() + ball.getHeight() >= view.getHeight()) {
+
+            if (ball.getBounds2D().intersects(paddle.getBounds())) {
+                hitPaddle();
+            }
+            else if (ball.getY() + ball.getHeight() <= paddle.getY()) {
                 fallBall();
-            } else if (ball.getBounds2D().intersects(paddle.getBounds())) {
+            }
+        }
+        if (ball.getY() + ball.getHeight() >= paddle.getY()) {
+            // Check if the ball is within the horizontal bounds of the paddle
+            if (ball.getBounds2D().intersects(paddle.getBounds())) {
+                hitPaddle();
+            } else if (ball.getY() + ball.getHeight() >= view.getHeight()) {
+                // Ball missed the paddle and fell off the screen
+                fallBall();
+            }
+        }*/
+
+        if (ball.getY() + ball.getHeight() >= paddle.getY()) {
+            if (ball.getY() + ball.getHeight() >= view.getHeight()) {
+                fallBall();
+            }
+            else if (ball.getBounds2D().intersects(paddle.getBounds())) {
                 hitPaddle();
             }
         }
+
     }
 
     public void checkBrickCollision() {
@@ -99,7 +120,7 @@ public class Controller
         double angle = ball.getAngle();
 
         ball.setVelocity(ball.getVelocity() * -1);
-        ball.setAngle(-angle);
+        ball.setAngle(45);
 
     }
 
@@ -117,6 +138,7 @@ public class Controller
         double angle = ball.getAngle();
         ball.setAngle(-angle);
         ball.setVelocity(ball.getVelocity() * -1);
+        ball.setY(paddle.getY() - ball.getHeight() - 1);
     }
 
     // when ball falls below screen and player loses
