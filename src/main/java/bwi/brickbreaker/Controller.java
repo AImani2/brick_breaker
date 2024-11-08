@@ -1,5 +1,6 @@
 package bwi.brickbreaker;
 
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -11,6 +12,7 @@ public class Controller
     private ArrayList<Brick> bricks;
     private final BrickBreakerModel model;
     private final Timer timer;
+    private boolean gameStarted = false;
 
     private final BoardComponent view;
 
@@ -27,7 +29,7 @@ public class Controller
 
     public void startGame() {
         timer.start();
-        view.setGameStarted(true);
+        gameStarted = true;
         view.repaint();
     }
 
@@ -125,10 +127,24 @@ public class Controller
         model.endGame();
         System.out.println("end game");
         timer.stop();
-        view.setGameStarted(false);
+        gameStarted = false;
     }
 
     public void setBricks(ArrayList<Brick> bricks) {
         this.bricks = bricks;
+    }
+
+    public void mouseMethod(MouseEvent e) {
+        if (gameStarted) {
+            int x = e.getX();
+
+            if (x < 0) {
+                x = 0;
+            } else if (x > view.getWidth() - paddle.getWidth()) {
+                x = view.getWidth() - (int) paddle.getWidth();
+            }
+            paddle.setValX(x);
+            view.repaint();
+        }
     }
 }

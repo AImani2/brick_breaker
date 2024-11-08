@@ -6,8 +6,9 @@ import java.awt.geom.Ellipse2D;
 public class Ball extends Ellipse2D.Double {
 
     private double angle;
+    //set velocity to a value
     private double velocity;
-    private Color color;
+    private final Color color;
 
     public Ball(double angle, double velocity, double x, double y, double diameter, Color color) {
         super(x, y, diameter, diameter);
@@ -32,19 +33,19 @@ public class Ball extends Ellipse2D.Double {
         this.velocity = velocity;
     }
 
-    @Override
-    public double getX() {
-        return x;
-    }
+//    @Override
+//    public double getX() {
+//        return x;
+//    }
 
     public void setX(double x) {
         this.x = x;
     }
 
-    @Override
-    public double getY() {
-        return y;
-    }
+//    @Override
+//    public double getY() {
+//        return y;
+//    }
 
     public void setY(double y) {
         this.y = y;
@@ -54,24 +55,24 @@ public class Ball extends Ellipse2D.Double {
         return color;
     }
 
-    public void setColor(Color color) {
-        this.color = color;
-    }
-
-    public void move(int screenWidth, int screenHeight) {
-        // Update ball position based on angle and velocity
-        x += velocity * Math.cos(Math.toRadians(angle));
-        y += velocity * Math.sin(Math.toRadians(angle));
-
-        // Check if ball is going off the left or right side of the screen
-        if (x <= 0 || x + getWidth() >= screenWidth) {
-            angle = 180 - angle; // Reflect angle horizontally
-        }
-
-        // Check if ball is going off the top of the screen
-        if (y <= 0) {
-            angle = -angle; // Reflect angle vertically
-        }
-    }
+//    public void setColor(Color color) {
+//        this.color = color;
+//    }
+//
+//    public void move(int screenWidth, int screenHeight) {
+//        // Update ball position based on angle and velocity
+//        x += velocity * Math.cos(Math.toRadians(angle));
+//        y += velocity * Math.sin(Math.toRadians(angle));
+//
+//        // Check if ball is going off the left or right side of the screen
+//        if (x <= 0 || x + getWidth() >= screenWidth) {
+//            angle = 180 - angle; // Reflect angle horizontally
+//        }
+//
+//        // Check if ball is going off the top of the screen
+//        if (y <= 0) {
+//            angle = -angle; // Reflect angle vertically
+//        }
+//    }
 
 }
