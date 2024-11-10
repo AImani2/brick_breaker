@@ -49,18 +49,6 @@ public class GameFrame extends JFrame {
         });
         add(startButton, BorderLayout.SOUTH);
 
-        view.addMouseMotionListener(new MouseMotionListener() {
-            @Override
-            public void mouseDragged(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseMoved(MouseEvent e) {
-                controller.mouseMethod(e);
-            }
-        });
-
     }
 
 

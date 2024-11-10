@@ -9,7 +9,7 @@ import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class BoardComponent extends JComponent implements MouseMotionListener {
+public class BoardComponent extends JComponent {
 
     private final Ball ball;
     private final Paddle paddle;
@@ -20,7 +20,9 @@ public class BoardComponent extends JComponent implements MouseMotionListener {
         this.ball = ball;
         this.paddle = paddle;
         this.bricks = bricks;
-        addMouseMotionListener(this);
+
+        setFocusable(true);
+        requestFocusInWindow();
     }
 
     @Override
@@ -90,27 +92,6 @@ public class BoardComponent extends JComponent implements MouseMotionListener {
         int blue = rand.nextInt(256);
 
         return new Color(red, green, blue);
-    }
-
-    @Override
-    public void mouseMoved(MouseEvent e) {
-        if (gameStarted) {
-            int x = e.getX();
-
-            if (x < 0) {
-                x = 0;
-            } else if (x > getWidth() - paddle.getWidth()) {
-                x = getWidth() - (int) paddle.getWidth();
-            }
-            paddle.setValX(x);
-            repaint();
-        }
-    }
-
-
-    @Override
-    public void mouseDragged(MouseEvent e) {
-
     }
 
 }

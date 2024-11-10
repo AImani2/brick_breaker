@@ -1,11 +1,12 @@
 package bwi.brickbreaker;
 
-import java.awt.event.MouseEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
 import javax.swing.*;
 
-public class Controller
+public class Controller implements KeyListener
 {
     private final Ball ball;
     private final Paddle paddle;
@@ -13,6 +14,7 @@ public class Controller
     private final BrickBreakerModel model;
     private final Timer timer;
     private boolean gameStarted = false;
+    private final int distanceToMove = 5;
 
     private final BoardComponent view;
 
@@ -25,11 +27,16 @@ public class Controller
         this.view = view;
 
         timer = new Timer(2, e -> gameUpdate());
+        view.setFocusable(true);
+        view.requestFocusInWindow();
+        view.addKeyListener(this);
     }
 
     public void startGame() {
         timer.start();
         gameStarted = true;
+        view.setFocusable(true);
+        view.requestFocusInWindow();
         view.repaint();
     }
 
@@ -58,7 +65,6 @@ public class Controller
                 hitPaddle();
             }
         }
-
     }
 
     public void checkBrickCollision() {
@@ -137,17 +143,38 @@ public class Controller
         this.bricks = bricks;
     }
 
-    public void mouseMethod(MouseEvent e) {
+    @Override
+    public void keyPressed(KeyEvent e) {
         if (gameStarted) {
-            int x = e.getX();
-
-            if (x < 0) {
-                x = 0;
-            } else if (x > view.getWidth() - paddle.getWidth()) {
-                x = view.getWidth() - (int) paddle.getWidth();
+            switch (e.getKeyCode()) {
+                case KeyEvent.VK_RIGHT:
+                    if (paddle.getX() + distanceToMove + paddle.getWidth() >= view.getWidth()) {
+                        paddle.setValX(view.getWidth() - paddle.getWidth());
+                    } else {
+                        paddle.setValX(paddle.getX() + distanceToMove);
+                    }
+                    break;
+                case KeyEvent.VK_LEFT:
+                    if (paddle.getX() - distanceToMove < 0) {
+                        paddle.setValX(0);
+                    } else {
+                        paddle.setValX(paddle.getX() - distanceToMove);
+                    }
+                    break;
+                default:
             }
-            paddle.setValX(x);
-            view.repaint();
         }
+        view.repaint();
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+
+    }
+
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
     }
 }
