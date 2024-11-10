@@ -2,7 +2,6 @@ package bwi.brickbreaker;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -15,7 +14,7 @@ public class Controller implements KeyListener
     private final BrickBreakerModel model;
     private final Timer timer;
     private boolean gameStarted = false;
-    private final int DISTANCE_TO_MOVE = 5;
+    private final int distanceToMove = 5;
 
     private final BoardComponent view;
 
@@ -149,19 +148,20 @@ public class Controller implements KeyListener
         if (gameStarted) {
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_RIGHT:
-                    if (paddle.getX() + DISTANCE_TO_MOVE + paddle.getWidth() >= view.getWidth()) {
+                    if (paddle.getX() + distanceToMove + paddle.getWidth() >= view.getWidth()) {
                         paddle.setValX(view.getWidth() - paddle.getWidth());
                     } else {
-                        paddle.setValX(paddle.getX() + DISTANCE_TO_MOVE);
+                        paddle.setValX(paddle.getX() + distanceToMove);
                     }
                     break;
                 case KeyEvent.VK_LEFT:
-                    if (paddle.getX() - DISTANCE_TO_MOVE < 0) {
+                    if (paddle.getX() - distanceToMove < 0) {
                         paddle.setValX(0);
                     } else {
-                        paddle.setValX(paddle.getX() - DISTANCE_TO_MOVE);
+                        paddle.setValX(paddle.getX() - distanceToMove);
                     }
                     break;
+                default:
             }
         }
         view.repaint();
