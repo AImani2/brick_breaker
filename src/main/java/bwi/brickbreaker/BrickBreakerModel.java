@@ -8,13 +8,13 @@ public class BrickBreakerModel {
     private List<Brick> bricks;
     // or should we just do this with an array?
     private int[] bricksV2;
-    private Panel panel;
+    //private Panel panel;
 
     // what methods do I need here?
     public BrickBreakerModel(Ball ball, List<Brick> bricks) {
         this.ball = ball;
         this.bricks = bricks;
-        this.panel = panel;
+        //this.panel = panel;
     }
 
     public void endGame() {
