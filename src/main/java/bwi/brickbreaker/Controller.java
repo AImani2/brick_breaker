@@ -54,8 +54,7 @@ public class Controller
         if (ball.getY() + ball.getHeight() >= paddle.getY()) {
             if (ball.getY() + ball.getHeight() >= view.getHeight()) {
                 fallBall();
-            }
-            else if (ball.getBounds2D().intersects(paddle.getBounds())) {
+            } else if (ball.getBounds2D().intersects(paddle.getBounds())) {
                 hitPaddle();
             }
         }
