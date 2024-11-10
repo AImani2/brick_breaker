@@ -57,13 +57,23 @@ public class Controller implements KeyListener
     }
 
     public void checkPaddleCollision() {
+        double bottomOfBall = ball.getY() + ball.getHeight();
+        double leftOfBall = ball.getX();
+        double rightOfBall = ball.getX() + ball.getWidth();
 
-        if (ball.getY() + ball.getHeight() >= paddle.getY()) {
-            if (ball.getY() + ball.getHeight() >= view.getHeight()) {
-                fallBall();
-            } else if (ball.getBounds2D().intersects(paddle.getBounds())) {
-                hitPaddle();
-            }
+        double topOfPaddle = paddle.getY();
+        double leftOfPaddle = paddle.getX();
+        double rightOfPaddle = paddle.getX() + paddle.getWidth();
+
+        boolean yIntersect = bottomOfBall >= topOfPaddle;
+        boolean xIntersect = rightOfBall >= leftOfPaddle && leftOfBall <= rightOfPaddle;
+
+        if (yIntersect && xIntersect) {
+            System.out.println("hitting paddle ");
+            hitPaddle();
+        } else if (bottomOfBall > view.getHeight()) {
+            System.out.println("falling!!!");
+            fallBall();
         }
     }
 
@@ -93,14 +103,17 @@ public class Controller implements KeyListener
         }
 
         // handle bottom boundary for game over
-        if (ball.getY() + ball.getHeight() >= screenHeight) {
-            if (!ball.getBounds2D().intersects(paddle.getBounds())) {
-                fallBall(); // Player loses if ball goes below screen
-            } else {
-                hitPaddle();
-            }
-
-        }
+//        System.out.println(ball.getHeight() + " " + ball.getY());
+//        if (ball.getY() + ball.getHeight() >= screenHeight) {
+//            System.out.println("ball bounds: " + ball.getBounds2D() + "\nPaddle bounds: " + paddle.getBounds());
+//            if (!ball.getBounds2D().intersects(paddle.getBounds())) {
+//                fallBall(); // Player loses if ball goes below screen
+//            }
+////            else {
+////                hitPaddle();
+////            }
+//
+//        }
     }
 
     public void hitWall(String side)
@@ -123,6 +136,7 @@ public class Controller implements KeyListener
 
     public void hitPaddle()
     {
+        System.out.println("ball bounds: " + ball.getBounds2D() + " \npaddle bounds " + paddle.getBounds() + " ? " + ball.getBounds2D().intersects(paddle.getBounds()));
         // bounce direction of ball:
         double angle = ball.getAngle();
         ball.setAngle(-angle);
