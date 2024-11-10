@@ -50,24 +50,6 @@ public class Controller
     }
 
     public void checkPaddleCollision() {
-/*        if (ball.getY() + ball.getHeight() >= view.getHeight()) {
-
-            if (ball.getBounds2D().intersects(paddle.getBounds())) {
-                hitPaddle();
-            }
-            else if (ball.getY() + ball.getHeight() <= paddle.getY()) {
-                fallBall();
-            }
-        }
-        if (ball.getY() + ball.getHeight() >= paddle.getY()) {
-            // Check if the ball is within the horizontal bounds of the paddle
-            if (ball.getBounds2D().intersects(paddle.getBounds())) {
-                hitPaddle();
-            } else if (ball.getY() + ball.getHeight() >= view.getHeight()) {
-                // Ball missed the paddle and fell off the screen
-                fallBall();
-            }
-        }*/
 
         if (ball.getY() + ball.getHeight() >= paddle.getY()) {
             if (ball.getY() + ball.getHeight() >= view.getHeight()) {
