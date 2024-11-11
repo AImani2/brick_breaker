@@ -155,6 +155,26 @@ public class Controller implements KeyListener
         System.out.println("end game");
         timer.stop();
         gameStarted = false;
+
+        String message = "Game over!\nDo you want to start again?";
+
+        int start = JOptionPane.showConfirmDialog(view, message, "Game Over", JOptionPane.YES_NO_OPTION);
+        if (start == JOptionPane.YES_NO_OPTION) {
+            resetGame();
+            startGame();
+        } else {
+            SwingUtilities.getWindowAncestor(view).dispose();
+        }
+    }
+
+    public void resetGame() {
+        paddle.setValX(paddle.getInitialX());
+        paddle.setValY(paddle.getInitialY());
+        int valX = (int) paddle.getX() + ((int) paddle.getWidth() / 2) - 10;
+        int valY = (int) paddle.getY() - 20;
+        ball.setY(valY);
+        ball.setX(valX);
+        view.repaint();
     }
 
     public void setBricks(ArrayList<Brick> bricks) {
