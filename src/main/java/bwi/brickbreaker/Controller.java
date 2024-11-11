@@ -142,6 +142,8 @@ public class Controller implements KeyListener
         if (start == JOptionPane.YES_NO_OPTION) {
             resetGame();
             startGame();
+        } else {
+            SwingUtilities.getWindowAncestor(view).dispose();
         }
     }
 
