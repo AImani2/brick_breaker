@@ -47,7 +47,8 @@ public class Controller implements KeyListener
     }
 
     public void moveBall() {
-        ball.setY(ball.getY() - ball.getVelocity());
+        //ball.setY(ball.getY() - ball.getVelocity());
+        ball.move();
     }
 
     public void checkCollisions() {
@@ -81,11 +82,23 @@ public class Controller implements KeyListener
     public void checkBounds() {
         int screenWidth = view.getWidth();
         int screenHeight = view.getHeight();
-
-        // Check left and right boundaries
-        if (ball.getX() <= 0 || ball.getX() + ball.getWidth() >= screenWidth) {
-            hitWall("vertical"); // Left or right wall
+        // new attempt:
+        if (ball.getX() <= 0)
+        {
+            hitWall("vertical");
+            ball.setX(0);
+        } else if (ball.getX() + ball.getWidth() >= screenWidth)
+        {
+            hitWall("vertical");
+            ball.setX(screenWidth - ball.getWidth());
         }
+
+
+        // old code:
+        // Check left and right boundaries
+        /*if (ball.getX() <= 0 || ball.getX() + ball.getWidth() >= screenWidth) {
+            hitWall("vertical"); // Left or right wall
+        }*/
 
         // Check top boundary
         if (ball.getY() <= 0) {
@@ -108,9 +121,16 @@ public class Controller implements KeyListener
         // get current angle of ball:
         double angle = ball.getAngle();
 
-        ball.setVelocity(ball.getVelocity() * -1);
-        ball.setAngle(45);
+        /*ball.setVelocity(ball.getVelocity() * -1);
+        ball.setAngle(45);*/
 
+        if ("horizontal".equals(side)) {
+            // Bounce off top wall by reversing the vertical direction
+            ball.setAngle(-angle);
+        } else if ("vertical".equals(side)) {
+            // Bounce off side walls by reversing the horizontal direction
+            ball.setAngle(180 - angle);
+        }
     }
 
     public void hitBrick()

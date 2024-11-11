@@ -45,5 +45,9 @@ public class Ball extends Ellipse2D.Double {
         return color;
     }
 
+    public void move() {
+        x += velocity * Math.cos(Math.toRadians(angle));
+        y -= velocity * Math.sin(Math.toRadians(angle)); // Subtract for upward direction
+    }
 
 }
