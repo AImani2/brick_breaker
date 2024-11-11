@@ -58,13 +58,21 @@ public class Controller implements KeyListener
     }
 
     public void checkPaddleCollision() {
+        double bottomOfBall = ball.getY() + ball.getHeight();
+        double leftOfBall = ball.getX();
+        double rightOfBall = ball.getX() + ball.getWidth();
 
-        if (ball.getY() + ball.getHeight() >= paddle.getY()) {
-            if (ball.getY() + ball.getHeight() >= view.getHeight()) {
-                fallBall();
-            } else if (ball.getBounds2D().intersects(paddle.getBounds())) {
-                hitPaddle();
-            }
+        double topOfPaddle = paddle.getY();
+        double leftOfPaddle = paddle.getX();
+        double rightOfPaddle = paddle.getX() + paddle.getWidth();
+
+        boolean intersectY = bottomOfBall >= topOfPaddle;
+        boolean intersectX = rightOfBall >= leftOfPaddle && leftOfBall <= rightOfPaddle;
+
+        if (intersectY && intersectX) {
+            hitPaddle();
+        } else if (bottomOfBall > view.getHeight()) {
+            fallBall();
         }
     }
 
@@ -103,16 +111,6 @@ public class Controller implements KeyListener
         // Check top boundary
         if (ball.getY() <= 0) {
             hitWall("horizontal"); // Top wall
-        }
-
-        // handle bottom boundary for game over
-        if (ball.getY() + ball.getHeight() >= screenHeight) {
-            if (!ball.getBounds2D().intersects(paddle.getBounds())) {
-                fallBall(); // Player loses if ball goes below screen
-            } else {
-                hitPaddle();
-            }
-
         }
     }
 
