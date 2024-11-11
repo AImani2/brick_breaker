@@ -14,7 +14,6 @@ public class BoardComponent extends JComponent {
     private final Ball ball;
     private final Paddle paddle;
     private final ArrayList<Brick> bricks;
-    private boolean gameStarted = false;
 
     public BoardComponent(Ball ball, Paddle paddle, ArrayList<Brick> bricks) {
         this.ball = ball;
@@ -47,10 +46,6 @@ public class BoardComponent extends JComponent {
                 g2.fill(brick);
             }
         }
-    }
-
-    public void setGameStarted(boolean started) {
-        this.gameStarted = started;
     }
 
     public ArrayList<Brick> layBricksOnGrid() {

@@ -9,6 +9,8 @@ public class Paddle extends Rectangle {
     private double width;
     private double height;
     private Color color;
+    private double initialX;
+    private double initialY;
 
     public Paddle(double valX, double valY, double height, double width, Color color) {
         super((int) valX, (int) valY, (int) width, (int) height);
@@ -17,6 +19,8 @@ public class Paddle extends Rectangle {
         this.width = width;
         this.height = height;
         this.color = color;
+        initialX = valX;
+        initialY = valY;
     }
 
     public void move(double amountToMove, double totalWidth) {
@@ -29,6 +33,14 @@ public class Paddle extends Rectangle {
         }
 
         setBounds((int) valX, (int) valY, (int) width, (int) height);
+    }
+
+    public double getInitialX() {
+        return initialX;
+    }
+
+    public double getInitialY() {
+        return initialY;
     }
 
     @Override
