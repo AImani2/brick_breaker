@@ -14,7 +14,7 @@ public class Controller implements KeyListener
     private final BrickBreakerModel model;
     private final Timer timer;
     private boolean gameStarted = false;
-    private final int distanceToMove = 5;
+    private final int distanceToMove = 7;
 
     private final BoardComponent view;
 
