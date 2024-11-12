@@ -248,8 +248,8 @@ public class Controller implements KeyListener
         paddle.setValY(paddle.getInitialY());
         int valX = (int) paddle.getX() + ((int) paddle.getWidth() / 2) - 10;
         int valY = (int) paddle.getY() - 20;
-        ball.setAngle(45);
-        ball.setVelocity(5);
+        ball.setAngle(ball.getInitialAngle());
+        ball.setVelocity(ball.getInitialVelocity());
         ball.setY(valY);
         ball.setX(valX);
         view.repaint();

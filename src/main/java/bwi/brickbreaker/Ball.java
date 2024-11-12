@@ -9,12 +9,16 @@ public class Ball extends Ellipse2D.Double {
     //set velocity to a value
     private double velocity;
     private final Color color;
+    private final double initialVelocity;
+    private final double initialAngle;
 
     public Ball(double angle, double velocity, double x, double y, double diameter, Color color) {
         super(x, y, diameter, diameter);
         this.angle = angle;
         this.velocity = velocity; // should velocity always be the same?
         this.color = color;
+        initialVelocity = velocity;
+        initialAngle = angle;
     }
 
     public double getAngle() {
@@ -23,6 +27,14 @@ public class Ball extends Ellipse2D.Double {
 
     public void setAngle(double angle) {
         this.angle = angle;
+    }
+
+    public double getInitialVelocity() {
+        return initialVelocity;
+    }
+
+    public double getInitialAngle() {
+        return initialAngle;
     }
 
     public double getVelocity() {
