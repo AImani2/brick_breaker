@@ -15,6 +15,7 @@ public class Controller implements KeyListener
     private final Timer timer;
     private boolean gameStarted = false;
     private final int distanceToMove = 20;
+    private boolean gameWon = true;
 
     private final BoardComponent view;
 
@@ -43,8 +44,37 @@ public class Controller implements KeyListener
     public void gameUpdate() {
         moveBall();
         checkCollisions();
+        checkIfGameOver();
         view.repaint();
     }
+
+    private void checkIfGameOver() {
+        for (Brick brick: bricks) {
+            if(!brick.getBroken()) {
+                gameWon = false;
+                break;
+            }
+            if (gameWon) {
+                model.endGame();
+                System.out.println("You won!");
+                timer.stop();
+                gameStarted = false;
+
+                String message = "You won!\nDo you want to start again?";
+
+                int start = JOptionPane.showConfirmDialog(view, message, "Game Over", JOptionPane.YES_NO_OPTION);
+                if (start == JOptionPane.YES_NO_OPTION) {
+                    resetGame();
+                    startGame();
+                } else {
+                    SwingUtilities.getWindowAncestor(view).dispose();
+                }
+            }
+        }
+    }
+
+    // add a checkifGameOver method and call it in gameUpdate
+    // when all balls are broken then endgame
 
     public void moveBall() {
         //ball.setY(ball.getY() - ball.getVelocity());
@@ -181,15 +211,6 @@ public class Controller implements KeyListener
         ball.setVelocity(ball.getVelocity() * -1);*/
 
     }
-
-//    public void hitPaddle()
-//    {
-//        // bounce direction of ball:
-//        double angle = ball.getAngle();
-//        ball.setAngle(-angle);
-//        ball.setVelocity(ball.getVelocity() * -1);
-//        ball.setY(paddle.getY() - ball.getHeight() - 1);
-//    }
 
 
     public void hitPaddle() {
