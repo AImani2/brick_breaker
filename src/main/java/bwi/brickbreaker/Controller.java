@@ -81,9 +81,35 @@ public class Controller implements KeyListener
             Brick brick = bricks.get(i);
 
             if (!brick.getBroken() && ball.getBounds2D().intersects(brick.getBounds())) {
-                hitBrick();
+                String collisionSide = getCollisionSide(ball, brick);
+                hitBrick(collisionSide);
                 brick.setBroken(true);
             }
+        }
+    }
+
+    private String getCollisionSide(Ball ball, Brick brick)
+    {
+        double ballCenterX = ball.getX() + ball.getWidth() / 2;
+        double ballCenterY = ball.getY() + ball.getHeight() / 2;
+        double brickLeft = brick.getX();
+        double brickRight = brick.getX() + brick.getWidth();
+        double brickTop = brick.getY();
+        double brickBottom = brick.getY() + brick.getHeight();
+
+        // Determine the minimum distance to each side of the brick
+        double distanceToLeft = Math.abs(ballCenterX - brickLeft);
+        double distanceToRight = Math.abs(ballCenterX - brickRight);
+        double distanceToTop = Math.abs(ballCenterY - brickTop);
+        double distanceToBottom = Math.abs(ballCenterY - brickBottom);
+
+        // Check if the collision is vertical or horizontal by finding the smallest distance
+        if (distanceToTop < distanceToLeft && distanceToTop < distanceToRight && distanceToTop < distanceToBottom) {
+            return "horizontal"; // Top side collision
+        } else if (distanceToBottom < distanceToLeft && distanceToBottom < distanceToRight && distanceToBottom < distanceToTop) {
+            return "horizontal"; // Bottom side collision
+        } else {
+            return "vertical"; // Left or right side collision
         }
     }
 
@@ -119,9 +145,6 @@ public class Controller implements KeyListener
         // get current angle of ball:
         double angle = ball.getAngle();
 
-        /*ball.setVelocity(ball.getVelocity() * -1);
-        ball.setAngle(45);*/
-
         if ("horizontal".equals(side)) {
             // Bounce off top wall by reversing the vertical direction
             ball.setAngle(-angle);
@@ -131,12 +154,20 @@ public class Controller implements KeyListener
         }
     }
 
-    public void hitBrick()
+    public void hitBrick(String side)
     {
         // bounce direction of ball:
         double angle = ball.getAngle();
-        ball.setAngle(-angle);
-        ball.setVelocity(ball.getVelocity() * -1);
+
+        if ("horizontal".equals(side)) {
+            // Bounce off top wall by reversing the vertical direction
+            ball.setAngle(-angle);
+        } else if ("vertical".equals(side)) {
+            // Bounce off side walls by reversing the horizontal direction
+            ball.setAngle(180 - angle);
+        }
+        /*ball.setAngle(-angle);
+        ball.setVelocity(ball.getVelocity() * -1);*/
     }
 
     public void hitPaddle()
