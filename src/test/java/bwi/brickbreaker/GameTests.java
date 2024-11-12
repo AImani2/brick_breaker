@@ -73,4 +73,65 @@ public class GameTests {
         assertNotEquals(beforeAngle, ball.getAngle());
     }
 
+    @Test
+    public void hitPaddle() throws InterruptedException
+    {
+        // given
+        Ball ball = new Ball(45, 5, 350, 530, 20, Color.MAGENTA);
+        Paddle paddle = new Paddle(350, 500, 20, 100, Color.BLUE);
+        ArrayList<Brick> bricks = new ArrayList<>();
+        BoardComponent view = new BoardComponent(ball, paddle, bricks);
+        BrickBreakerModel model = new BrickBreakerModel(ball, bricks);
+        Controller controller = new Controller(ball, paddle, bricks, model, view);
+
+        // when
+        double beforeAngle = ball.getAngle();
+        controller.hitPaddle();
+        Thread.sleep(50);
+
+        // then
+        assertNotEquals(beforeAngle, ball.getAngle());
+        assertEquals(ball.getY(), paddle.getY() - ball.getHeight() - 1);
+    }
+
+    @Test
+    public void hitBrickHorizontal() throws InterruptedException
+    {
+        // given
+        Ball ball = new Ball(45, 5, 350, 530, 20, Color.MAGENTA);
+        Paddle paddle = new Paddle(350, 500, 20, 100, Color.BLUE);
+        ArrayList<Brick> bricks = new ArrayList<>();
+        BoardComponent view = new BoardComponent(ball, paddle, bricks);
+        BrickBreakerModel model = new BrickBreakerModel(ball, bricks);
+        Controller controller = new Controller(ball, paddle, bricks, model, view);
+
+        // when
+        double beforeAngle = ball.getAngle();
+        controller.hitBrick("horizontal");
+        Thread.sleep(50);
+
+        // then
+        assertNotEquals(beforeAngle, ball.getAngle());
+    }
+
+    @Test
+    public void hitBrickVertical() throws InterruptedException
+    {
+        // given
+        Ball ball = new Ball(45, 5, 350, 530, 20, Color.MAGENTA);
+        Paddle paddle = new Paddle(350, 500, 20, 100, Color.BLUE);
+        ArrayList<Brick> bricks = new ArrayList<>();
+        BoardComponent view = new BoardComponent(ball, paddle, bricks);
+        BrickBreakerModel model = new BrickBreakerModel(ball, bricks);
+        Controller controller = new Controller(ball, paddle, bricks, model, view);
+
+        // when
+        double beforeAngle = ball.getAngle();
+        controller.hitBrick("vertical");
+        Thread.sleep(50);
+
+        // then
+        assertNotEquals(beforeAngle, ball.getAngle());
+    }
+
 }
