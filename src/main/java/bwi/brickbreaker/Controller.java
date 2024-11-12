@@ -57,25 +57,6 @@ public class Controller implements KeyListener
         checkBounds();
     }
 
-//    public void checkPaddleCollision() {
-//        double bottomOfBall = ball.getY() + ball.getHeight();
-//        double leftOfBall = ball.getX();
-//        double rightOfBall = ball.getX() + ball.getWidth();
-//
-//        double topOfPaddle = paddle.getY();
-//        double leftOfPaddle = paddle.getX();
-//        double rightOfPaddle = paddle.getX() + paddle.getWidth();
-//
-//        boolean intersectY = bottomOfBall >= topOfPaddle;
-//        boolean intersectX = rightOfBall >= leftOfPaddle && leftOfBall <= rightOfPaddle;
-//
-//        if (intersectY && intersectX) {
-//            hitPaddle();
-//        } else if (bottomOfBall > view.getHeight()) {
-//            fallBall();
-//        }
-//    }
-
     public void checkPaddleCollision() {
         double bottomOfBall = ball.getY() + ball.getHeight();
         double leftOfBall = ball.getX();
@@ -156,30 +137,23 @@ public class Controller implements KeyListener
         }
     }
 
-//    public void hitBrick()
-//    {
-//        // bounce direction of ball:
-//        double angle = ball.getAngle();
-//        ball.setAngle(-angle);
-//        ball.setVelocity(ball.getVelocity() * -1);
-//    }
 
-public void hitBrick(Brick brick) {
-    // Ball's center position and brick’s position
-    double ballCenterX = ball.getX() + (ball.getWidth() / 2);
-    double brickCenterX = brick.getX() + (brick.getWidth() / 2);
+    public void hitBrick(Brick brick) {
+        // Ball's center position and brick’s position
+        double ballCenterX = ball.getX() + (ball.getWidth() / 2);
+        double brickCenterX = brick.getX() + (brick.getWidth() / 2);
 
-    // If the ball hits the top or bottom of the brick, reverse the vertical direction
-    if (ball.getY() + ball.getHeight() <= brick.getY() || ball.getY() >= brick.getY() + brick.getHeight()) {
-        ball.setAngle(-ball.getAngle()); // Reverse the vertical direction
-    } else {
-        // If it hits the sides of the brick, reverse the horizontal direction
-        ball.setAngle(180 - ball.getAngle()); // Reverse the horizontal direction
+        // If the ball hits the top or bottom of the brick, reverse the vertical direction
+        if (ball.getY() + ball.getHeight() <= brick.getY() || ball.getY() >= brick.getY() + brick.getHeight()) {
+            ball.setAngle(-ball.getAngle()); // Reverse the vertical direction
+        } else {
+            // If it hits the sides of the brick, reverse the horizontal direction
+            ball.setAngle(180 - ball.getAngle()); // Reverse the horizontal direction
+        }
+
+        // Optionally, increase the velocity for more challenge
+        ball.setVelocity(ball.getVelocity() * 1.1);
     }
-
-    // Optionally, increase the velocity for more challenge
-    ball.setVelocity(ball.getVelocity() * 1.1);
-}
 
 //    public void hitPaddle()
 //    {
@@ -190,24 +164,6 @@ public void hitBrick(Brick brick) {
 //        ball.setY(paddle.getY() - ball.getHeight() - 1);
 //    }
 
-//    public void hitPaddle() {
-//        double ballCenterX = ball.getX() + (ball.getWidth() / 2); // Center of the ball
-//        double paddleCenterX = paddle.getX() + (paddle.getWidth() / 2); // Center of the paddle
-//
-//        // Calculate the difference between the ball's center and the paddle's center
-//        double deltaX = ballCenterX - paddleCenterX;
-//
-//        // Normalize deltaX to a range between -1 and 1 (the ball can hit anywhere on the paddle)
-//        double normalizedDeltaX = deltaX / (paddle.getWidth() / 2);
-//
-//        // Adjust the angle based on where the ball hits the paddle
-//        double newAngle = normalizedDeltaX * 45; // The bounce angle can range from -45 to 45 degrees
-//
-//        // Reverse the ball's vertical direction
-//        ball.setAngle(-newAngle); // Negate the angle to reflect the bounce
-//        ball.setVelocity(ball.getVelocity() * 1.05); // Optionally increase speed slightly after bouncing
-//        ball.setY(paddle.getY() - ball.getHeight() - 1); // Ensure the ball stays above the paddle
-//    }
 
     public void hitPaddle() {
         // Get the ball's center
