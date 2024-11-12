@@ -66,10 +66,20 @@ public class Controller implements KeyListener
         double leftOfPaddle = paddle.getX();
         double rightOfPaddle = paddle.getX() + paddle.getWidth();
 
-        boolean intersectY = bottomOfBall >= topOfPaddle;
+        /*boolean intersectY = bottomOfBall >= topOfPaddle;
         boolean intersectX = rightOfBall >= leftOfPaddle && leftOfBall <= rightOfPaddle;
 
         if (intersectY && intersectX) {
+            hitPaddle();
+        } else if (bottomOfBall > view.getHeight()) {
+            fallBall();
+        }*/
+
+        // Check if the bottom of the ball is at the top of the paddle and within the paddle's horizontal bounds
+        boolean hitsTopOfPaddle = bottomOfBall >= topOfPaddle && bottomOfBall <= topOfPaddle + ball.getVelocity();
+        boolean withinPaddleWidth = rightOfBall >= leftOfPaddle && leftOfBall <= rightOfPaddle;
+
+        if (hitsTopOfPaddle && withinPaddleWidth) {
             hitPaddle();
         } else if (bottomOfBall > view.getHeight()) {
             fallBall();
@@ -175,8 +185,8 @@ public class Controller implements KeyListener
         // bounce direction of ball:
         double angle = ball.getAngle();
         ball.setAngle(-angle);
-        ball.setVelocity(ball.getVelocity() * -1);
-        ball.setY(paddle.getY() - ball.getHeight() - 1);
+        //ball.setVelocity(ball.getVelocity() * -1);
+        //ball.setY(paddle.getY() - ball.getHeight() - 1);
     }
 
     // when ball falls below screen and player loses
@@ -203,6 +213,8 @@ public class Controller implements KeyListener
         paddle.setValY(paddle.getInitialY());
         int valX = (int) paddle.getX() + ((int) paddle.getWidth() / 2) - 10;
         int valY = (int) paddle.getY() - 20;
+        ball.setAngle(45);
+        ball.setVelocity(5);
         ball.setY(valY);
         ball.setX(valX);
         view.repaint();
