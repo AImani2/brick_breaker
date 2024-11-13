@@ -14,7 +14,8 @@ public class Controller implements KeyListener
     private final BrickBreakerModel model;
     private final Timer timer;
     private boolean gameStarted = false;
-    private final int distanceToMove = 5;
+    private final int distanceToMove = 20;
+    private boolean gameWon = true;
 
     private final BoardComponent view;
 
@@ -43,8 +44,37 @@ public class Controller implements KeyListener
     public void gameUpdate() {
         moveBall();
         checkCollisions();
+        checkIfGameOver();
         view.repaint();
     }
+
+    private void checkIfGameOver() {
+        for (Brick brick : bricks) {
+            if (!brick.getBroken()) {
+                gameWon = false;
+                break;
+            }
+        }
+        if (gameWon) {
+            model.endGame();
+            System.out.println("You won!");
+            timer.stop();
+            gameStarted = false;
+
+            String message = "You won!\nDo you want to start again?";
+
+            int start = JOptionPane.showConfirmDialog(view, message, "Game Over", JOptionPane.YES_NO_OPTION);
+            if (start == JOptionPane.YES_NO_OPTION) {
+                resetGame();
+                startGame();
+            } else {
+                SwingUtilities.getWindowAncestor(view).dispose();
+            }
+        }
+    }
+
+    // add a checkifGameOver method and call it in gameUpdate
+    // when all balls are broken then endgame
 
     public void moveBall() {
         //ball.setY(ball.getY() - ball.getVelocity());
@@ -66,24 +96,61 @@ public class Controller implements KeyListener
         double leftOfPaddle = paddle.getX();
         double rightOfPaddle = paddle.getX() + paddle.getWidth();
 
-        boolean intersectY = bottomOfBall >= topOfPaddle;
-        boolean intersectX = rightOfBall >= leftOfPaddle && leftOfBall <= rightOfPaddle;
 
+        // Define a small buffer zone (e.g., a few pixels)
+        double bufferZone = 1; // Adjust as needed for your game
+
+        // Check if the ball's bottom is near the top of the paddle and if the ball is horizontally near the paddle
+        boolean intersectY = (bottomOfBall + bufferZone) >= topOfPaddle && bottomOfBall <= topOfPaddle + bufferZone;
+        boolean intersectX = rightOfBall >= leftOfPaddle - bufferZone && leftOfBall <= rightOfPaddle + bufferZone;
+
+        // If ball is near the paddle and intersects, consider it a collision
         if (intersectY && intersectX) {
-            hitPaddle();
+            hitPaddle(); // Bounce ball off paddle
         } else if (bottomOfBall > view.getHeight()) {
             fallBall();
         }
+
     }
+
 
     public void checkBrickCollision() {
         for (int i = 0; i < bricks.size(); i++) {
             Brick brick = bricks.get(i);
 
             if (!brick.getBroken() && ball.getBounds2D().intersects(brick.getBounds())) {
-                hitBrick();
+
+                String collisionSide = getCollisionSide(ball, brick);
+                hitBrick(collisionSide);
+
                 brick.setBroken(true);
             }
+        }
+    }
+
+    private String getCollisionSide(Ball ball, Brick brick)
+    {
+        double ballCenterX = ball.getX() + ball.getWidth() / 2;
+        double ballCenterY = ball.getY() + ball.getHeight() / 2;
+        double brickLeft = brick.getX();
+        double brickRight = brick.getX() + brick.getWidth();
+        double brickTop = brick.getY();
+        double brickBottom = brick.getY() + brick.getHeight();
+
+        // Determine the minimum distance to each side of the brick
+        double distanceToLeft = Math.abs(ballCenterX - brickLeft);
+        double distanceToRight = Math.abs(ballCenterX - brickRight);
+        double distanceToTop = Math.abs(ballCenterY - brickTop);
+        double distanceToBottom = Math.abs(ballCenterY - brickBottom);
+
+        // Check if the collision is vertical or horizontal by finding the smallest distance
+        if (distanceToTop < distanceToLeft && distanceToTop < distanceToRight && distanceToTop < distanceToBottom) {
+            return "horizontal"; // Top side collision
+        } else if (distanceToBottom < distanceToLeft && distanceToBottom < distanceToRight
+                && distanceToBottom < distanceToTop) {
+            return "horizontal"; // Bottom side collision
+        } else {
+            return "vertical"; // Left or right side collision
         }
     }
 
@@ -93,11 +160,11 @@ public class Controller implements KeyListener
         // new attempt:
         if (ball.getX() <= 0)
         {
-            hitWall("vertical");
+            hitWall(1);
             ball.setX(0);
         } else if (ball.getX() + ball.getWidth() >= screenWidth)
         {
-            hitWall("vertical");
+            hitWall(1);
             ball.setX(screenWidth - ball.getWidth());
         }
 
@@ -110,17 +177,29 @@ public class Controller implements KeyListener
 
         // Check top boundary
         if (ball.getY() <= 0) {
-            hitWall("horizontal"); // Top wall
+            hitWall(0); // Top wall
         }
     }
 
-    public void hitWall(String side)
+    public void hitWall(int side)
     {
         // get current angle of ball:
         double angle = ball.getAngle();
 
-        /*ball.setVelocity(ball.getVelocity() * -1);
-        ball.setAngle(45);*/
+        if (side == 0) { // horizontal side
+            // Bounce off top wall by reversing the vertical direction
+            ball.setAngle(-angle);
+        } else if (side == 1) { // vertical side
+            // Bounce off side walls by reversing the horizontal direction
+            ball.setAngle(180 - angle);
+        }
+    }
+
+
+    public void hitBrick(String side)
+    {
+        // bounce direction of ball:
+        double angle = ball.getAngle();
 
         if ("horizontal".equals(side)) {
             // Bounce off top wall by reversing the vertical direction
@@ -129,24 +208,43 @@ public class Controller implements KeyListener
             // Bounce off side walls by reversing the horizontal direction
             ball.setAngle(180 - angle);
         }
+        /*ball.setAngle(-angle);
+        ball.setVelocity(ball.getVelocity() * -1);*/
+
     }
 
-    public void hitBrick()
-    {
-        // bounce direction of ball:
-        double angle = ball.getAngle();
-        ball.setAngle(-angle);
-        ball.setVelocity(ball.getVelocity() * -1);
-    }
 
-    public void hitPaddle()
-    {
-        // bounce direction of ball:
+    public void hitPaddle() {
+        // Get the ball's center
+        double ballCenterX = ball.getX() + (ball.getWidth() / 2);
+
+        // Get the paddle's left and right boundaries
+        double paddleLeftX = paddle.getX();
+        double paddleRightX = paddle.getX() + paddle.getWidth();
+
+        // Determine the collision point relative to the paddle
+        double collisionPoint = ballCenterX - paddleLeftX;
+        double paddleCenter = paddle.getWidth() / 2;
+
+        // Normalize the collision point as a percentage of the paddle's width
+        double hitPercentage = collisionPoint / paddle.getWidth();
+
+        // Adjust the ball's angle based on where it hit the paddle (left or right)
         double angle = ball.getAngle();
-        ball.setAngle(-angle);
-        ball.setVelocity(ball.getVelocity() * -1);
+
+        // Adjust the angle based on where on the paddle the ball hit
+        // Center hits cause a straight bounce, edge hits cause an angle bounce
+        double newAngle = 90 - (hitPercentage * 45); // Varying angle based on where the ball hits
+
+        // Ensure the angle is within a reasonable range
+        newAngle = Math.max(30, Math.min(newAngle, 150)); // Keep the angle between 30 and 150 degrees
+
+        ball.setAngle(newAngle);
+
+        // Set the ball's Y position to just above the paddle
         ball.setY(paddle.getY() - ball.getHeight() - 1);
     }
+
 
     // when ball falls below screen and player loses
     public void fallBall()
@@ -172,6 +270,8 @@ public class Controller implements KeyListener
         paddle.setValY(paddle.getInitialY());
         int valX = (int) paddle.getX() + ((int) paddle.getWidth() / 2) - 10;
         int valY = (int) paddle.getY() - 20;
+        ball.setAngle(ball.getInitialAngle());
+        ball.setVelocity(ball.getInitialVelocity());
         ball.setY(valY);
         ball.setX(valX);
         view.repaint();
