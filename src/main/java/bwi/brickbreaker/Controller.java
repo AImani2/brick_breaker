@@ -54,21 +54,21 @@ public class Controller implements KeyListener
                 gameWon = false;
                 break;
             }
-            if (gameWon) {
-                model.endGame();
-                System.out.println("You won!");
-                timer.stop();
-                gameStarted = false;
+        }
+        if (gameWon) {
+            model.endGame();
+            System.out.println("You won!");
+            timer.stop();
+            gameStarted = false;
 
-                String message = "You won!\nDo you want to start again?";
+            String message = "You won!\nDo you want to start again?";
 
-                int start = JOptionPane.showConfirmDialog(view, message, "Game Over", JOptionPane.YES_NO_OPTION);
-                if (start == JOptionPane.YES_NO_OPTION) {
-                    resetGame();
-                    startGame();
-                } else {
-                    SwingUtilities.getWindowAncestor(view).dispose();
-                }
+            int start = JOptionPane.showConfirmDialog(view, message, "Game Over", JOptionPane.YES_NO_OPTION);
+            if (start == JOptionPane.YES_NO_OPTION) {
+                resetGame();
+                startGame();
+            } else {
+                SwingUtilities.getWindowAncestor(view).dispose();
             }
         }
     }
@@ -160,11 +160,11 @@ public class Controller implements KeyListener
         // new attempt:
         if (ball.getX() <= 0)
         {
-            hitWall("vertical");
+            hitWall(1);
             ball.setX(0);
         } else if (ball.getX() + ball.getWidth() >= screenWidth)
         {
-            hitWall("vertical");
+            hitWall(1);
             ball.setX(screenWidth - ball.getWidth());
         }
 
@@ -177,19 +177,19 @@ public class Controller implements KeyListener
 
         // Check top boundary
         if (ball.getY() <= 0) {
-            hitWall("horizontal"); // Top wall
+            hitWall(0); // Top wall
         }
     }
 
-    public void hitWall(String side)
+    public void hitWall(int side)
     {
         // get current angle of ball:
         double angle = ball.getAngle();
 
-        if ("horizontal".equals(side)) {
+        if (side == 0) { // horizontal side
             // Bounce off top wall by reversing the vertical direction
             ball.setAngle(-angle);
-        } else if ("vertical".equals(side)) {
+        } else if (side == 1) { // vertical side
             // Bounce off side walls by reversing the horizontal direction
             ball.setAngle(180 - angle);
         }

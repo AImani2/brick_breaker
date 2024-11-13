@@ -46,8 +46,7 @@ public class GameTests {
 
         // when
         double beforeAngle = ball.getAngle();
-        controller.hitWall("vertical");
-        Thread.sleep(50);
+        controller.hitWall(1);
 
         // then
         assertNotEquals(beforeAngle, ball.getAngle());
@@ -66,9 +65,7 @@ public class GameTests {
 
         // when
         double beforeAngle = ball.getAngle();
-        controller.hitWall("horizontal");
-        Thread.sleep(50);
-
+        controller.hitWall(0);
         // then
         assertNotEquals(beforeAngle, ball.getAngle());
     }
@@ -87,7 +84,6 @@ public class GameTests {
         // when
         double beforeAngle = ball.getAngle();
         controller.hitPaddle();
-        Thread.sleep(50);
 
         // then
         assertNotEquals(beforeAngle, ball.getAngle());
@@ -108,7 +104,6 @@ public class GameTests {
         // when
         double beforeAngle = ball.getAngle();
         controller.hitBrick("horizontal");
-        Thread.sleep(50);
 
         // then
         assertNotEquals(beforeAngle, ball.getAngle());
@@ -128,7 +123,6 @@ public class GameTests {
         // when
         double beforeAngle = ball.getAngle();
         controller.hitBrick("vertical");
-        Thread.sleep(50);
 
         // then
         assertNotEquals(beforeAngle, ball.getAngle());
