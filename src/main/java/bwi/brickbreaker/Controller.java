@@ -49,8 +49,8 @@ public class Controller implements KeyListener
     }
 
     private void checkIfGameOver() {
-        for (Brick brick: bricks) {
-            if(!brick.getBroken()) {
+        for (Brick brick : bricks) {
+            if (!brick.getBroken()) {
                 gameWon = false;
                 break;
             }
@@ -146,7 +146,8 @@ public class Controller implements KeyListener
         // Check if the collision is vertical or horizontal by finding the smallest distance
         if (distanceToTop < distanceToLeft && distanceToTop < distanceToRight && distanceToTop < distanceToBottom) {
             return "horizontal"; // Top side collision
-        } else if (distanceToBottom < distanceToLeft && distanceToBottom < distanceToRight && distanceToBottom < distanceToTop) {
+        } else if (distanceToBottom < distanceToLeft && distanceToBottom < distanceToRight
+                && distanceToBottom < distanceToTop) {
             return "horizontal"; // Bottom side collision
         } else {
             return "vertical"; // Left or right side collision
