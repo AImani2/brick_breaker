@@ -62,4 +62,10 @@ public class Ball extends Ellipse2D.Double {
         y -= velocity * Math.sin(Math.toRadians(angle)); // Subtract for upward direction
     }
 
+    public double calculateAngleToPaddle(Paddle paddle) {
+        double deltaX = paddle.getX() + (paddle.getWidth() / 2) - (this.x + this.width / 2);
+        double deltaY = paddle.getY() - (this.y + this.height / 2);
+        return Math.toDegrees(Math.atan2(deltaY, deltaX)); // Angle in degrees
+    }
+
 }
