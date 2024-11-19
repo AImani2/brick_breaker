@@ -286,21 +286,33 @@ public class Controller implements KeyListener
         if (gameStarted) {
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_RIGHT:
-                    if (paddle.getX() + distanceToMove + paddle.getWidth() >= view.getWidth()) {
-                        paddle.setValX(view.getWidth() - paddle.getWidth());
-                    } else {
-                        paddle.setValX(paddle.getX() + distanceToMove);
-                    }
+                    movePaddleRight();
                     break;
                 case KeyEvent.VK_LEFT:
-                    if (paddle.getX() - distanceToMove < 0) {
-                        paddle.setValX(0);
-                    } else {
-                        paddle.setValX(paddle.getX() - distanceToMove);
-                    }
+                    movePaddleLeft();
                     break;
                 default:
             }
+        }
+        view.repaint();
+    }
+
+    public void movePaddleLeft()
+    {
+        if (paddle.getX() - distanceToMove < 0) {
+            paddle.setValX(0);
+        } else {
+            paddle.setValX(paddle.getX() - distanceToMove);
+        }
+        view.repaint();
+    }
+
+    public void movePaddleRight()
+    {
+        if (paddle.getX() + distanceToMove + paddle.getWidth() >= view.getWidth()) {
+            paddle.setValX(view.getWidth() - paddle.getWidth());
+        } else {
+            paddle.setValX(paddle.getX() + distanceToMove);
         }
         view.repaint();
     }
