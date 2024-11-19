@@ -70,7 +70,9 @@ package bwi.brickbreaker;
         import java.util.List;
 
 public class OurNeuralNetwork {
-    private static final int POPULATION_SIZE = 1000;
+    private static final int POPULATION_SIZE = 100;
+
+    //    private static final int POPULATION_SIZE = 1000;
     private static final int TOP_PERFORMERS = 10;
 
     private List<NeuralNetwork> population = new ArrayList<>();
@@ -78,13 +80,15 @@ public class OurNeuralNetwork {
     private Paddle paddle;
     private Controller controller;
     private ArrayList<Brick> bricks;
+    private BoardComponent view;
 
     // Constructor to initialize the ball, paddle, and population
-    public OurNeuralNetwork(Ball ball, Paddle paddle, Controller controller, ArrayList<Brick> bricks) {
+    public OurNeuralNetwork(Ball ball, Paddle paddle, Controller controller, ArrayList<Brick> bricks, BoardComponent view) {
         this.ball = ball;
         this.paddle = paddle;
         this.controller = controller;
         this.bricks = bricks;
+        this.view = view;
 
         // Initialize population with random neural networks
         for (int i = 0; i < POPULATION_SIZE; i++) {
@@ -102,13 +106,24 @@ public class OurNeuralNetwork {
             double gameDuration = 0.0;
             int bricksBroken = 0;
 
+            paddle.setValY(paddle.getInitialY());
+            paddle.setValX(paddle.getInitialX());
+
+            ball.setX(paddle.getX() + (paddle.getWidth() / 2) - 10);
+            ball.setY(paddle.getY() - 20);
+
+
             // Simulate game with the current neural network
             // Add logic here to calculate how long the game lasts and how many bricks are broken
             // For example, let's assume we have a method simulateGame(nn) that returns these values
             gameDuration = simulateGame(nn);
+//            System.out.println("Game duration : " + gameDuration);
             //bricksBroken = simulateBricksBroken(nn);
 
+
+
             performanceList.add(new NetworkPerformance(nn, gameDuration, bricksBroken));
+            System.out.println("added a new network: " + gameDuration);
         }
 
         // Sort by performance (longer game duration and more bricks broken are better)
@@ -118,6 +133,7 @@ public class OurNeuralNetwork {
         List<NeuralNetwork> topPerformers = new ArrayList<>();
         for (int i = 0; i < TOP_PERFORMERS; i++) {
             topPerformers.add(performanceList.get(i).getNeuralNetwork());
+            System.out.println("New neural network: Played for " + performanceList.get(i).getScore());
         }
 
         // Create new generation by merging top performers
@@ -139,6 +155,7 @@ public class OurNeuralNetwork {
         population = newGeneration;
     }
 
+
     // Simulate a game and return the game duration (this is just a placeholder, implement the actual game logic)
     private double simulateGame(NeuralNetwork nn) {
         // Implement the game simulation using the given neural network
@@ -146,9 +163,11 @@ public class OurNeuralNetwork {
         double gameDuration = 0.0; // Time the game lasts in seconds
         int updatesPerSecond = 60; // Assume 60 updates per second
         int totalUpdates = 0; // Track updates to calculate time
+        int totalBricks = 0;
 
         // Create a temporary ball, paddle, and bricks to simulate the game
         Ball simBall = new Ball(ball.getAngle(), ball.getVelocity(), ball.getX(), ball.getY(), ball.getWidth(), ball.getColor());
+        System.out.println("ball angle: " + simBall.getAngle() + " Velocity: " + simBall.getVelocity());
         Paddle simPaddle = new Paddle(paddle.getX(), paddle.getY(), paddle.getHeight(), paddle.getWidth(), paddle.getColor());
         ArrayList<Brick> simBricks = new ArrayList<>();
         for (Brick brick : bricks) {
@@ -157,39 +176,48 @@ public class OurNeuralNetwork {
 
         boolean gameOver = false;
 
+        long startTime = System.currentTimeMillis();
+
         while (!gameOver) {
             // Simulate ball movement
             simBall.move();
 
             // Simulate paddle movement based on neural network decision
             double angle = simBall.calculateAngleToPaddle(simPaddle);
+//            System.out.println("Angle measure: " + angle);
             double[] input = { angle };
             double[] output = nn.guess(input);
 
+//            System.out.println("Output 0: " + output[0] + " Output 1: " + output[1]);
+
             if (output[0] > output[1]) {
-                simPaddle.move(5, 800); // Move paddle right
+                if (simPaddle.getX() + 10 + paddle.getWidth() < view.getWidth()) {
+                    simPaddle.move(paddle.getX() + 10, 800); // Move paddle right
+                    //                System.out.println("moved right");
+                }
             } else {
-                simPaddle.move(-5, 800); // Move paddle left
+                if (simPaddle.getX() > 0) {
+                    simPaddle.move(paddle.getX() - 10, 800); // Move paddle left
+//                System.out.println("moved left");
+
+                }
             }
 
             // Check collisions
             checkPaddleCollision(simBall, simPaddle);
-            checkBrickCollision(simBall, simBricks);
+            totalBricks += checkBrickCollision(simBall, simBricks);
 
             // Check if game is over
             if (simBall.getY() > 600 || allBricksBroken(simBricks)) {
                 gameOver = true;
             }
 
-            // Update time
-            totalUpdates++;
-            if (totalUpdates > updatesPerSecond * 60) { // Cap simulation to 60 seconds
-                gameOver = true;
-            }
         }
+        long endTime = System.currentTimeMillis();
 
-        gameDuration = totalUpdates / (double) updatesPerSecond; // Convert updates to seconds
-        return gameDuration;
+//        System.out.println("Duration of game simulation: " + (endTime - startTime));
+        System.out.println("Total bricks hit: " + totalBricks + " total time: " + (endTime - startTime));
+        return (endTime - startTime) + totalBricks;
     }
 
     // Helper to check if all bricks are broken
@@ -215,6 +243,7 @@ public class OurNeuralNetwork {
 
         if (bottomOfBall >= topOfPaddle && rightOfBall >= leftOfPaddle && leftOfBall <= rightOfPaddle) {
             ball.setAngle(-ball.getAngle()); // Reverse vertical direction
+            System.out.println("hit the paddle");
         }
     }
 
@@ -225,9 +254,15 @@ public class OurNeuralNetwork {
             if (!brick.getBroken() && ball.getBounds2D().intersects(brick.getBounds())) {
                 brick.setBroken(true);
                 ball.setAngle(-ball.getAngle()); // Reverse vertical direction on collision
+                System.out.println("Hit a brick new angle: " + ball.getAngle());
                 count++;
             }
         }
+
+//        for (int i = 0; i < bricks.size(); i++) {
+//            System.out.println("Brick " + i + " Broken? " + bricks.get(i).getBroken());
+//        }
+//        System.out.println("Hit " + count + " bricks");
         return count;
     }
 
@@ -301,24 +336,24 @@ public class OurNeuralNetwork {
 
     // The rest of your neural network-related code...
 
-    public void update() {
-        // Get the angle to the paddle
-        double angle = ball.calculateAngleToPaddle(paddle); // this method is in the ball class.
-
-        // Neural network input
-        double[] input = new double[1];
-        input[0] = angle;  // Use angle as input
-
-        // Get the network's prediction
-        double[] answer = neuralNetwork.guess(input);
-
-        // Use the output of the neural network to control the paddle
-        if (answer[0] > answer[1]) {
-            controller.movePaddleRight();
-            //paddle.moveRight();
-        } else {
-            controller.movePaddleLeft();
-            //paddle.moveLeft();
-        }
-    }
+//    public void update() {
+//        // Get the angle to the paddle
+//        double angle = ball.calculateAngleToPaddle(paddle); // this method is in the ball class.
+//
+//        // Neural network input
+//        double[] input = new double[1];
+//        input[0] = angle;  // Use angle as input
+//
+//        // Get the network's prediction
+//        double[] answer = neuralNetwork.guess(input);
+//
+//        // Use the output of the neural network to control the paddle
+//        if (answer[0] > answer[1]) {
+//            controller.movePaddleRight();
+//            //paddle.moveRight();
+//        } else {
+//            controller.movePaddleLeft();
+//            //paddle.moveLeft();
+//        }
+//    }
 }
