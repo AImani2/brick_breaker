@@ -1,41 +1,4 @@
-//package bwi.brickbreaker;
-//
-//import basicneuralnetwork.NeuralNetwork;
-//
-//public class OurNeuralNetwork {
-//
-//    NeuralNetwork neuralNetwork = new NeuralNetwork(1, 2, 4, 2);
-//
-//    private Ball ball;  // Reference to the ball
-//    private Paddle paddle;  // Reference to the paddle
-//
-//    // Constructor or method to initialize ball and paddle references
-//    public OurNeuralNetwork(Ball ball, Paddle paddle) {
-//        this.ball = ball;
-//        this.paddle = paddle;
-//    }
-//
-//    public void update() { // Should this whole update happen in the controller class?
-//        // Get the angle to the paddle
-//        double angle = ball.calculateAngleToPaddle(paddle); // this method is in the ball class.
-//
-//        // Neural network input
-//        double[] input = new double[1];
-//        input[0] = angle;  // Use angle as input
-//
-//        // Get the network's prediction
-//        double[] answer = neuralNetwork.guess(input);
-//
-//        // Use the output of the neural network to control the paddle
-//        if (answer[0] > answer[1]) {
-//            //paddle.move(); right
-//        } else {
-//            // Move paddle left
-//        }
-//
-//    }
-//
-//
+
 //    // values to store after it runs - how many bricks broken.
 //    //                               - the time that the game lasts.
 //
@@ -64,12 +27,16 @@
 
 package bwi.brickbreaker;
 
-        import basicneuralnetwork.NeuralNetwork;
-        import java.util.ArrayList;
-        import java.util.Comparator;
-        import java.util.List;
+import basicneuralnetwork.NeuralNetwork;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 public class OurNeuralNetwork {
+
+    // Neural network with 2 inputs, 2 hidden layers, 4 hidden nodes and 1 output
+    NeuralNetwork nn = new NeuralNetwork(2, 2, 4, 1);
+
 
     private static final int POPULATION_SIZE = 1000;
     private static final int TOP_PERFORMERS = 10;
@@ -180,9 +147,10 @@ public class OurNeuralNetwork {
 
         // Use the output of the neural network to control the paddle
         if (answer[0] > answer[1]) {
-            paddle.moveRight();
+            //paddle.moveRight();
         } else {
-            paddle.moveLeft();
+            //paddle.moveLeft();
         }
     }
+
 }
