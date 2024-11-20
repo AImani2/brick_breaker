@@ -158,25 +158,26 @@ public class OurNeuralNetwork {
 
     // Simulate a game and return the game duration (this is just a placeholder, implement the actual game logic)
     private double simulateGame(NeuralNetwork nn) {
-        // Implement the game simulation using the given neural network
-
-        double gameDuration = 0.0; // Time the game lasts in seconds
-        int updatesPerSecond = 60; // Assume 60 updates per second
-        int totalUpdates = 0; // Track updates to calculate time
-        int totalBricks = 0;
 
         // Create a temporary ball, paddle, and bricks to simulate the game
-        Ball simBall = new Ball(ball.getAngle(), ball.getVelocity(), ball.getX(), ball.getY(), ball.getWidth(), ball.getColor());
-        System.out.println("ball angle: " + simBall.getAngle() + " Velocity: " + simBall.getVelocity());
-        Paddle simPaddle = new Paddle(paddle.getX(), paddle.getY(), paddle.getHeight(), paddle.getWidth(), paddle.getColor());
+        //Ball simBall = new Ball(ball.getAngle(), ball.getVelocity(), ball.getX(), ball.getY(), ball.getWidth(), ball.getColor());
+        //System.out.println("ball angle: " + simBall.getAngle() + " Velocity: " + simBall.getVelocity());
+        //Paddle simPaddle = new Paddle(paddle.getX(), paddle.getY(), paddle.getHeight(), paddle.getWidth(), paddle.getColor());
+
+        // not sure if this is better:
+        Paddle simPaddle = new Paddle(paddle.getInitialX(), paddle.getInitialY(), paddle.getHeight(), paddle.getWidth(), paddle.getColor());
+        Ball simBall = new Ball(ball.getInitialAngle(), ball.getInitialVelocity(), paddle.getX() + (paddle.getWidth() / 2) - 10, paddle.getY() - 20, ball.getWidth(), ball.getColor());
+
+
         ArrayList<Brick> simBricks = new ArrayList<>();
         for (Brick brick : bricks) {
             simBricks.add(new Brick(brick.getBroken(), brick.getHeight(), brick.getWidth(), brick.getX(), brick.getY(), brick.getColor()));
         }
 
         boolean gameOver = false;
-
         long startTime = System.currentTimeMillis();
+        System.out.println("Start time: " + startTime);
+        int totalBricks = 0;
 
         while (!gameOver) {
             // Simulate ball movement
@@ -191,13 +192,13 @@ public class OurNeuralNetwork {
 //            System.out.println("Output 0: " + output[0] + " Output 1: " + output[1]);
 
             if (output[0] > output[1]) {
-                if (simPaddle.getX() + 10 + paddle.getWidth() < view.getWidth()) {
-                    simPaddle.move(paddle.getX() + 10, 800); // Move paddle right
+                if (simPaddle.getX() + 10 + simPaddle.getWidth() < view.getWidth()) {
+                    simPaddle.move(simPaddle.getX() + 10, 800); // Move paddle right
                     //                System.out.println("moved right");
                 }
             } else {
                 if (simPaddle.getX() > 0) {
-                    simPaddle.move(paddle.getX() - 10, 800); // Move paddle left
+                    simPaddle.move(simPaddle.getX() - 10, 800); // Move paddle left
 //                System.out.println("moved left");
 
                 }
@@ -214,6 +215,7 @@ public class OurNeuralNetwork {
 
         }
         long endTime = System.currentTimeMillis();
+        System.out.println("End time" + endTime);
 
 //        System.out.println("Duration of game simulation: " + (endTime - startTime));
         System.out.println("Total bricks hit: " + totalBricks + " total time: " + (endTime - startTime));
