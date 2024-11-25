@@ -64,6 +64,7 @@ public class NeuralNetworkTakeTwo {
     public void evaluatePerformance() {
         for (NetworkAndScore nas : population) {
             reset();
+            System.out.println("New ball position: " + ball.getX() + ", " + ball.getY());
             int score = simulateGame(nas.getNetwork());
             nas.setScore(score);
         }
@@ -112,9 +113,11 @@ public class NeuralNetworkTakeTwo {
         int numOfRounds = 0;
         int maxNumOfRounds = 10000;
 
-        while (!gameOver && numOfRounds < maxNumOfRounds) {
+/*        while (!gameOver && numOfRounds < maxNumOfRounds) {
             //ball.move();
+            System.out.println("Before moving ball position, x: " + ball.getX() + ", y: " + ball.getY());
             controller.moveBall();
+            System.out.println("New ball position, x: " + ball.getX() + ", y: " + ball.getY());
 
             double ballX = ball.getX();
 
@@ -138,11 +141,54 @@ public class NeuralNetworkTakeTwo {
             //this checks if the ball hits the walls or ceiling
             checkBounds();
             numOfRounds++;
+            System.out.println("Ball position: " + ball.getX() + " " + ball.getY() + " at the round: " + numOfRounds);
+        }*/
+
+        for (int i = 0; i < maxNumOfRounds; ++i) {
+            controller.moveBall();
+
+            double ballX = ball.getX();
+
+            double[] input = { ballX };
+            double[] output = nn.guess(input);
+
+            //output[0] = left
+            if (output[0] > output[1]) {
+                controller.movePaddleLeft();
+                System.out.println("moved to the left, new position: " + paddle.getX() + " Y: " + paddle.getY());
+            } else {
+                controller.movePaddleRight();
+                System.out.println("moved to the right, new position: " + paddle.getX() + " Y: " + paddle.getY());
+            }
+
+
+            if (checkPaddleCollision(ball, paddle)) {
+                score++;
+//                System.out.println("Increase score: " + score);
+            }
+
+            if (ball.getY() + ball.getHeight() > view.getHeight()) {
+                gameOver = true;
+                System.out.println("Game over!! " + view.getHeight() + ", " + (ball.getY() + ball.getHeight()));
+            }
+
+
+
+            //this checks if the ball hits the walls or ceiling
+            checkBounds();
+            checkCeiling();
+
+            System.out.println("Ball position: " + ball.getX() + " " + ball.getY() + " at the round: " + i + " Score: " + score + " Angle: " + ball.getAngle());
+            System.out.println("Paddle position: " + paddle.getX() + " " + paddle.getY());
+            if (gameOver) {
+                break;
+            }
         }
         return score;
     }
 
-    /*private boolean checkPaddleCollision(Ball ball, Paddle paddle) {
+
+    private boolean checkPaddleCollision(Ball ball, Paddle paddle) {
         boolean collision = false;
         double bottomOfBall = ball.getY() + ball.getHeight();
         double leftOfBall = ball.getX();
@@ -162,12 +208,15 @@ public class NeuralNetworkTakeTwo {
         if (intersectY && intersectX) {
             ball.setAngle(180 - ball.getAngle()); // Reverse vertical direction
             collision = true;
+        } else if (bottomOfBall > view.getHeight()) {
+//            System.out.println("ball fell, bottom of ball: " + bottomOfBall + " height of view: " + view.getHeight());
         }
         return collision;
-    }*/
+    }
 
     private void checkBounds() {
         int screenWidth = view.getWidth();
+//        System.out.println("screenWidth: " + screenWidth);
         double angle = ball.getAngle();
 
         //if the ball hits the side wall
@@ -175,8 +224,15 @@ public class NeuralNetworkTakeTwo {
             ball.setAngle(180 - angle);
             ball.setX(0);
         } else if (ball.getX() + ball.getWidth() >= screenWidth) {
-            ball.setAngle(-angle);
+            ball.setAngle(180 - angle);
             ball.setX(screenWidth - ball.getWidth());
+//            System.out.println("ball wants to go out of bounds, angle: " + angle);
+        }
+    }
+
+    private void checkCeiling() {
+        if (ball.getY() <= 0) {
+            ball.setAngle(-ball.getAngle());
         }
     }
 

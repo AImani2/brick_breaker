@@ -14,7 +14,7 @@ public class Controller implements KeyListener
     private final BrickBreakerModel model;
     private final Timer timer;
     private boolean gameStarted = false;
-    private final int distanceToMove = 20;
+    private final int distanceToMove = 10;
     private boolean gameWon = true;
 
     private final BoardComponent view;
@@ -110,7 +110,9 @@ public class Controller implements KeyListener
         if (intersectY && intersectX) {
             hitPaddle(); // Bounce ball off paddle
             collision = true;
+            System.out.println("Hit paddle");
         } else if (bottomOfBall > view.getHeight()) {
+//            System.out.println("ball fell, bottom of ball: " + bottomOfBall + " height of view: " + view.getHeight());
             fallBall();
         }
         return collision;
@@ -193,9 +195,11 @@ public class Controller implements KeyListener
         if (side == 0) { // horizontal side
             // Bounce off top wall by reversing the vertical direction
             ball.setAngle(-angle);
+            System.out.println("Resetting horizontal angle: " + angle);
         } else if (side == 1) { // vertical side
             // Bounce off side walls by reversing the horizontal direction
             ball.setAngle(180 - angle);
+            System.out.println("Resetting angle: " + angle);
         }
     }
 
@@ -269,6 +273,10 @@ public class Controller implements KeyListener
         }
     }
 
+    public void jOption() {
+
+    }
+
     public void resetGame() {
         paddle.setValX(paddle.getInitialX());
         paddle.setValY(paddle.getInitialY());
@@ -305,8 +313,10 @@ public class Controller implements KeyListener
     {
         if (paddle.getX() - distanceToMove < 0) {
             paddle.setValX(0);
+            System.out.println("reset the x value to be: " + paddle.getX());
         } else {
             paddle.setValX(paddle.getX() - distanceToMove);
+            System.out.println("reset the x value to be: " + paddle.getX());
         }
         view.repaint();
     }
@@ -315,8 +325,10 @@ public class Controller implements KeyListener
     {
         if (paddle.getX() + distanceToMove + paddle.getWidth() >= view.getWidth()) {
             paddle.setValX(view.getWidth() - paddle.getWidth());
+            System.out.println("reset the x value to be: " + paddle.getX());
         } else {
             paddle.setValX(paddle.getX() + distanceToMove);
+            System.out.println("reset the x value to be: " + paddle.getX());
         }
         view.repaint();
     }

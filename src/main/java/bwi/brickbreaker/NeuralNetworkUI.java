@@ -18,7 +18,7 @@ public class NeuralNetworkUI extends JFrame {
 
         // Set up the main JFrame
         setTitle("Neural Network BrickBreaker");
-        setSize(800, 600);
+        setSize(1000, 800);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
@@ -130,12 +130,34 @@ public class NeuralNetworkUI extends JFrame {
 
         ArrayList<Brick> bricks = new ArrayList<>();
         BoardComponent view = new BoardComponent(ball, paddle, bricks);
+        view.setSize(800, 5000);
         bricks = view.layBricksOnGrid();
 
         BrickBreakerModel model = new BrickBreakerModel(ball, bricks);
         Controller controller = new Controller(ball, paddle, bricks, model, view);
 
         NeuralNetworkTakeTwo simulation = new NeuralNetworkTakeTwo(ball, paddle, controller, bricks, view);
-        SwingUtilities.invokeLater(() -> new NeuralNetworkUI(simulation).setVisible(true));
+        SwingUtilities.invokeLater(() -> {
+            NeuralNetworkUI ui = new NeuralNetworkUI(simulation);
+            ui.setVisible(true);
+
+            // Add a ComponentListener to ensure the view is fully initialized
+            ui.gamePanel.addComponentListener(new java.awt.event.ComponentAdapter() {
+                @Override
+                public void componentResized(java.awt.event.ComponentEvent e) {
+                    int viewWidth = ui.gamePanel.getWidth();
+                    int viewHeight = ui.gamePanel.getHeight();
+
+                    if (viewWidth > 0 && viewHeight > 0) {
+                        controller.startGame(); // Adjust your game initialization method here
+                        System.out.println("Game initialized with dimensions: " + viewWidth + "x" + viewHeight);
+                        ui.gamePanel.removeComponentListener(this); // Remove the listener after initialization
+                    } else {
+                        System.err.println("View dimensions not available yet.");
+                    }
+                }
+            });
+        });
+
     }
 }
