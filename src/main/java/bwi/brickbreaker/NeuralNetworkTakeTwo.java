@@ -14,10 +14,10 @@ public class NeuralNetworkTakeTwo {
 
     private List<NetworkAndScore> population = new ArrayList<>();
 
-    private Ball ball;
-    private Paddle paddle;
+    public Ball ball;
+    public Paddle paddle;
     private Controller controller;
-    private ArrayList<Brick> bricks;
+    public ArrayList<Brick> bricks;
     private BoardComponent view;
 
     public NeuralNetworkTakeTwo(Ball ball, Paddle paddle, Controller controller, ArrayList<Brick> bricks, BoardComponent view) {
@@ -113,28 +113,22 @@ public class NeuralNetworkTakeTwo {
         int maxNumOfRounds = 10000;
 
         while (!gameOver && numOfRounds < maxNumOfRounds) {
-            ball.move();
+            //ball.move();
+            controller.moveBall();
 
             double ballX = ball.getX();
 
             double[] input = { ballX };
             double[] output = nn.guess(input);
 
+            //output[0] = left
             if (output[0] > output[1]) {
-                if (paddle.getX() + distance + paddle.getWidth() < view.getWidth()) {
-                    paddle.move(paddle.getX() + distance, view.getWidth());
-                } else {
-                    paddle.move(view.getWidth() + paddle.getWidth(), view.getHeight());
-                }
+                controller.movePaddleLeft();
             } else {
-                if (paddle.getX()  - distance > 0) {
-                    paddle.move(paddle.getX() - distance, view.getHeight());
-                } else {
-                    paddle.setValX(0);
-                }
+                controller.movePaddleRight();
             }
 
-            if (checkPaddleCollision(ball, paddle)) {
+            if (controller.checkPaddleCollision()) {
                 score++;
             }
             if (ball.getY() + ball.getHeight() < view.getHeight()) {
@@ -148,7 +142,7 @@ public class NeuralNetworkTakeTwo {
         return score;
     }
 
-    private boolean checkPaddleCollision(Ball ball, Paddle paddle) {
+    /*private boolean checkPaddleCollision(Ball ball, Paddle paddle) {
         boolean collision = false;
         double bottomOfBall = ball.getY() + ball.getHeight();
         double leftOfBall = ball.getX();
@@ -158,12 +152,19 @@ public class NeuralNetworkTakeTwo {
         double leftOfPaddle = paddle.getX();
         double rightOfPaddle = paddle.getX() + paddle.getWidth();
 
-        if (bottomOfBall >= topOfPaddle && rightOfBall >= leftOfPaddle && leftOfBall <= rightOfPaddle) {
-            ball.setAngle(-ball.getAngle()); // Reverse vertical direction
+        // Define a small buffer zone (e.g., a few pixels)
+        double bufferZone = 1; // Adjust as needed for your game44
+
+        // Check if the ball's bottom is near the top of the paddle and if the ball is horizontally near the paddle
+        boolean intersectY = (bottomOfBall + bufferZone) >= topOfPaddle && bottomOfBall <= topOfPaddle + bufferZone;
+        boolean intersectX = rightOfBall >= leftOfPaddle - bufferZone && leftOfBall <= rightOfPaddle + bufferZone;
+
+        if (intersectY && intersectX) {
+            ball.setAngle(180 - ball.getAngle()); // Reverse vertical direction
             collision = true;
         }
         return collision;
-    }
+    }*/
 
     private void checkBounds() {
         int screenWidth = view.getWidth();

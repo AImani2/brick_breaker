@@ -87,7 +87,9 @@ public class Controller implements KeyListener
         checkBounds();
     }
 
-    public void checkPaddleCollision() {
+    public boolean checkPaddleCollision() {
+        boolean collision = false;
+
         double bottomOfBall = ball.getY() + ball.getHeight();
         double leftOfBall = ball.getX();
         double rightOfBall = ball.getX() + ball.getWidth();
@@ -107,9 +109,11 @@ public class Controller implements KeyListener
         // If ball is near the paddle and intersects, consider it a collision
         if (intersectY && intersectX) {
             hitPaddle(); // Bounce ball off paddle
+            collision = true;
         } else if (bottomOfBall > view.getHeight()) {
             fallBall();
         }
+        return collision;
 
     }
 
