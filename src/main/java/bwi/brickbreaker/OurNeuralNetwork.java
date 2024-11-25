@@ -234,7 +234,8 @@ public class OurNeuralNetwork {
         return allBroken;
     }
 
-    private void checkPaddleCollision(Ball ball, Paddle paddle) {
+    private boolean checkPaddleCollision(Ball ball, Paddle paddle) {
+        boolean collision = false;
         double bottomOfBall = ball.getY() + ball.getHeight();
         double leftOfBall = ball.getX();
         double rightOfBall = ball.getX() + ball.getWidth();
@@ -246,7 +247,9 @@ public class OurNeuralNetwork {
         if (bottomOfBall >= topOfPaddle && rightOfBall >= leftOfPaddle && leftOfBall <= rightOfPaddle) {
             ball.setAngle(-ball.getAngle()); // Reverse vertical direction
             System.out.println("hit the paddle");
+            collision = true;
         }
+        return collision;
     }
 
     // Check brick collision and return the count of bricks broken

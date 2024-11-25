@@ -17,17 +17,31 @@ public class CreatingNetworks {
 
         BrickBreakerModel model = new BrickBreakerModel(ball, bricks);
         Controller controller = new Controller(ball, paddle, bricks, model, view);
-        OurNeuralNetwork neuralNetwork = new OurNeuralNetwork(ball, paddle, controller, bricks, view);
 
-        int generations = 1000;
+        NeuralNetworkTakeTwo neuralNetworkTakeTwo = new NeuralNetworkTakeTwo(ball, paddle, controller, bricks, view);
+
+        int generations = 5;
 
         for (int i = 0; i < generations; i++) {
             System.out.println("Generation: " + (i + 1));
-            neuralNetwork.evaluatePerformance();
+            neuralNetworkTakeTwo.evaluatePerformance();
             System.out.println("Finished generation " + (i + 1));
+    }
+
+
+
+//        OurNeuralNetwork neuralNetwork = new OurNeuralNetwork(ball, paddle, controller, bricks, view);
+//
+//        int generations = 1000;
+//
+//        for (int i = 0; i < generations; i++) {
+//            System.out.println("Generation: " + (i + 1));
+//            neuralNetwork.evaluatePerformance();
+//            System.out.println("Finished generation " + (i + 1));
         }
 
-        System.out.println("Training complete");
+
+
 
     }
-}
+
