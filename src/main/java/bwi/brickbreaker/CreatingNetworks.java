@@ -31,14 +31,14 @@ public class CreatingNetworks {
 
 
 
-//        OurNeuralNetwork neuralNetwork = new OurNeuralNetwork(ball, paddle, controller, bricks, view);
-//
-//        int generations = 1000;
-//
-//        for (int i = 0; i < generations; i++) {
-//            System.out.println("Generation: " + (i + 1));
-//            neuralNetwork.evaluatePerformance();
-//            System.out.println("Finished generation " + (i + 1));
+        /*OurNeuralNetwork neuralNetwork = new OurNeuralNetwork(ball, paddle, controller, bricks, view);
+
+        int generations = 1000;
+
+        for (int i = 0; i < generations; i++) {
+            System.out.println("Generation: " + (i + 1));
+            neuralNetwork.evaluatePerformance();
+            System.out.println("Finished generation " + (i + 1));*/
         }
 
 

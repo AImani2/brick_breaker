@@ -6,14 +6,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class NeuralNetworkUI extends JFrame {
+public class NeuralNetworkUi extends JFrame {
     private NeuralNetworkTakeTwo gameSimulation;
     private GamePanel gamePanel;
-    private JButton startButton, stopButton, resetButton;
+    private JButton startButton;
+    private JButton stopButton;
+    private JButton resetButton;
     private JTable performanceTable;
     private Timer gameTimer;
 
-    public NeuralNetworkUI(NeuralNetworkTakeTwo simulation) {
+    public NeuralNetworkUi(NeuralNetworkTakeTwo simulation) {
         this.gameSimulation = simulation;
 
         // Set up the main JFrame
@@ -26,12 +28,12 @@ public class NeuralNetworkUI extends JFrame {
         gamePanel = new GamePanel();
         add(gamePanel, BorderLayout.CENTER);
 
-        // Control panel
-        JPanel controlPanel = new JPanel();
         startButton = new JButton("Start");
         stopButton = new JButton("Stop");
         resetButton = new JButton("Reset");
 
+        // Control panel
+        JPanel controlPanel = new JPanel();
         controlPanel.add(startButton);
         controlPanel.add(stopButton);
         controlPanel.add(resetButton);
@@ -138,7 +140,7 @@ public class NeuralNetworkUI extends JFrame {
 
         NeuralNetworkTakeTwo simulation = new NeuralNetworkTakeTwo(ball, paddle, controller, bricks, view);
         SwingUtilities.invokeLater(() -> {
-            NeuralNetworkUI ui = new NeuralNetworkUI(simulation);
+            NeuralNetworkUi ui = new NeuralNetworkUi(simulation);
             ui.setVisible(true);
 
             // Add a ComponentListener to ensure the view is fully initialized

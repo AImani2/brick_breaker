@@ -112,7 +112,7 @@ public class Controller implements KeyListener
             collision = true;
             System.out.println("Hit paddle");
         } else if (bottomOfBall > view.getHeight()) {
-//            System.out.println("ball fell, bottom of ball: " + bottomOfBall + " height of view: " + view.getHeight());
+            //System.out.println("ball fell, bottom of ball: " + bottomOfBall + " height of view: " + view.getHeight());
             fallBall();
         }
         return collision;
@@ -271,10 +271,6 @@ public class Controller implements KeyListener
         } else {
             SwingUtilities.getWindowAncestor(view).dispose();
         }
-    }
-
-    public void jOption() {
-
     }
 
     public void resetGame() {
