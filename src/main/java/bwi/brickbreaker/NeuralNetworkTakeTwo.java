@@ -99,8 +99,8 @@ public class NeuralNetworkTakeTwo {
     }
 
     public void reset() {
-        paddle.setValY(paddle.getInitialY());
-        paddle.setValX(paddle.getInitialX());
+        paddle.setValY((int) paddle.getInitialY());
+        paddle.setValX((int) paddle.getInitialX());
 
         ball.setX(paddle.getX() + (paddle.getWidth() / 2) - 10);
         ball.setY(paddle.getY() - 20);
