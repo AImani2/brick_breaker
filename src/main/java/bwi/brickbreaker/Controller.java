@@ -27,7 +27,8 @@ public class Controller implements KeyListener
         this.model = model;
         this.view = view;
 
-        timer = new Timer(2, e -> gameUpdate());
+        timer  = null;
+        //timer = new Timer(2, e -> gameUpdate());
         view.setFocusable(true);
         view.requestFocusInWindow();
         view.addKeyListener(this);
@@ -274,8 +275,8 @@ public class Controller implements KeyListener
     }
 
     public void resetGame() {
-        paddle.setValX(paddle.getInitialX());
-        paddle.setValY(paddle.getInitialY());
+        paddle.setValX((int) paddle.getInitialX());
+        paddle.setValY((int) paddle.getInitialY());
         int valX = (int) paddle.getX() + ((int) paddle.getWidth() / 2) - 10;
         int valY = (int) paddle.getY() - 20;
         ball.setAngle(ball.getInitialAngle());
@@ -311,7 +312,7 @@ public class Controller implements KeyListener
             paddle.setValX(0);
             System.out.println("reset the x value to be: " + paddle.getX());
         } else {
-            paddle.setValX(paddle.getX() - distanceToMove);
+            paddle.setValX((int) paddle.getX() - distanceToMove);
             System.out.println("reset the x value to be: " + paddle.getX());
         }
         view.repaint();
@@ -320,10 +321,10 @@ public class Controller implements KeyListener
     public void movePaddleRight()
     {
         if (paddle.getX() + distanceToMove + paddle.getWidth() >= view.getWidth()) {
-            paddle.setValX(view.getWidth() - paddle.getWidth());
+            paddle.setValX((int) (view.getWidth() - paddle.getWidth()));
             System.out.println("reset the x value to be: " + paddle.getX());
         } else {
-            paddle.setValX(paddle.getX() + distanceToMove);
+            paddle.setValX((int) paddle.getX() + distanceToMove);
             System.out.println("reset the x value to be: " + paddle.getX());
         }
         view.repaint();

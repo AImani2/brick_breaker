@@ -30,7 +30,7 @@ public class NeuralNetworkTakeTwo {
 
         // Initialize population with random neural networks
         for (int i = 0; i < AGENTS; i++) {
-            NeuralNetwork nn = new NeuralNetwork(1, 2, 4, 2);
+            NeuralNetwork nn = new NeuralNetwork(2, 2, 4, 2);
             NetworkAndScore networkAndScore = new NetworkAndScore(nn, 0);
             population.add(networkAndScore);
         }
@@ -65,7 +65,6 @@ public class NeuralNetworkTakeTwo {
     public void evaluatePerformance() {
         for (NetworkAndScore nas : population) {
             reset();
-            System.out.println("New ball position: " + ball.getX() + ", " + ball.getY());
             int score = simulateGame(nas.getNetwork());
             nas.setScore(score);
         }
@@ -100,9 +99,10 @@ public class NeuralNetworkTakeTwo {
     }
 
     public void reset() {
-        paddle.setValY(paddle.getInitialY());
-        paddle.setValX(paddle.getInitialX());
+        paddle.setValY((int) paddle.getInitialY());
+        paddle.setValX((int) paddle.getInitialX());
 
+        ball.setAngle(45);
         ball.setX(paddle.getX() + (paddle.getWidth() / 2) - 10);
         ball.setY(paddle.getY() - 20);
     }
@@ -114,43 +114,15 @@ public class NeuralNetworkTakeTwo {
         int numOfRounds = 0;
         int maxNumOfRounds = 10000;
 
-        /*while (!gameOver && numOfRounds < maxNumOfRounds) {
-            //ball.move();
-            System.out.println("Before moving ball position, x: " + ball.getX() + ", y: " + ball.getY());
+
+
+        for (int i = 0; i < maxNumOfRounds; i++) {
             controller.moveBall();
-            System.out.println("New ball position, x: " + ball.getX() + ", y: " + ball.getY());
+            System.out.println("New ball position: " + ball.getX() + ", " + ball.getY());
 
             double ballX = ball.getX();
 
-            double[] input = { ballX };
-            double[] output = nn.guess(input);
-
-            //output[0] = left
-            if (output[0] > output[1]) {
-                controller.movePaddleLeft();
-            } else {
-                controller.movePaddleRight();
-            }
-
-            if (controller.checkPaddleCollision()) {
-                score++;
-            }
-            if (ball.getY() + ball.getHeight() < view.getHeight()) {
-                gameOver = true;
-            }
-
-            //this checks if the ball hits the walls or ceiling
-            checkBounds();
-            numOfRounds++;
-            System.out.println("Ball position: " + ball.getX() + " " + ball.getY() + " at the round: " + numOfRounds);
-        }*/
-
-        for (int i = 0; i < maxNumOfRounds; ++i) {
-            controller.moveBall();
-
-            double ballX = ball.getX();
-
-            double[] input = { ballX };
+            double[] input = { ballX, paddle.getX() };
             double[] output = nn.guess(input);
 
             //output[0] = left
