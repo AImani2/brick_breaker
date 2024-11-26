@@ -13,7 +13,7 @@ public class CreatingNetworks {
 
         ArrayList<Brick> bricks = new ArrayList<>();
         BoardComponent view = new BoardComponent(ball, paddle, bricks);
-        view.setSize(250, 500);
+        view.setSize(500, 500);
         bricks = view.layBricksOnGrid();
 
         BrickBreakerModel model = new BrickBreakerModel(ball, bricks);
