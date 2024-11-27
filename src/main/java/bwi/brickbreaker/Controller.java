@@ -1,5 +1,9 @@
 package bwi.brickbreaker;
 
+import basicneuralnetwork.NeuralNetwork;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
@@ -12,7 +16,7 @@ public class Controller implements KeyListener
     private final Paddle paddle;
     private ArrayList<Brick> bricks;
     private final BrickBreakerModel model;
-    private final Timer timer;
+    private Timer timer;
     private boolean gameStarted = false;
     private final int distanceToMove = 10;
     private boolean gameWon = true;
@@ -339,5 +343,28 @@ public class Controller implements KeyListener
     @Override
     public void keyTyped(KeyEvent e) {
 
+    }
+
+    public void startGameNeuralNetwork(NeuralNetwork neuralNetwork) {
+        timer = new Timer(50, new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                double[] input = { ball.getX(), paddle.getX() };
+
+                double[] output = neuralNetwork.guess(input);
+
+                if (output[0] > output[1]) {
+                    movePaddleLeft();
+                } else {
+                    movePaddleRight();
+                }
+
+                gameUpdate();
+            }
+        });
+
+        timer.start();
     }
 }

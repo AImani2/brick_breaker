@@ -1,7 +1,10 @@
 package bwi.brickbreaker;
 
+import basicneuralnetwork.NeuralNetwork;
+
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class CreatingNetworks {
 
@@ -23,26 +26,17 @@ public class CreatingNetworks {
 
         int generations = 5;
 
+        List<NetworkAndScore> topPerformers = new ArrayList<>();
+
         for (int i = 0; i < generations; i++) {
             //System.out.println("Generation: " + (i + 1));
-            neuralNetworkTakeTwo.evaluatePerformance();
+            topPerformers = neuralNetworkTakeTwo.evaluatePerformance();
             //System.out.println("Finished generation " + (i + 1));
-    }
-
-
-
-        /*OurNeuralNetwork neuralNetwork = new OurNeuralNetwork(ball, paddle, controller, bricks, view);
-
-        int generations = 1000;
-
-        for (int i = 0; i < generations; i++) {
-            System.out.println("Generation: " + (i + 1));
-            neuralNetwork.evaluatePerformance();
-            System.out.println("Finished generation " + (i + 1));*/
         }
 
-
-
+        topPerformers.get(0).getNetwork().writeToFile();
 
     }
+
+}
 
