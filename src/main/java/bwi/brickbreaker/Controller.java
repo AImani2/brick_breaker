@@ -31,8 +31,8 @@ public class Controller implements KeyListener
         this.model = model;
         this.view = view;
 
-        timer  = null;
-        //timer = new Timer(2, e -> gameUpdate());
+//        timer  = null;
+        timer = new Timer(2, e -> gameUpdate());
         view.setFocusable(true);
         view.requestFocusInWindow();
         view.addKeyListener(this);

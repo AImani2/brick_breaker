@@ -14,7 +14,7 @@ public class MainNeuralNetwork {
 
         try
         {
-            topNetwork = NeuralNetwork.readFromFile("nn_data.json");
+            topNetwork = NeuralNetwork.readFromFile();
         } catch (IOException e)
         {
             e.printStackTrace();
