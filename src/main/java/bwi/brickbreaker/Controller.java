@@ -58,7 +58,7 @@ public class Controller implements KeyListener
         }
         if (gameWon) {
             model.endGame();
-            System.out.println("You won!");
+            //System.out.println("You won!");
             timer.stop();
             gameStarted = false;
 
@@ -111,7 +111,7 @@ public class Controller implements KeyListener
         if (intersectY && intersectX) {
             hitPaddle(); // Bounce ball off paddle
             collision = true;
-            System.out.println("Hit paddle");
+            //System.out.println("Hit paddle");
         } else if (bottomOfBall > view.getHeight()) {
             //System.out.println("ball fell, bottom of ball: " + bottomOfBall + " height of view: " + view.getHeight());
             fallBall();
@@ -196,11 +196,11 @@ public class Controller implements KeyListener
         if (side == 0) { // horizontal side
             // Bounce off top wall by reversing the vertical direction
             ball.setAngle(-angle);
-            System.out.println("Resetting horizontal angle: " + angle);
+            //System.out.println("Resetting horizontal angle: " + angle);
         } else if (side == 1) { // vertical side
             // Bounce off side walls by reversing the horizontal direction
             ball.setAngle(180 - angle);
-            System.out.println("Resetting angle: " + angle);
+            //System.out.println("Resetting angle: " + angle);
         }
     }
 
@@ -259,7 +259,7 @@ public class Controller implements KeyListener
     public void fallBall()
     {
         model.endGame();
-        System.out.println("end game");
+        //System.out.println("end game");
         timer.stop();
         gameStarted = false;
 
@@ -310,10 +310,10 @@ public class Controller implements KeyListener
     {
         if (paddle.getX() - distanceToMove < 0) {
             paddle.setValX(0);
-            System.out.println("reset the x value to be: " + paddle.getX());
+            //System.out.println("reset the x value to be: " + paddle.getX());
         } else {
             paddle.setValX((int) paddle.getX() - distanceToMove);
-            System.out.println("reset the x value to be: " + paddle.getX());
+            //System.out.println("reset the x value to be: " + paddle.getX());
         }
         view.repaint();
     }
@@ -322,10 +322,10 @@ public class Controller implements KeyListener
     {
         if (paddle.getX() + distanceToMove + paddle.getWidth() >= view.getWidth()) {
             paddle.setValX((int) (view.getWidth() - paddle.getWidth()));
-            System.out.println("reset the x value to be: " + paddle.getX());
+            //System.out.println("reset the x value to be: " + paddle.getX());
         } else {
             paddle.setValX((int) paddle.getX() + distanceToMove);
-            System.out.println("reset the x value to be: " + paddle.getX());
+            //System.out.println("reset the x value to be: " + paddle.getX());
         }
         view.repaint();
     }

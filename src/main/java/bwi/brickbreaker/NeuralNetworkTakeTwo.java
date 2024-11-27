@@ -74,6 +74,7 @@ public class NeuralNetworkTakeTwo {
         List<NetworkAndScore> topPerformers = new ArrayList<>(population.subList(0, TOP_PERFORMERS));
 
         population = regenerate(topPerformers);
+
     }
 
     public List<NetworkAndScore> regenerate(List<NetworkAndScore> topPerformers) {
@@ -118,20 +119,21 @@ public class NeuralNetworkTakeTwo {
 
         for (int i = 0; i < maxNumOfRounds; i++) {
             controller.moveBall();
-            System.out.println("New ball position: " + ball.getX() + ", " + ball.getY());
+            //System.out.println("New ball position: " + ball.getX() + ", " + ball.getY());
 
             double ballX = ball.getX();
+            double paddleX = paddle.getX();
 
-            double[] input = { ballX, paddle.getX() };
+            double[] input = { ballX, paddleX };
             double[] output = nn.guess(input);
 
             //output[0] = left
             if (output[0] > output[1]) {
                 controller.movePaddleLeft();
-                System.out.println("moved to the left, new position: " + paddle.getX() + " Y: " + paddle.getY());
+                //System.out.println("moved to the left, new position: " + paddle.getX() + " Y: " + paddle.getY());
             } else {
                 controller.movePaddleRight();
-                System.out.println("moved to the right, new position: " + paddle.getX() + " Y: " + paddle.getY());
+                //System.out.println("moved to the right, new position: " + paddle.getX() + " Y: " + paddle.getY());
             }
 
 
@@ -142,7 +144,7 @@ public class NeuralNetworkTakeTwo {
 
             if (ball.getY() + ball.getHeight() > view.getHeight()) {
                 gameOver = true;
-                System.out.println("Game over!! " + view.getHeight() + ", " + (ball.getY() + ball.getHeight()));
+                //System.out.println("Game over!! " + view.getHeight() + ", " + (ball.getY() + ball.getHeight()));
             }
 
 
@@ -151,9 +153,9 @@ public class NeuralNetworkTakeTwo {
             checkBounds();
             checkCeiling();
 
-            System.out.println("Ball position: " + ball.getX() + " " + ball.getY()
+            /*System.out.println("Ball position: " + ball.getX() + " " + ball.getY()
                     + " at the round: " + i + " Score: " + score + " Angle: " + ball.getAngle());
-            System.out.println("Paddle position: " + paddle.getX() + " " + paddle.getY());
+            System.out.println("Paddle position: " + paddle.getX() + " " + paddle.getY());*/
             if (gameOver) {
                 break;
             }
@@ -164,6 +166,7 @@ public class NeuralNetworkTakeTwo {
 
     private boolean checkPaddleCollision(Ball ball, Paddle paddle) {
         boolean collision = false;
+
         double bottomOfBall = ball.getY() + ball.getHeight();
         double leftOfBall = ball.getX();
         double rightOfBall = ball.getX() + ball.getWidth();
@@ -180,12 +183,28 @@ public class NeuralNetworkTakeTwo {
         boolean intersectX = rightOfBall >= leftOfPaddle - bufferZone && leftOfBall <= rightOfPaddle + bufferZone;
 
         if (intersectY && intersectX) {
-            ball.setAngle(180 - ball.getAngle()); // Reverse vertical direction
+            //ball.setAngle(180 - ball.getAngle()); // Reverse vertical direction
+            //ball.setAngle(-ball.getAngle());
+
+            double newAngle = 180 - ball.getAngle();
+            ball.setAngle(normalizeAngle(newAngle));
+
+            ball.setY(paddle.getY() - ball.getHeight() - 1);
+
             collision = true;
         } else if (bottomOfBall > view.getHeight()) {
             //System.out.println("ball fell, bottom of ball: " + bottomOfBall + " height of view: " + view.getHeight());
         }
         return collision;
+    }
+
+    private double normalizeAngle(double angle) {
+        if (angle < 0) {
+            angle += 180;
+        } else if (angle > 180) {
+            angle -= 180;
+        }
+        return angle;
     }
 
     private void checkBounds() {

@@ -24,9 +24,9 @@ public class CreatingNetworks {
         int generations = 5;
 
         for (int i = 0; i < generations; i++) {
-            System.out.println("Generation: " + (i + 1));
+            //System.out.println("Generation: " + (i + 1));
             neuralNetworkTakeTwo.evaluatePerformance();
-            System.out.println("Finished generation " + (i + 1));
+            //System.out.println("Finished generation " + (i + 1));
     }
 
 
