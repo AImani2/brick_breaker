@@ -16,16 +16,14 @@ public class NeuralNetworkTakeTwo {
 
     public Ball ball;
     public Paddle paddle;
-    private Controller controller;
-    public ArrayList<Brick> bricks;
-    private BoardComponent view;
+    private Controller controller; // do we still need this?
+    private BoardComponent view; // ?
 
     public NeuralNetworkTakeTwo(Ball ball, Paddle paddle, Controller controller,
-                                ArrayList<Brick> bricks, BoardComponent view) {
+                               BoardComponent view) {
         this.ball = ball;
         this.paddle = paddle;
         this.controller = controller;
-        this.bricks = bricks;
         this.view = view;
 
         // Initialize population with random neural networks

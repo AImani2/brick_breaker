@@ -12,6 +12,9 @@ public class Ball extends Ellipse2D.Double {
     private final double initialVelocity;
     private final double initialAngle;
 
+    private double dx;
+    private double dy;
+
     public Ball(double angle, double velocity, double x, double y, double diameter, Color color) {
         super(x, y, diameter, diameter);
         this.angle = angle;
@@ -58,8 +61,10 @@ public class Ball extends Ellipse2D.Double {
     }
 
     public void move() {
-        x += velocity * Math.cos(Math.toRadians(angle));
-        y -= velocity * Math.sin(Math.toRadians(angle)); // Subtract for upward direction
+        /*x += velocity * Math.cos(Math.toRadians(angle));
+        y -= velocity * Math.sin(Math.toRadians(angle));*/ // Subtract for upward direction
+        x += dx;
+        y += dy;
     }
 
     public double calculateAngleToPaddle(Paddle paddle) {

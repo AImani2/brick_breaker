@@ -22,7 +22,7 @@ public class CreatingNetworks {
         BrickBreakerModel model = new BrickBreakerModel(ball, bricks);
         Controller controller = new Controller(ball, paddle, bricks, model, view);
 
-        NeuralNetworkTakeTwo neuralNetworkTakeTwo = new NeuralNetworkTakeTwo(ball, paddle, controller, bricks, view);
+        NeuralNetworkTakeTwo neuralNetworkTakeTwo = new NeuralNetworkTakeTwo(ball, paddle, controller, view);
 
         int generations = 5;
 
