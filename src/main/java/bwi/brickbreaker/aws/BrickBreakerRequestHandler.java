@@ -14,7 +14,7 @@ public class BrickBreakerRequestHandler implements RequestHandler<String, String
     {
         try
         {
-            NeuralNetwork network = NeuralNetwork.readFromFile("trained.json");
+            NeuralNetwork network = NeuralNetwork.readFromFile("nn_data.json");
             double guess[] = new double[4];
             guess[0] = 10; // x ball
             guess[1] = 20; // x paddle
