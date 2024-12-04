@@ -8,8 +8,9 @@ public class BallNN extends Ellipse2D.Double
     private double dx;
     private double dy;
 
-    public BallNN(double angle, double x, double y, double dx, double dy)
+    public BallNN(double angle, double x, double y, double diameter, double dx, double dy)
     {
+        super(x, y, diameter, diameter);
         this.angle = angle;
         this.dx = dx;
         this.dy = dy;
@@ -28,11 +29,7 @@ public class BallNN extends Ellipse2D.Double
     // TODO: are these methods supposed to be in the controller or the ball class?
     // not sure if these are correct:
 
-    void collideRightWall()
-    {
-        dx = -dx;
-    }
-    void collideLeftWall()
+    void collideWall()
     {
         dx = -dx;
     }

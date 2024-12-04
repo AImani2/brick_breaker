@@ -4,11 +4,13 @@ import basicneuralnetwork.NeuralNetwork;
 
 public class Simulation
 {
-    NeuralNetwork nn;
-    Ball ball;
-    Paddle paddle;
-    int width;
-    int height;
+    private NeuralNetwork nn;
+    private Ball ball;
+    private Paddle paddle;
+    private int width;
+    private int height;
+    private int distanceToMove = 10;
+    private int score;
 
     public Simulation(NeuralNetwork nn, Ball ball, Paddle paddle, int width, int height)
     {
@@ -17,20 +19,105 @@ public class Simulation
         this.paddle = paddle;
         this.width = width;
         this.height = height;
+        score = 0;
     }
 
     public void simulate()
     {
+        int maxNumOfRounds = 10000;
 
+        for (int i = 0; i < maxNumOfRounds; i++) {
+            moveBall();
+
+            double centerOfBall = ball.getCenterX();
+            double centerOfPaddle = paddle.getCenterX();
+
+            double[] input = { centerOfPaddle, centerOfBall };
+            double[] output = nn.guess(input);
+
+            if (output[0] > output[1]) {
+                movePaddleLeft();
+            } else {
+                movePaddleRight();
+            }
+
+            if (!advance()) {
+                break;
+            }
+        }
     }
+
     // moves the ball
+    public void moveBall() {
+        ball.move();
+    }
+
     // moves the paddle
+    public void movePaddleLeft() {
+        if (paddle.getX() - distanceToMove < 0) {
+            paddle.setValX(0);
+        } else {
+            paddle.setValX((int) paddle.getX() - distanceToMove);
+        }
+    }
+
+    public void movePaddleRight() {
+        if (paddle.getX() + distanceToMove + paddle.getWidth() >= width) {
+            paddle.setValX((int) (width - paddle.getWidth()));
+        } else {
+            paddle.setValX((int) paddle.getX() + distanceToMove);
+        }
+    }
+
+
     // checks for collisions with walls
+    public void checkWall() {
+        ball.collideWall();
+    }
+
     // checks for collisions with top
+    public void checkCeiling() {
+        ball.collideTopWall();
+    }
+
     // checks for collisions with bricks (eventually)
+
     // checks for collisions with paddle (increases score)
+    public void checkPaddle() {
+        if (ball.collides(paddle)) {
+            score++;
+        }
+    }
+
     // return true is the ball is still above the floor, otherwise false
-    //boolean advance()
+    public boolean advance() {
+        boolean above = true;
+
+        double bottomOfBall = ball.getY() + ball.getHeight();
+
+        if (bottomOfBall > height) {
+            above = false;
+        }
+
+        checkWall();
+        checkCeiling();
+        checkPaddle();
+        return above;
+    }
+
+
     //int getScore()
-    //how many times the ball hit the paddle
+    public int getScore() {
+        return score;
+    }
+
+    public void reset() {
+        paddle.setValY((int) paddle.getInitialY());
+        paddle.setValX((int) paddle.getInitialX());
+
+        ball.setAngle(45);
+        ball.setX(paddle.getX() + (paddle.getWidth() / 2) - 10);
+        ball.setY(paddle.getY() - 20);
+    }
+
 }

@@ -16,15 +16,14 @@ public class NeuralNetworkTakeTwo {
 
     public Ball ball;
     public Paddle paddle;
-    private Controller controller; // do we still need this?
-    private BoardComponent view; // ?
+    private Simulation simulation;
+    private int viewHeight = 400;
+    private int viewWidth = 400;
 
-    public NeuralNetworkTakeTwo(Ball ball, Paddle paddle, Controller controller,
-                               BoardComponent view) {
+    public NeuralNetworkTakeTwo(Ball ball, Paddle paddle, Simulation simulation) {
         this.ball = ball;
         this.paddle = paddle;
-        this.controller = controller;
-        this.view = view;
+        this.simulation = simulation;
 
         // Initialize population with random neural networks
         for (int i = 0; i < AGENTS; i++) {
@@ -86,28 +85,26 @@ public class NeuralNetworkTakeTwo {
     public int simulateGame(NeuralNetwork nn) {
         int score = 0;
         boolean gameOver = false;
-        int distance = 20;
-        int numOfRounds = 0;
         int maxNumOfRounds = 10000;
 
 
 
         for (int i = 0; i < maxNumOfRounds; i++) {
-            controller.moveBall();
+            simulation.moveBall();
             //System.out.println("New ball position: " + ball.getX() + ", " + ball.getY());
 
-            double ballX = ball.getX();
-            double paddleX = paddle.getX();
+            double centerOfBall = ball.getCenterX();
+            double centerOfPaddle = paddle.getCenterX();
 
-            double[] input = { ballX, paddleX };
+            double[] input = { centerOfBall, centerOfPaddle };
             double[] output = nn.guess(input);
 
             //output[0] = left
             if (output[0] > output[1]) {
-                controller.movePaddleLeft();
+                simulation.movePaddleLeft();
                 //System.out.println("moved to the left, new position: " + paddle.getX() + " Y: " + paddle.getY());
             } else {
-                controller.movePaddleRight();
+                simulation.movePaddleRight();
                 //System.out.println("moved to the right, new position: " + paddle.getX() + " Y: " + paddle.getY());
             }
 
@@ -117,7 +114,7 @@ public class NeuralNetworkTakeTwo {
                 //System.out.println("Increase score: " + score);
             }
 
-            if (ball.getY() + ball.getHeight() > view.getHeight()) {
+            if (ball.getY() + ball.getHeight() > viewHeight) {
                 gameOver = true;
                 //System.out.println("Game over!! " + view.getHeight() + ", " + (ball.getY() + ball.getHeight()));
             }
@@ -167,7 +164,7 @@ public class NeuralNetworkTakeTwo {
             ball.setY(paddle.getY() - ball.getHeight() - 1);
 
             collision = true;
-        } else if (bottomOfBall > view.getHeight()) {
+        } else if (bottomOfBall > viewHeight) {
             //System.out.println("ball fell, bottom of ball: " + bottomOfBall + " height of view: " + view.getHeight());
         }
         return collision;
@@ -183,17 +180,16 @@ public class NeuralNetworkTakeTwo {
     }
 
     private void checkBounds() {
-        int screenWidth = view.getWidth();
-        //System.out.println("screenWidth: " + screenWidth);
+        //System.out.println("screenWidth: " + viewWidth);
         double angle = ball.getAngle();
 
         //if the ball hits the side wall
         if (ball.getX() <= 0) {
             ball.setAngle(180 - angle);
             ball.setX(0);
-        } else if (ball.getX() + ball.getWidth() >= screenWidth) {
+        } else if (ball.getX() + ball.getWidth() >= viewWidth) {
             ball.setAngle(180 - angle);
-            ball.setX(screenWidth - ball.getWidth());
+            ball.setX(viewWidth - ball.getWidth());
             //System.out.println("ball wants to go out of bounds, angle: " + angle);
         }
     }

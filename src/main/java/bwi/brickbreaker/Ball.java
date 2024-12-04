@@ -15,10 +15,13 @@ public class Ball extends Ellipse2D.Double {
     private double dx;
     private double dy;
 
-    public Ball(double angle, double velocity, double x, double y, double diameter, Color color) {
+    public Ball(double velocity, double x, double y, double diameter, double dx, double dy, Color color) {
         super(x, y, diameter, diameter);
-        this.angle = angle;
+        //TODO do we want the angle to be 45 or 30?
+        this.angle = 45;
         this.velocity = velocity; // should velocity always be the same?
+        this.dx = dx;
+        this.dy = dy;
         this.color = color;
         initialVelocity = velocity;
         initialAngle = angle;
@@ -61,16 +64,41 @@ public class Ball extends Ellipse2D.Double {
     }
 
     public void move() {
-        /*x += velocity * Math.cos(Math.toRadians(angle));
-        y -= velocity * Math.sin(Math.toRadians(angle));*/ // Subtract for upward direction
         x += dx;
         y += dy;
     }
 
-    public double calculateAngleToPaddle(Paddle paddle) {
-        double deltaX = paddle.getX() + (paddle.getWidth() / 2) - (this.x + this.width / 2);
-        double deltaY = paddle.getY() - (this.y + this.height / 2);
-        return Math.toDegrees(Math.atan2(deltaY, deltaX)); // Angle in degrees
+    public boolean collides(Paddle paddle) {
+        boolean collision = false;
+
+        double bottomOfBall = y + height;
+        double leftOfBall = x;
+        double rightOfBall = x + width;
+
+        double topOfPaddle = paddle.getY();
+        double leftOfPaddle = x;
+        double rightOfPaddle = x + width;
+
+        double bufferZone = 1;
+
+        boolean intersectY = (bottomOfBall + bufferZone) >= topOfPaddle && bottomOfBall <= (topOfPaddle + bufferZone);
+        boolean intersectX = rightOfBall >= (leftOfPaddle - bufferZone) && leftOfBall <= (rightOfPaddle + bufferZone);
+
+        if (intersectX && intersectY) {
+            //TODO should it just be inverting the dy?
+            dy = -dy;
+            dx = (paddle.getCenterX()- this.getCenterX()) / ((double) paddle.width / 2);
+            collision = true;
+        }
+        return collision;
+    }
+
+    public void collideWall() {
+        dx = -dx;
+    }
+
+    public void collideTopWall() {
+        dy = -dy;
     }
 
 }
