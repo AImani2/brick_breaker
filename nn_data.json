@@ -1,0 +1,144 @@
+{
+  "inputNodes": 2,
+  "hiddenLayers": 2,
+  "hiddenNodes": 4,
+  "outputNodes": 2,
+  "weights": [
+    {
+      "mat": {
+        "type": "org.ejml.data.DMatrixRMaj",
+        "data": {
+          "data": [
+            -0.16817349872314802,
+            -0.922244032109824,
+            0.5207058327171199,
+            -0.3044341321142785,
+            0.3064938737172047,
+            0.39364246521079105,
+            0.6537223621736161,
+            0.045156519624601765
+          ],
+          "numRows": 4,
+          "numCols": 2
+        }
+      },
+      "ops": {
+        "type": "org.ejml.simple.ops.SimpleOperations_DDRM",
+        "data": {}
+      }
+    },
+    {
+      "mat": {
+        "type": "org.ejml.data.DMatrixRMaj",
+        "data": {
+          "data": [
+            -0.6964895011377308,
+            -1.1878967354824186,
+            0.8550270877943242,
+            -0.2598157338506859,
+            0.6521377465011962,
+            -0.7108523402258033,
+            -0.4295898844294719,
+            -0.7567870231754084,
+            0.6097315570905726,
+            -0.7962662200365345,
+            1.887379381902479,
+            -0.84585154884918,
+            0.36951965750520355,
+            0.429102852560604,
+            -1.4807483319740022,
+            0.8424364701751892
+          ],
+          "numRows": 4,
+          "numCols": 4
+        }
+      },
+      "ops": {
+        "type": "org.ejml.simple.ops.SimpleOperations_DDRM",
+        "data": {}
+      }
+    },
+    {
+      "mat": {
+        "type": "org.ejml.data.DMatrixRMaj",
+        "data": {
+          "data": [
+            0.6222988150650715,
+            -0.3643285399761551,
+            -0.012270465246402185,
+            0.8829972503877375,
+            0.14501996454988128,
+            -0.1349794710338268,
+            0.8844378671344526,
+            -0.6944079810696926
+          ],
+          "numRows": 2,
+          "numCols": 4
+        }
+      },
+      "ops": {
+        "type": "org.ejml.simple.ops.SimpleOperations_DDRM",
+        "data": {}
+      }
+    }
+  ],
+  "biases": [
+    {
+      "mat": {
+        "type": "org.ejml.data.DMatrixRMaj",
+        "data": {
+          "data": [
+            -0.4225634322780152,
+            -0.05796860667433207,
+            1.1440783012948221,
+            -0.35195233773622037
+          ],
+          "numRows": 4,
+          "numCols": 1
+        }
+      },
+      "ops": {
+        "type": "org.ejml.simple.ops.SimpleOperations_DDRM",
+        "data": {}
+      }
+    },
+    {
+      "mat": {
+        "type": "org.ejml.data.DMatrixRMaj",
+        "data": {
+          "data": [
+            0.031357114033031985,
+            0.8407070604677849,
+            0.5310637751395384,
+            -0.8991774444865359
+          ],
+          "numRows": 4,
+          "numCols": 1
+        }
+      },
+      "ops": {
+        "type": "org.ejml.simple.ops.SimpleOperations_DDRM",
+        "data": {}
+      }
+    },
+    {
+      "mat": {
+        "type": "org.ejml.data.DMatrixRMaj",
+        "data": {
+          "data": [
+            0.6613209386662564,
+            -1.0367100677219947
+          ],
+          "numRows": 2,
+          "numCols": 1
+        }
+      },
+      "ops": {
+        "type": "org.ejml.simple.ops.SimpleOperations_DDRM",
+        "data": {}
+      }
+    }
+  ],
+  "learningRate": 0.1,
+  "activationFunctionKey": "SIGMOID"
+}

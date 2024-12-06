@@ -66,7 +66,7 @@ public class Ball extends Ellipse2D.Double {
     public void move() {
         x += dx;
         y += dy;
-//        System.out.println("DX: " + dx + " DY: " + dy);
+        //System.out.println("DX: " + dx + " DY: " + dy);
     }
 
     public boolean collides(Paddle paddle) {
