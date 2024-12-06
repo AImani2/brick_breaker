@@ -88,7 +88,6 @@ public class NeuralNetworkTakeTwo {
         int maxNumOfRounds = 10000;
 
 
-
         for (int i = 0; i < maxNumOfRounds; i++) {
             simulation.moveBall();
             //System.out.println("New ball position: " + ball.getX() + ", " + ball.getY());

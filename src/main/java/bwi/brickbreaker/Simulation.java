@@ -25,9 +25,13 @@ public class Simulation
     public void simulate()
     {
         int maxNumOfRounds = 10000;
+//        System.out.println("New ball");
+//        System.out.println("New ball Position: " + ball.getX() + ", " + ball.getY());
 
         for (int i = 0; i < maxNumOfRounds; i++) {
             moveBall();
+//            System.out.println("Position of ball: " + ball.getX() + ", " + ball.getY());
+//            System.out.println("Position of paddle: " + paddle.getX() + ", " + paddle.getY());
 
             double centerOfBall = ball.getCenterX();
             double centerOfPaddle = paddle.getCenterX();
@@ -42,6 +46,7 @@ public class Simulation
             }
 
             if (!advance()) {
+                System.out.println("Break");
                 break;
             }
         }
@@ -85,24 +90,25 @@ public class Simulation
     // checks for collisions with paddle (increases score)
     public void checkPaddle() {
         if (ball.collides(paddle)) {
+//            System.out.println("hit paddle: Ball position: " + ball.getX() + ", " + (ball.getY() + ball.getHeight()) + " Paddle position: " + paddle.getX() + ", " + paddle.getY());
             score++;
         }
     }
 
     // return true is the ball is still above the floor, otherwise false
     public boolean advance() {
-        boolean above = true;
 
         double bottomOfBall = ball.getY() + ball.getHeight();
 
         if (bottomOfBall > height) {
-            above = false;
+//            System.out.println("ball fell ViewHeight:" + height + "Ball: " + bottomOfBall);
+            return false;
         }
 
         checkWall();
         checkCeiling();
         checkPaddle();
-        return above;
+        return true;
     }
 
 

@@ -66,6 +66,7 @@ public class Ball extends Ellipse2D.Double {
     public void move() {
         x += dx;
         y += dy;
+//        System.out.println("DX: " + dx + " DY: " + dy);
     }
 
     public boolean collides(Paddle paddle) {
@@ -85,8 +86,7 @@ public class Ball extends Ellipse2D.Double {
         boolean intersectX = rightOfBall >= (leftOfPaddle - bufferZone) && leftOfBall <= (rightOfPaddle + bufferZone);
 
         if (intersectX && intersectY) {
-            //TODO should it just be inverting the dy?
-            dy = -dy;
+            dy = -(dy);
             dx = (paddle.getCenterX()- this.getCenterX()) / ((double) paddle.width / 2);
             collision = true;
         }
