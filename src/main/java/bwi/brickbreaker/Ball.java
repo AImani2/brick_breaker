@@ -66,7 +66,7 @@ public class Ball extends Ellipse2D.Double {
     public void move() {
         x += dx;
         y += dy;
-        //System.out.println("DX: " + dx + " DY: " + dy);
+//        System.out.println("DX: " + dx + " DY: " + dy);
     }
 
     public boolean collides(Paddle paddle) {
@@ -96,6 +96,7 @@ public class Ball extends Ellipse2D.Double {
             dy = -(dy);
             dx = (paddle.getCenterX()- this.getCenterX()) / ((double) paddle.width / 2);
             collision = true;
+            y = topOfPaddle - height;
         }
         return collision;
     }

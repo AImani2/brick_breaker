@@ -25,14 +25,14 @@ public class Simulation
     public void simulate()
     {
         int maxNumOfRounds = 10_000;
-        //System.out.println("New ball");
-        //System.out.println("New ball Position: " + ball.getX() + ", " + ball.getY());
+        System.out.println("New ball");
+//        System.out.println("New ball Position: " + ball.getX() + ", " + ball.getY());
 
         for (int i = 0; i < maxNumOfRounds; i++) {
             moveBall();
-            //System.out.println("Position of ball: " + ball.getX() + ", " + ball.getY());
-            //System.out.println("Position of paddle: " + paddle.getX() + ", " + paddle.getY());
+//            System.out.println("Position of paddle: " + paddle.getX() + ", " + paddle.getY());
 
+//            System.out.println("ball position: " + ball.getX() + ", " + ball.getY());
             double centerOfBall = ball.getCenterX();
             double centerOfPaddle = paddle.getCenterX();
 
@@ -79,6 +79,7 @@ public class Simulation
     public void checkWall() {
         if (ball.getX() <= 0 || ball.getWidth() >= width)
         {
+            System.out.println("ht the wall");
             ball.collideWall();
         }
 
@@ -97,7 +98,7 @@ public class Simulation
     // checks for collisions with paddle (increases score)
     public void checkPaddle() {
         if (ball.collides(paddle)) {
-            //System.out.println("hit paddle: Ball position: " + ball.getX() + ", " + (ball.getY() + ball.getHeight()) + " Paddle position: " + paddle.getX() + ", " + paddle.getY());
+            System.out.println("hit paddle: Ball position: " + ball.getX() + ", " + (ball.getY() + ball.getHeight()) + " Paddle position: " + paddle.getX() + ", " + paddle.getY());
             score++;
         }
     }
@@ -108,7 +109,7 @@ public class Simulation
         double bottomOfBall = ball.getY() + ball.getHeight();
 
         if (bottomOfBall > height) {
-            //System.out.println("ball fell ViewHeight:" + height + "Ball: " + bottomOfBall);
+            System.out.println("ball fell ViewHeight:" + height + "Ball: " + bottomOfBall);
             return false;
         }
 
