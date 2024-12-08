@@ -67,17 +67,21 @@ public class Simulation
     }
 
     public void movePaddleRight() {
-        if (paddle.getX() + distanceToMove + paddle.getWidth() >= width) {
-            paddle.setValX((int) (width - paddle.getWidth()));
-        } else {
-            paddle.setValX((int) paddle.getX() + distanceToMove);
+//        if (paddle.getX() + distanceToMove + paddle.getWidth() >= width) {
+//            paddle.setValX((int) (width - paddle.getWidth()));
+//        } else {
+//            paddle.setValX((int) paddle.getX() + distanceToMove);
+//        }
+        if (paddle.getX() < width)
+        {
+            paddle.setValX((int) (paddle.getX() + distanceToMove));
         }
     }
 
 
     // checks for collisions with walls
     public void checkWall() {
-        if (ball.getX() <= 0 || ball.getWidth() >= width)
+        if (ball.getX() <= 0 || ball.getX() + ball.getWidth() >= width)
         {
             ball.collideWall();
         }
@@ -126,7 +130,7 @@ public class Simulation
         paddle.setValY((int) paddle.getInitialY());
         paddle.setValX((int) paddle.getInitialX());
 
-        ball.setAngle(45);
+        //ball.setAngle(45);
         ball.setX(paddle.getX() + (paddle.getWidth() / 2) - 10);
         ball.setY(paddle.getY() - 20);
     }
