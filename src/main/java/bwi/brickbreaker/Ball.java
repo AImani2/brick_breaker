@@ -73,17 +73,24 @@ public class Ball extends Ellipse2D.Double {
         boolean collision = false;
 
         double bottomOfBall = y + height;
+        double topOfBall = y;
         double leftOfBall = x;
         double rightOfBall = x + width;
 
         double topOfPaddle = paddle.getY();
-        double leftOfPaddle = x;
-        double rightOfPaddle = x + width;
+        double bottomOfPaddle = paddle.getY() + paddle.getHeight();
+        double leftOfPaddle = paddle.getX();
+        double rightOfPaddle = paddle.getX() + paddle.getWidth();
 
-        double bufferZone = 1;
+        /*double bufferZone = 1;
 
         boolean intersectY = (bottomOfBall + bufferZone) >= topOfPaddle && bottomOfBall <= (topOfPaddle + bufferZone);
         boolean intersectX = rightOfBall >= (leftOfPaddle - bufferZone) && leftOfBall <= (rightOfPaddle + bufferZone);
+        */
+
+        // Check for overlap
+        boolean intersectX = rightOfBall > leftOfPaddle && leftOfBall < rightOfPaddle;
+        boolean intersectY = bottomOfBall >= topOfPaddle && topOfBall < bottomOfPaddle;
 
         if (intersectX && intersectY) {
             dy = -(dy);

@@ -4,7 +4,8 @@ import basicneuralnetwork.NeuralNetwork;
 
 import java.io.IOException;
 
-public class MainNeuralNetwork {
+public class PlayAI
+{
 
     public static void main(String[] args)
     {

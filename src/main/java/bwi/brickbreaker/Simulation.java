@@ -77,9 +77,11 @@ public class Simulation
 
     // checks for collisions with walls
     public void checkWall() {
-        // TODO: need to add if logic- only if i actually hit a wall, then call ball.collideWall - think this is good now?
         if (ball.getX() <= 0 || ball.getWidth() >= width)
-        ball.collideWall();
+        {
+            ball.collideWall();
+        }
+
     }
 
     // checks for collisions with top
@@ -103,7 +105,6 @@ public class Simulation
     // return true is the ball is still above the floor, otherwise false
     public boolean advance()
     {
-
         double bottomOfBall = ball.getY() + ball.getHeight();
 
         if (bottomOfBall > height) {
@@ -117,8 +118,6 @@ public class Simulation
         return true;
     }
 
-
-    //int getScore()
     public int getScore() {
         return score;
     }
