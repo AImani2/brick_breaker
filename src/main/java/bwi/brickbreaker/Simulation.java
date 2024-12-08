@@ -59,11 +59,15 @@ public class Simulation
 
     // moves the paddle
     public void movePaddleLeft() {
-        if (paddle.getX() - distanceToMove < 0) {
+        if ((paddle.getX() - distanceToMove) > 0)
+        {
+            paddle.setValX((int) paddle.getX() - distanceToMove);
+        }
+        /*if (paddle.getX() - distanceToMove < 0) {
             paddle.setValX(0);
         } else {
             paddle.setValX((int) paddle.getX() - distanceToMove);
-        }
+        }*/
     }
 
     public void movePaddleRight() {
@@ -128,9 +132,10 @@ public class Simulation
 
     public void reset() {
         paddle.setValY((int) paddle.getInitialY());
-        paddle.setValX((int) paddle.getInitialX());
+        //paddle.setValX((int) paddle.getInitialX());
+        paddle.setValX((int) (Math.random() * (width - paddle.getWidth()))); // Randomize paddle X position
 
-        //ball.setAngle(45);
+        ball.setAngle(Math.random() > 0.5 ? 45 : 30);
         ball.setX(paddle.getX() + (paddle.getWidth() / 2) - 10);
         ball.setY(paddle.getY() - 20);
     }

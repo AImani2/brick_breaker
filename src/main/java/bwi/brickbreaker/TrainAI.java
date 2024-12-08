@@ -17,7 +17,7 @@ public class TrainAI {
         Paddle paddle = new Paddle(350, 500, 20, 100, Color.MAGENTA);
         int x = (int) paddle.getX() + ((int) paddle.getWidth() / 2) - 10;
         int y = (int) paddle.getY() - 20;
-        Ball ball = new Ball(x, y, 20,2.5,-2, Color.CYAN);
+        Ball ball = new Ball(x, y, 20,1.5,-1, Color.CYAN);
         int viewWidth = 400;
         int viewHeight = 700;
         int generations = 5;
@@ -37,9 +37,9 @@ public class TrainAI {
 
             //Have the neural networks play the game
             for (int j = 0; j < population.size(); j++) {
-                Simulation simulation = new Simulation(population.get(i).getNetwork(), ball, paddle, viewWidth, viewHeight);
+                Simulation simulation = new Simulation(population.get(j).getNetwork(), ball, paddle, viewWidth, viewHeight);
                 simulation.simulate();
-                population.get(i).setScore(simulation.getScore());
+                population.get(j).setScore(simulation.getScore());
                 System.out.println("Score: " + simulation.getScore());
                 simulation.reset();
             }
@@ -67,8 +67,9 @@ public class TrainAI {
             }
         }
 
-        topPerformers.get(0).getNetwork().writeToFile();
+        topPerformers.get(0).getNetwork().writeToFile("nn_data.json");
         System.out.println("Top score: " + topPerformers.get(0).getScore());
+
 
     }
 
