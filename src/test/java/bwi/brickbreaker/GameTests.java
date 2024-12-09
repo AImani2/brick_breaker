@@ -13,7 +13,7 @@ public class GameTests {
     @Test
     public void ballMoves() throws InterruptedException {
         //given
-        Ball ball = new Ball(45, 350, 530, 20,1, Color.CYAN);
+        Ball ball = new Ball(45, 350, 530, 20, 1, Color.CYAN);
         Paddle paddle = new Paddle(350, 500, 20, 100, Color.BLUE);
         ArrayList<Brick> bricks = new ArrayList<>();
         BoardComponent view = new BoardComponent(ball, paddle, bricks);
@@ -21,8 +21,8 @@ public class GameTests {
         Controller controller = new Controller(ball, paddle, bricks, model, view);
 
         //when
-        double startX = ball.getX();
-        double startY = ball.getY();
+        final double startX = ball.getX();
+        final double startY = ball.getY();
         controller.startGame();
         Thread.sleep(50);
 
@@ -37,7 +37,7 @@ public class GameTests {
     public void hitVerticalWall() throws InterruptedException
     {
         // given
-        Ball ball = new Ball(45, 350, 530, 20,1, Color.CYAN);
+        Ball ball = new Ball(45, 350, 530, 20, 1, Color.CYAN);
         Paddle paddle = new Paddle(350, 500, 20, 100, Color.BLUE);
         ArrayList<Brick> bricks = new ArrayList<>();
         BoardComponent view = new BoardComponent(ball, paddle, bricks);
@@ -56,7 +56,7 @@ public class GameTests {
     public void hitHorizontalWall() throws InterruptedException
     {
         // given
-        Ball ball = new Ball(45, 350, 530, 20,1, Color.CYAN);
+        Ball ball = new Ball(45, 350, 530, 20, 1, Color.CYAN);
         Paddle paddle = new Paddle(350, 500, 20, 100, Color.BLUE);
         ArrayList<Brick> bricks = new ArrayList<>();
         BoardComponent view = new BoardComponent(ball, paddle, bricks);
@@ -74,7 +74,7 @@ public class GameTests {
     public void hitPaddle() throws InterruptedException
     {
         // given
-        Ball ball = new Ball(45, 350, 530, 20,1, Color.CYAN);
+        Ball ball = new Ball(45, 350, 530, 20, 1, Color.CYAN);
         Paddle paddle = new Paddle(350, 500, 20, 100, Color.BLUE);
         ArrayList<Brick> bricks = new ArrayList<>();
         BoardComponent view = new BoardComponent(ball, paddle, bricks);
@@ -94,7 +94,7 @@ public class GameTests {
     public void hitBrickHorizontal() throws InterruptedException
     {
         // given
-        Ball ball = new Ball(45, 350, 530, 20,1, Color.CYAN);
+        Ball ball = new Ball(45, 350, 530, 20, 1, Color.CYAN);
         Paddle paddle = new Paddle(350, 500, 20, 100, Color.BLUE);
         ArrayList<Brick> bricks = new ArrayList<>();
         BoardComponent view = new BoardComponent(ball, paddle, bricks);
@@ -113,7 +113,7 @@ public class GameTests {
     public void hitBrickVertical() throws InterruptedException
     {
         // given
-        Ball ball = new Ball(45, 350, 530, 20,1, Color.CYAN);
+        Ball ball = new Ball(45, 350, 530, 20, 1, Color.CYAN);
         Paddle paddle = new Paddle(350, 500, 20, 100, Color.BLUE);
         ArrayList<Brick> bricks = new ArrayList<>();
         BoardComponent view = new BoardComponent(ball, paddle, bricks);
