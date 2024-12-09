@@ -15,9 +15,10 @@ public class Ball extends Ellipse2D.Double {
     private double dx;
     private double dy;
 
-    public Ball(double velocity, double x, double y, double diameter, double dx, double dy, Color color) {
+    public Ball(double x, double y, double diameter, double dx, double dy, Color color) {
         super(x, y, diameter, diameter);
         //TODO do we want the angle to be 45 or 30?
+        //because we are now dealing with dx and dy - i dont know if we need an angle or velocity
         this.angle = 45;
         this.velocity = velocity; // should velocity always be the same?
         this.dx = dx;
@@ -70,7 +71,17 @@ public class Ball extends Ellipse2D.Double {
     }
 
     public boolean collides(Paddle paddle) {
+
         boolean collision = false;
+        if(paddle.getBounds().intersects(this.getBounds())) {
+            dy = -dy;
+            dx = (paddle.getCenterX() - this.getCenterX()) / (paddle.getWidth() / 2);
+            collision = true;
+        }
+
+        return collision;
+
+        /*boolean collision = false;
 
         double bottomOfBall = y + height;
         double topOfBall = y;
@@ -82,11 +93,11 @@ public class Ball extends Ellipse2D.Double {
         double leftOfPaddle = paddle.getX();
         double rightOfPaddle = paddle.getX() + paddle.getWidth();
 
-        /*double bufferZone = 1;
+        *//*double bufferZone = 1;
 
         boolean intersectY = (bottomOfBall + bufferZone) >= topOfPaddle && bottomOfBall <= (topOfPaddle + bufferZone);
         boolean intersectX = rightOfBall >= (leftOfPaddle - bufferZone) && leftOfBall <= (rightOfPaddle + bufferZone);
-        */
+        *//*
 
         // Check for overlap
         boolean intersectX = rightOfBall > leftOfPaddle && leftOfBall < rightOfPaddle;
@@ -98,7 +109,7 @@ public class Ball extends Ellipse2D.Double {
             collision = true;
             y = topOfPaddle - height;
         }
-        return collision;
+        return collision;*/
     }
 
     public void collideWall() {
