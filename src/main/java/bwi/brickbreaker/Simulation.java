@@ -2,6 +2,10 @@ package bwi.brickbreaker;
 
 import basicneuralnetwork.NeuralNetwork;
 
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 public class Simulation
 {
     private NeuralNetwork nn;
@@ -11,6 +15,7 @@ public class Simulation
     private int height;
     private int distanceToMove = 10;
     private int score;
+    private boolean hitPaddle;
 
     public Simulation(NeuralNetwork nn, Ball ball, Paddle paddle, int width, int height)
     {
@@ -89,6 +94,7 @@ public class Simulation
         {
             System.out.println("ht the wall");
             ball.collideWall();
+            hitPaddle = false;
         }
 
     }
@@ -98,6 +104,7 @@ public class Simulation
         if (ball.getY() <= 0)
         {
             ball.collideTopWall();
+            hitPaddle = false;
         }
     }
 
@@ -108,6 +115,7 @@ public class Simulation
         if (ball.collides(paddle)) {
             System.out.println("hit paddle: Ball position: " + ball.getX() + ", " + (ball.getY() + ball.getHeight()) + " Paddle position: " + paddle.getX() + ", " + paddle.getY());
             score++;
+            hitPaddle = true;
         }
     }
 
@@ -117,13 +125,17 @@ public class Simulation
         double bottomOfBall = ball.getY() + ball.getHeight();
 
         if (bottomOfBall > height) {
-            System.out.println("ball fell ViewHeight:" + height + "Ball: " + bottomOfBall);
+            System.out.println("ball fell ViewHeight:" + height + " Ball: " + bottomOfBall);
             return false;
         }
 
         checkWall();
         checkCeiling();
-        checkPaddle();
+        if (!hitPaddle) {
+            checkPaddle();
+        }
+
+//        checkPaddle();
         return true;
     }
 
@@ -139,6 +151,33 @@ public class Simulation
         ball.setAngle(Math.random() > 0.5 ? 45 : 30);
         ball.setX(paddle.getX() + (paddle.getWidth() / 2) - 10);
         ball.setY(paddle.getY() - 20);
+    }
+
+
+    public void gameUpdate(NeuralNetwork neuralNetwork) {
+        moveBall();
+        movePaddle(neuralNetwork);
+        advance();
+    }
+
+    public void movePaddle(NeuralNetwork neuralNetwork) {
+        double[] input = { ball.getX(), paddle.getX() };
+        double[] output = neuralNetwork.guess(input);
+
+        if (output[0] > output[1]) {
+            movePaddleLeft();
+        } else {
+            movePaddleRight();
+        }
+
+    }
+
+    public Ball getBall() {
+        return ball;
+    }
+
+    public Paddle getPaddle() {
+        return paddle;
     }
 
 }

@@ -18,8 +18,8 @@ public class TrainAI {
         int x = (int) paddle.getX() + ((int) paddle.getWidth() / 2) - 10;
         int y = (int) paddle.getY() - 20;
         Ball ball = new Ball(x, y, 20,1.5,-1, Color.CYAN);
-        int viewWidth = 400;
-        int viewHeight = 700;
+        int viewWidth = 800;
+        int viewHeight = 600;
         int generations = 5;
         List<NetworkAndScore> topPerformers = new ArrayList<>();
 
