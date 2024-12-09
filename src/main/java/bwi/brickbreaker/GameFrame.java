@@ -74,9 +74,9 @@ public class GameFrame extends JFrame {
 //        bricks = view.layBricksOnGrid();
 
         BrickBreakerModel model = new BrickBreakerModel(ball, bricks);
-        Controller controller = new Controller(ball, paddle, bricks, model, view);
+//        Controller controller = new Controller(ball, paddle, bricks, model, view);
 
-        controller.setBricks(bricks);
+//        controller.setBricks(bricks);
 
         add(view);
         view.setPreferredSize(new Dimension(boardWidth, boardHeight - 100));
@@ -87,6 +87,12 @@ public class GameFrame extends JFrame {
 
         if (neuralNetwork != null) {
             Simulation simulation = new Simulation(neuralNetwork, ball, paddle, 800, 600);
+
+//            while (simulation.advance()) {
+//                view.repaint();
+//            }
+
+
             Timer timer = new Timer(15, e -> {
                 simulation.advance();
                 view.repaint();
