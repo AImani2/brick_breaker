@@ -81,7 +81,7 @@ public class Simulation
 //        } else {
 //            paddle.setValX((int) paddle.getX() + distanceToMove);
 //        }
-        if (paddle.getX() < width)
+        if (paddle.getX() + distanceToMove + paddle.getWidth() < width)
         {
             paddle.setValX((int) (paddle.getX() + distanceToMove));
         }
@@ -113,13 +113,13 @@ public class Simulation
     // checks for collisions with paddle (increases score)
     public void checkPaddle() {
         if (ball.collides(paddle)) {
-            System.out.println("hit paddle: Ball position: " + ball.getX() + ", " + (ball.getY() + ball.getHeight()) + " Paddle position: " + paddle.getX() + ", " + paddle.getY());
+            System.out.println("hit paddle: Ball position: " + ball.getX() + "-" + (ball.getX() + ball.getWidth()) + ", " + ball.getY() + "-" + (ball.getY() + ball.getHeight()) + " Paddle position: " + paddle.getX() + "-" + (paddle.getX() + paddle.getWidth()) + ", " + paddle.getY());
             score++;
             hitPaddle = true;
         }
     }
 
-    // return true is the ball is still above the floor, otherwise false
+    // return true if the ball is still above the floor, otherwise false
     public boolean advance()
     {
         double bottomOfBall = ball.getY() + ball.getHeight();

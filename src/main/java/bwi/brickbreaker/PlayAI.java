@@ -15,7 +15,7 @@ public class PlayAI
 
         try
         {
-            topNetwork = NeuralNetwork.readFromFile();
+            topNetwork = NeuralNetwork.readFromFile("nn_data.json");
         } catch (IOException e)
         {
             e.printStackTrace();

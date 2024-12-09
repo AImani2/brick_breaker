@@ -67,7 +67,7 @@ public class TrainAI {
             }
         }
 
-        topPerformers.get(0).getNetwork().writeToFile();
+        topPerformers.get(0).getNetwork().writeToFile("nn_data.json");
         System.out.println("Top score: " + topPerformers.get(0).getScore());
 
 
