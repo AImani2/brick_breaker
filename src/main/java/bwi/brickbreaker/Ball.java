@@ -20,7 +20,7 @@ public class Ball extends Ellipse2D.Double {
         //TODO do we want the angle to be 45 or 30?
         //because we are now dealing with dx and dy - i dont know if we need an angle or velocity
         this.angle = 45;
-        this.velocity = 70000; // should velocity always be the same?
+        this.velocity = 1; // should velocity always be the same?
         this.dx = dx;
         this.dy = dy;
         this.color = color;

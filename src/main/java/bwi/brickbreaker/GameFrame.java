@@ -87,8 +87,8 @@ public class GameFrame extends JFrame {
 
         if (neuralNetwork != null) {
             Simulation simulation = new Simulation(neuralNetwork, ball, paddle, 800, 600);
-            Timer timer = new Timer(50, e -> {
-                simulation.gameUpdate(neuralNetwork);
+            Timer timer = new Timer(15, e -> {
+                simulation.advance();
                 view.repaint();
             });
 

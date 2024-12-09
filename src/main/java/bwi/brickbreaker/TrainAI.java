@@ -6,18 +6,19 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Random;
 
 public class TrainAI {
 
     public static void main(String[] args) {
-
+        Random rand = new Random();
         List<NetworkAndScore> population = new ArrayList<>();
         int AGENTS = 1000;
         int TOP_PERFORMERS = 10;
         Paddle paddle = new Paddle(350, 500, 20, 100, Color.MAGENTA);
         int x = (int) paddle.getX() + ((int) paddle.getWidth() / 2) - 10;
         int y = (int) paddle.getY() - 20;
-        Ball ball = new Ball(x, y, 20,1.5,-1, Color.CYAN);
+        Ball ball = new Ball(x, y, 20,rand.nextInt(175),-1, Color.CYAN);
         int viewWidth = 800;
         int viewHeight = 600;
         int generations = 5;
@@ -67,7 +68,7 @@ public class TrainAI {
             }
         }
 
-        topPerformers.get(0).getNetwork().writeToFile("nn_data.json");
+        topPerformers.get(0).getNetwork().writeToFile("nn_data");
         System.out.println("Top score: " + topPerformers.get(0).getScore());
 
 

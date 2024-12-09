@@ -16,6 +16,7 @@ public class Simulation
     private int distanceToMove = 10;
     private int score;
     private boolean hitPaddle;
+    private boolean gameOver;
 
     public Simulation(NeuralNetwork nn, Ball ball, Paddle paddle, int width, int height)
     {
@@ -34,21 +35,21 @@ public class Simulation
 //        System.out.println("New ball Position: " + ball.getX() + ", " + ball.getY());
 
         for (int i = 0; i < maxNumOfRounds; i++) {
-            moveBall();
-//            System.out.println("Position of paddle: " + paddle.getX() + ", " + paddle.getY());
-
-//            System.out.println("ball position: " + ball.getX() + ", " + ball.getY());
-            double centerOfBall = ball.getCenterX();
-            double centerOfPaddle = paddle.getCenterX();
-
-            double[] input = { centerOfPaddle, centerOfBall };
-            double[] output = nn.guess(input);
-
-            if (output[0] > output[1]) {
-                movePaddleLeft();
-            } else {
-                movePaddleRight();
-            }
+//            moveBall();
+////            System.out.println("Position of paddle: " + paddle.getX() + ", " + paddle.getY());
+//
+////            System.out.println("ball position: " + ball.getX() + ", " + ball.getY());
+//            double centerOfBall = ball.getCenterX();
+//            double centerOfPaddle = paddle.getCenterX();
+//
+//            double[] input = { centerOfPaddle, centerOfBall };
+//            double[] output = nn.guess(input);
+//
+//            if (output[0] > output[1]) {
+//                movePaddleLeft();
+//            } else {
+//                movePaddleRight();
+//            }
 
             if (!advance()) {
                 System.out.println("Break");
@@ -122,12 +123,17 @@ public class Simulation
     // return true if the ball is still above the floor, otherwise false
     public boolean advance()
     {
+        moveBall();
+
         double bottomOfBall = ball.getY() + ball.getHeight();
 
         if (bottomOfBall > height) {
             System.out.println("ball fell ViewHeight:" + height + " Ball: " + bottomOfBall);
+            gameOver = true;
             return false;
         }
+
+        movePaddle(nn);
 
         checkWall();
         checkCeiling();
@@ -154,11 +160,11 @@ public class Simulation
     }
 
 
-    public void gameUpdate(NeuralNetwork neuralNetwork) {
-        moveBall();
-        movePaddle(neuralNetwork);
-        advance();
-    }
+//    public void gameUpdate(NeuralNetwork neuralNetwork) {
+//        moveBall();
+//        movePaddle(neuralNetwork);
+//        advance();
+//    }
 
     public void movePaddle(NeuralNetwork neuralNetwork) {
         double[] input = { ball.getX(), paddle.getX() };
