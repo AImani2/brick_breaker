@@ -101,21 +101,17 @@ public class NeuralNetworkTakeTwo {
             //output[0] = left
             if (output[0] > output[1]) {
                 simulation.movePaddleLeft();
-                //System.out.println("moved to the left, new position: " + paddle.getX() + " Y: " + paddle.getY());
             } else {
                 simulation.movePaddleRight();
-                //System.out.println("moved to the right, new position: " + paddle.getX() + " Y: " + paddle.getY());
             }
 
 
             if (checkPaddleCollision(ball, paddle)) {
                 score++;
-                //System.out.println("Increase score: " + score);
             }
 
             if (ball.getY() + ball.getHeight() > viewHeight) {
                 gameOver = true;
-                //System.out.println("Game over!! " + view.getHeight() + ", " + (ball.getY() + ball.getHeight()));
             }
 
 
@@ -124,9 +120,6 @@ public class NeuralNetworkTakeTwo {
             checkBounds();
             checkCeiling();
 
-            /*System.out.println("Ball position: " + ball.getX() + " " + ball.getY()
-                    + " at the round: " + i + " Score: " + score + " Angle: " + ball.getAngle());
-            System.out.println("Paddle position: " + paddle.getX() + " " + paddle.getY());*/
             if (gameOver) {
                 break;
             }
@@ -149,13 +142,14 @@ public class NeuralNetworkTakeTwo {
         // Define a small buffer zone (e.g., a few pixels)
         double bufferZone = 1; // Adjust as needed for your game44
 
-        // Check if the ball's bottom is near the top of the paddle and if the ball is horizontally near the paddle
-        boolean intersectY = (bottomOfBall + bufferZone) >= topOfPaddle && bottomOfBall <= topOfPaddle + bufferZone;
-        boolean intersectX = rightOfBall >= leftOfPaddle - bufferZone && leftOfBall <= rightOfPaddle + bufferZone;
+        // Check if the ball's bottom is near the top of the paddle
+        // and if the ball is horizontally near the paddle
+        boolean intersectY = (bottomOfBall + bufferZone) >=
+                topOfPaddle && bottomOfBall <= topOfPaddle + bufferZone;
+        boolean intersectX = rightOfBall >= leftOfPaddle - bufferZone
+                && leftOfBall <= rightOfPaddle + bufferZone;
 
         if (intersectY && intersectX) {
-            //ball.setAngle(180 - ball.getAngle()); // Reverse vertical direction
-            //ball.setAngle(-ball.getAngle());
 
             double newAngle = 180 - ball.getAngle();
             ball.setAngle(normalizeAngle(newAngle));
@@ -164,7 +158,6 @@ public class NeuralNetworkTakeTwo {
 
             collision = true;
         } else if (bottomOfBall > viewHeight) {
-            //System.out.println("ball fell, bottom of ball: " + bottomOfBall + " height of view: " + view.getHeight());
         }
         return collision;
     }
@@ -189,7 +182,6 @@ public class NeuralNetworkTakeTwo {
         } else if (ball.getX() + ball.getWidth() >= viewWidth) {
             ball.setAngle(180 - angle);
             ball.setX(viewWidth - ball.getWidth());
-            //System.out.println("ball wants to go out of bounds, angle: " + angle);
         }
     }
 

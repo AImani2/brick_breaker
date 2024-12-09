@@ -38,7 +38,8 @@ public class TrainAI {
 
             //Have the neural networks play the game
             for (int j = 0; j < population.size(); j++) {
-                Simulation simulation = new Simulation(population.get(j).getNetwork(), ball, paddle, viewWidth, viewHeight);
+                Simulation simulation = new Simulation(population.get(j).getNetwork(),
+                        ball, paddle, viewWidth, viewHeight);
                 simulation.simulate();
                 population.get(j).setScore(simulation.getScore());
                 System.out.println("Score: " + simulation.getScore());

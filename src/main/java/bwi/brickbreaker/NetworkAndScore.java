@@ -19,10 +19,6 @@ public class NetworkAndScore {
             return score;
         }
 
-        public void setNetwork(NeuralNetwork network) {
-            this.network = network;
-        }
-
         public void setScore(int score) {
             this.score = score;
         }

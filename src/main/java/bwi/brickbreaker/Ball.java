@@ -67,7 +67,6 @@ public class Ball extends Ellipse2D.Double {
     public void move() {
         x += dx;
         y += dy;
-//        System.out.println("DX: " + dx + " DY: " + dy);
     }
 
     public boolean collides(Paddle paddle) {
@@ -81,35 +80,6 @@ public class Ball extends Ellipse2D.Double {
 
         return collision;
 
-        /*boolean collision = false;
-
-        double bottomOfBall = y + height;
-        double topOfBall = y;
-        double leftOfBall = x;
-        double rightOfBall = x + width;
-
-        double topOfPaddle = paddle.getY();
-        double bottomOfPaddle = paddle.getY() + paddle.getHeight();
-        double leftOfPaddle = paddle.getX();
-        double rightOfPaddle = paddle.getX() + paddle.getWidth();
-
-        *//*double bufferZone = 1;
-
-        boolean intersectY = (bottomOfBall + bufferZone) >= topOfPaddle && bottomOfBall <= (topOfPaddle + bufferZone);
-        boolean intersectX = rightOfBall >= (leftOfPaddle - bufferZone) && leftOfBall <= (rightOfPaddle + bufferZone);
-        *//*
-
-        // Check for overlap
-        boolean intersectX = rightOfBall > leftOfPaddle && leftOfBall < rightOfPaddle;
-        boolean intersectY = bottomOfBall >= topOfPaddle && topOfBall < bottomOfPaddle;
-
-        if (intersectX && intersectY) {
-            dy = -(dy);
-            dx = (paddle.getCenterX()- this.getCenterX()) / ((double) paddle.width / 2);
-            collision = true;
-            y = topOfPaddle - height;
-        }
-        return collision;*/
     }
 
     public void collideWall() {

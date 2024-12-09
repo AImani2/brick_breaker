@@ -32,24 +32,8 @@ public class Simulation
     {
         int maxNumOfRounds = 10_000;
         System.out.println("New ball");
-//        System.out.println("New ball Position: " + ball.getX() + ", " + ball.getY());
 
         for (int i = 0; i < maxNumOfRounds; i++) {
-//            moveBall();
-////            System.out.println("Position of paddle: " + paddle.getX() + ", " + paddle.getY());
-//
-////            System.out.println("ball position: " + ball.getX() + ", " + ball.getY());
-//            double centerOfBall = ball.getCenterX();
-//            double centerOfPaddle = paddle.getCenterX();
-//
-//            double[] input = { centerOfPaddle, centerOfBall };
-//            double[] output = nn.guess(input);
-//
-//            if (output[0] > output[1]) {
-//                movePaddleLeft();
-//            } else {
-//                movePaddleRight();
-//            }
 
             if (!advance()) {
                 System.out.println("Break");
@@ -77,11 +61,6 @@ public class Simulation
     }
 
     public void movePaddleRight() {
-//        if (paddle.getX() + distanceToMove + paddle.getWidth() >= width) {
-//            paddle.setValX((int) (width - paddle.getWidth()));
-//        } else {
-//            paddle.setValX((int) paddle.getX() + distanceToMove);
-//        }
         if (paddle.getX() + distanceToMove + paddle.getWidth() < width)
         {
             paddle.setValX((int) (paddle.getX() + distanceToMove));
@@ -140,8 +119,6 @@ public class Simulation
         if (!hitPaddle) {
             checkPaddle();
         }
-
-//        checkPaddle();
         return true;
     }
 
@@ -159,12 +136,6 @@ public class Simulation
         ball.setY(paddle.getY() - 20);
     }
 
-
-//    public void gameUpdate(NeuralNetwork neuralNetwork) {
-//        moveBall();
-//        movePaddle(neuralNetwork);
-//        advance();
-//    }
 
     public void movePaddle(NeuralNetwork neuralNetwork) {
         double[] input = { ball.getX(), paddle.getX() };
