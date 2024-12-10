@@ -6,6 +6,6 @@
 - The ball bounces off of the walls, the ceiling, and the paddle
 - If the ball falls below the level of the paddle, the game is over
 
-![BrickBreaker.gif](../../../../../BrickBreaker.gif)
+![BrickBreaker.gif](BrickBreaker.gif)
 
 
