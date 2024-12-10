@@ -95,9 +95,9 @@ public class Ball extends Ellipse2D.Double {
 
         if (brick.getBounds().intersects(this.getBounds())) {
             if (getCollisionSide(brick) == 0) {
-                dx = -dx;
+                dy = -dy; // Horizontal bounce (top or bottom)
             } else {
-                dy = -dy;
+                dx = -dx; // Vertical bounce (left or right)
             }
             collision = true;
             brick.setBroken(true);
@@ -107,7 +107,29 @@ public class Ball extends Ellipse2D.Double {
     }
 
     // 0 is horizontal & 1 is vertical
-    private int getCollisionSide(Brick brick)
+    private int getCollisionSide(Brick brick) {
+        double ballCenterX = getX() + getWidth() / 2;
+        double ballCenterY = getY() + getHeight() / 2;
+        double brickLeft = brick.getX();
+        double brickRight = brick.getX() + brick.getWidth();
+        double brickTop = brick.getY();
+        double brickBottom = brick.getY() + brick.getHeight();
+
+        // Calculate overlaps in X and Y directions
+        double overlapX = Math.min(Math.abs(ballCenterX - brickLeft), Math.abs(ballCenterX - brickRight));
+        double overlapY = Math.min(Math.abs(ballCenterY - brickTop), Math.abs(ballCenterY - brickBottom));
+
+        // Compare overlaps to determine the collision side
+        if (overlapY < overlapX) {
+            return 0; // Top or bottom collision (horizontal bounce)
+        } else {
+            return 1; // Left or right collision (vertical bounce)
+        }
+    }
+
+
+
+    /*private int getCollisionSide(Brick brick)
     {
         double ballCenterX = getX() + getWidth() / 2;
         double ballCenterY = getY() + getHeight() / 2;
@@ -131,6 +153,6 @@ public class Ball extends Ellipse2D.Double {
         } else {
             return 1; // Left or right side collision
         }
-    }
+    }*/
 
 }
