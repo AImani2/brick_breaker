@@ -5,6 +5,7 @@ import basicneuralnetwork.NeuralNetwork;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Random;
 
 public class Simulation
 {
@@ -20,6 +21,7 @@ public class Simulation
     private BrickFactory brickFactory;
     private boolean justHitPaddle = true;
     private boolean justHitBrick = false;
+    private Random rand = new Random();
 
     public Simulation(NeuralNetwork nn, Ball ball, Paddle paddle, int width, int height, BrickFactory brickFactory)
     {
@@ -45,58 +47,6 @@ public class Simulation
         }
     }
 
-    // moves the ball
-    public void moveBall() {
-        ball.move();
-    }
-
-    // moves the paddle
-    public void movePaddleLeft() {
-        if ((paddle.getX() - distanceToMove) > 0)
-        {
-            paddle.setValX((int) paddle.getX() - distanceToMove);
-        }
-    }
-
-    public void movePaddleRight() {
-        if (paddle.getX() + distanceToMove + paddle.getWidth() < width)
-        {
-            paddle.setValX((int) (paddle.getX() + distanceToMove));
-        }
-    }
-
-
-    // checks for collisions with walls
-    public void checkWall() {
-        if (ball.getX() <= 0 || ball.getX() + ball.getWidth() >= width)
-        {
-            ball.collideWall();
-            hitPaddle = false;
-        }
-
-    }
-
-    // checks for collisions with top
-    public void checkCeiling() {
-        if (ball.getY() <= 0)
-        {
-            ball.collideTopWall();
-            hitPaddle = false;
-        }
-    }
-
-    // checks for collisions with bricks (eventually)
-
-    // checks for collisions with paddle (increases score)
-    public void checkPaddle() {
-        if (ball.collides(paddle) && justHitBrick) {
-            score++;
-            hitPaddle = true;
-            justHitBrick = false;
-            justHitPaddle = true;
-        }
-    }
-
     // return true if the ball is still above the floor, otherwise false
     public boolean advance()
     {
@@ -119,22 +69,8 @@ public class Simulation
         return true;
     }
 
-    public int getScore() {
-        return score;
-    }
-
-    public void reset() {
-        paddle.setValY((int) paddle.getInitialY());
-        paddle.setValX((int) (Math.random() * (width - paddle.getWidth()))); // Randomize paddle X position
-
-        ball.setAngle(Math.random() > 0.5 ? 45 : 30);
-        ball.setX(paddle.getX() + (paddle.getWidth() / 2) - 10);
-        ball.setY(paddle.getY() - 20);
-    }
-
-
     public void movePaddle(NeuralNetwork neuralNetwork) {
-        double[] input = { ball.getCenterX(), paddle.getCenterX(), brick.getCenterX(), brick.getCenterY() };
+        double[] input = { ball.getCenterX(), ball.getCenterY(), brick.getCenterX(), brick.getCenterY() };
         double[] output = neuralNetwork.guess(input);
 
         if (output[0] > output[1]) {
@@ -145,6 +81,7 @@ public class Simulation
 
     }
 
+    // getters:
     public Ball getBall() {
         return ball;
     }
@@ -156,9 +93,65 @@ public class Simulation
     public Brick getBrick() {
         return brick;
     }
+    public int getScore() {
+        return score;
+    }
+
+    // move methods:
+    public void moveBall() {
+        ball.move();
+    }
+
+    public void movePaddleLeft() {
+        if ((paddle.getX() - distanceToMove) > 0)
+        {
+            paddle.setValX((int) paddle.getX() - distanceToMove);
+        }
+    }
+
+    public void movePaddleRight() {
+        if (paddle.getX() + distanceToMove + paddle.getWidth() < width)
+        {
+            paddle.setValX((int) (paddle.getX() + distanceToMove));
+        }
+    }
+
+
+    // check collision methods:
+    public void checkWall() {
+        if (ball.getX() <= 0 || ball.getX() + ball.getWidth() >= width)
+        {
+            ball.collideWall();
+            hitPaddle = false;
+        }
+
+    }
+
+    public void checkCeiling() {
+        if (ball.getY() <= 0)
+        {
+            ball.collideTopWall();
+            hitPaddle = false;
+        }
+    }
+
+    public void checkPaddle() {
+        if (ball.collides(paddle))
+        {
+            hitPaddle = true;
+            // adjust points only if just hit a brick:
+            if (justHitBrick)
+            {
+                score++;
+                justHitPaddle = true;
+                justHitBrick = false;
+            }
+        }
+    }
 
     public void checkBrick() {
         if (ball.collidesWithBrick(brick)) {
+            hitPaddle = false;
             brick = brickFactory.newBrick();
 
             if (justHitPaddle) {
@@ -169,6 +162,33 @@ public class Simulation
         }
     }
 
+    public void reset() {
+        //Rivka's code
+        paddle.setValY((int) paddle.getInitialY());
+        paddle.setValX((int) (Math.random() * (width - paddle.getWidth()))); // Randomize paddle X position
 
+        ball.setAngle(Math.random() > 0.5 ? 45 : 30);
+
+        ball.setX(paddle.getX() + (paddle.getWidth() / 2) - 10);
+        ball.setY(paddle.getY() - 20);
+
+        /*ball.setX(paddle.getX() + (paddle.getWidth() / 2) - (ball.getWidth() / 2));
+        ball.setY(paddle.getY() - ball.getHeight());*/
+
+        /*ball.setDx((rand.nextDouble() * 4) - 2);
+        ball.setDy(-1);*/
+
+        brick = brickFactory.newBrick();
+
+
+        //Aliza's Code
+        paddle.setValY((int) paddle.getInitialY());
+        paddle.setValX((int) (Math.random() * (width - paddle.getWidth()))); // Randomize paddle X position
+
+        ball.setAngle(Math.random() > 0.5 ? 45 : 30);
+        ball.setX(paddle.getX() + (paddle.getWidth() / 2) - 10);
+        ball.setY(paddle.getY() - 20);
+
+    }
 
 }
