@@ -60,6 +60,16 @@ public class Ball extends Ellipse2D.Double {
         this.y = y;
     }
 
+    public void setDx(double dx)
+    {
+        this.dx = dx;
+    }
+
+    public void setDy(double dy)
+    {
+        this.dy = dy;
+    }
+
     public Color getColor() {
         return color;
     }
@@ -73,8 +83,10 @@ public class Ball extends Ellipse2D.Double {
 
         boolean collision = false;
         if (paddle.getBounds().intersects(this.getBounds())) {
+
             dy = -dy;
             dx = (paddle.getCenterX() - this.getCenterX()) / (paddle.getWidth() / 2);
+
             collision = true;
         }
 
@@ -107,7 +119,7 @@ public class Ball extends Ellipse2D.Double {
     }
 
     // 0 is horizontal & 1 is vertical
-    private int getCollisionSide(Brick brick) {
+    /*private int getCollisionSide(Brick brick) {
         double ballCenterX = getX() + getWidth() / 2;
         double ballCenterY = getY() + getHeight() / 2;
         double brickLeft = brick.getX();
@@ -125,11 +137,11 @@ public class Ball extends Ellipse2D.Double {
         } else {
             return 1; // Left or right collision (vertical bounce)
         }
-    }
+    }*/
 
 
 
-    /*private int getCollisionSide(Brick brick)
+    private int getCollisionSide(Brick brick)
     {
         double ballCenterX = getX() + getWidth() / 2;
         double ballCenterY = getY() + getHeight() / 2;
@@ -153,6 +165,6 @@ public class Ball extends Ellipse2D.Double {
         } else {
             return 1; // Left or right side collision
         }
-    }*/
+    }
 
 }
