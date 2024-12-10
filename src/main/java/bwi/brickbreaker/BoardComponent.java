@@ -45,9 +45,13 @@ public class BoardComponent extends JComponent {
         g2.setColor(paddle.getColor());
         g2.fill(paddle);
 
-        g2.setColor(Color.RED);
         if (!brick.getBroken()) {
+            g2.setColor(Color.RED);
             g2.fill(brick);
+
+            g2.setStroke(new BasicStroke(3));
+            g2.setColor(Color.BLACK);
+            g2.draw(brick);
         } else {
             brick = simulation.getBrick();
         }

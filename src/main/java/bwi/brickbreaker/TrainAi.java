@@ -48,6 +48,7 @@ public class TrainAi
                 simulation.reset();
             }
 
+
             population.sort(Comparator.comparingInt(NetworkAndScore::getScore).reversed());
 
             topPerformers = new ArrayList<>(population.subList(0, topTen));
@@ -72,6 +73,7 @@ public class TrainAi
         }
 
         topPerformers.get(0).getNetwork().writeToFile("nn_data");
+        System.out.println("High Score: " + topPerformers.get(0).getScore());
 
     }
 

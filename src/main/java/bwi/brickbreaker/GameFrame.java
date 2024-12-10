@@ -18,7 +18,7 @@ public class GameFrame extends JFrame {
     private final int boardHeight = 600;
     private ArrayList<Brick> bricks = new ArrayList<>();
     private BoardComponent view = null;
-    private final int brickHeight = 20;
+    private final int brickHeight = 40;
     private final int brickWidth = 100;
     private BrickFactory brickFactory = new BrickFactory(boardWidth, boardHeight, brickWidth, brickHeight);
 

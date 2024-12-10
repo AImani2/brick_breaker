@@ -16,10 +16,9 @@ public class Simulation
     private int distanceToMove = 10;
     private int score;
     private boolean hitPaddle;
-    private boolean gameOver;
     private Brick brick;
     private BrickFactory brickFactory;
-    private boolean justHitPaddle = false;
+    private boolean justHitPaddle = true;
     private boolean justHitBrick = false;
 
     public Simulation(NeuralNetwork nn, Ball ball, Paddle paddle, int width, int height, BrickFactory brickFactory)
@@ -91,6 +90,7 @@ public class Simulation
     // checks for collisions with paddle (increases score)
     public void checkPaddle() {
         if (ball.collides(paddle) && justHitBrick) {
+            System.out.println("Hit paddle ");
             score++;
             hitPaddle = true;
             justHitBrick = false;
@@ -106,7 +106,6 @@ public class Simulation
         double bottomOfBall = ball.getY() + ball.getHeight();
 
         if (bottomOfBall > height) {
-            gameOver = true;
             return false;
         }
 
@@ -127,7 +126,6 @@ public class Simulation
 
     public void reset() {
         paddle.setValY((int) paddle.getInitialY());
-        //paddle.setValX((int) paddle.getInitialX());
         paddle.setValX((int) (Math.random() * (width - paddle.getWidth()))); // Randomize paddle X position
 
         ball.setAngle(Math.random() > 0.5 ? 45 : 30);
@@ -137,7 +135,7 @@ public class Simulation
 
 
     public void movePaddle(NeuralNetwork neuralNetwork) {
-        double[] input = { ball.getX(), paddle.getX() , brick.getCenterX(), brick.getCenterY()};
+        double[] input = { ball.getX(), paddle.getX(), brick.getCenterX(), brick.getCenterY() };
         double[] output = neuralNetwork.guess(input);
 
         if (output[0] > output[1]) {
