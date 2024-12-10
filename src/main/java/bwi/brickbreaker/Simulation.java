@@ -133,7 +133,7 @@ public class Simulation
 
 
     public void movePaddle(NeuralNetwork neuralNetwork) {
-        double[] input = { ball.getX(), paddle.getX() };
+        double[] input = { ball.getCenterX(), paddle.getCenterX() };
         double[] output = neuralNetwork.guess(input);
 
         if (output[0] > output[1]) {
