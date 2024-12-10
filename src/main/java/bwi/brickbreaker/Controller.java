@@ -1,5 +1,9 @@
 package bwi.brickbreaker;
 
+import basicneuralnetwork.NeuralNetwork;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
@@ -12,9 +16,9 @@ public class Controller implements KeyListener
     private final Paddle paddle;
     private ArrayList<Brick> bricks;
     private final BrickBreakerModel model;
-    private final Timer timer;
+    private Timer timer;
     private boolean gameStarted = false;
-    private final int distanceToMove = 20;
+    private final int distanceToMove = 10;
     private boolean gameWon = true;
 
     private final BoardComponent view;
@@ -27,6 +31,7 @@ public class Controller implements KeyListener
         this.model = model;
         this.view = view;
 
+        //timer  = null;
         timer = new Timer(2, e -> gameUpdate());
         view.setFocusable(true);
         view.requestFocusInWindow();
@@ -57,7 +62,7 @@ public class Controller implements KeyListener
         }
         if (gameWon) {
             model.endGame();
-            System.out.println("You won!");
+            //System.out.println("You won!");
             timer.stop();
             gameStarted = false;
 
@@ -87,7 +92,9 @@ public class Controller implements KeyListener
         checkBounds();
     }
 
-    public void checkPaddleCollision() {
+    public boolean checkPaddleCollision() {
+        boolean collision = false;
+
         double bottomOfBall = ball.getY() + ball.getHeight();
         double leftOfBall = ball.getX();
         double rightOfBall = ball.getX() + ball.getWidth();
@@ -107,9 +114,13 @@ public class Controller implements KeyListener
         // If ball is near the paddle and intersects, consider it a collision
         if (intersectY && intersectX) {
             hitPaddle(); // Bounce ball off paddle
+            collision = true;
+            //System.out.println("Hit paddle");
         } else if (bottomOfBall > view.getHeight()) {
+            //System.out.println("ball fell, bottom of ball: " + bottomOfBall + " height of view: " + view.getHeight());
             fallBall();
         }
+        return collision;
 
     }
 
@@ -189,9 +200,11 @@ public class Controller implements KeyListener
         if (side == 0) { // horizontal side
             // Bounce off top wall by reversing the vertical direction
             ball.setAngle(-angle);
+            //System.out.println("Resetting horizontal angle: " + angle);
         } else if (side == 1) { // vertical side
             // Bounce off side walls by reversing the horizontal direction
             ball.setAngle(180 - angle);
+            //System.out.println("Resetting angle: " + angle);
         }
     }
 
@@ -250,7 +263,7 @@ public class Controller implements KeyListener
     public void fallBall()
     {
         model.endGame();
-        System.out.println("end game");
+        //System.out.println("end game");
         timer.stop();
         gameStarted = false;
 
@@ -266,8 +279,8 @@ public class Controller implements KeyListener
     }
 
     public void resetGame() {
-        paddle.setValX(paddle.getInitialX());
-        paddle.setValY(paddle.getInitialY());
+        paddle.setValX((int) paddle.getInitialX());
+        paddle.setValY((int) paddle.getInitialY());
         int valX = (int) paddle.getX() + ((int) paddle.getWidth() / 2) - 10;
         int valY = (int) paddle.getY() - 20;
         ball.setAngle(ball.getInitialAngle());
@@ -286,21 +299,37 @@ public class Controller implements KeyListener
         if (gameStarted) {
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_RIGHT:
-                    if (paddle.getX() + distanceToMove + paddle.getWidth() >= view.getWidth()) {
-                        paddle.setValX(view.getWidth() - paddle.getWidth());
-                    } else {
-                        paddle.setValX(paddle.getX() + distanceToMove);
-                    }
+                    movePaddleRight();
                     break;
                 case KeyEvent.VK_LEFT:
-                    if (paddle.getX() - distanceToMove < 0) {
-                        paddle.setValX(0);
-                    } else {
-                        paddle.setValX(paddle.getX() - distanceToMove);
-                    }
+                    movePaddleLeft();
                     break;
                 default:
             }
+        }
+        view.repaint();
+    }
+
+    public void movePaddleLeft()
+    {
+        if (paddle.getX() - distanceToMove < 0) {
+            paddle.setValX(0);
+            //System.out.println("reset the x value to be: " + paddle.getX());
+        } else {
+            paddle.setValX((int) paddle.getX() - distanceToMove);
+            //System.out.println("reset the x value to be: " + paddle.getX());
+        }
+        view.repaint();
+    }
+
+    public void movePaddleRight()
+    {
+        if (paddle.getX() + distanceToMove + paddle.getWidth() >= view.getWidth()) {
+            paddle.setValX((int) (view.getWidth() - paddle.getWidth()));
+            //System.out.println("reset the x value to be: " + paddle.getX());
+        } else {
+            paddle.setValX((int) paddle.getX() + distanceToMove);
+            //System.out.println("reset the x value to be: " + paddle.getX());
         }
         view.repaint();
     }
@@ -314,5 +343,28 @@ public class Controller implements KeyListener
     @Override
     public void keyTyped(KeyEvent e) {
 
+    }
+
+    public void startGameNeuralNetwork(NeuralNetwork neuralNetwork) {
+        timer = new Timer(50, new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                double[] input = { ball.getX(), paddle.getX() };
+
+                double[] output = neuralNetwork.guess(input);
+
+                if (output[0] > output[1]) {
+                    movePaddleLeft();
+                } else {
+                    movePaddleRight();
+                }
+
+                gameUpdate();
+            }
+        });
+
+        timer.start();
     }
 }

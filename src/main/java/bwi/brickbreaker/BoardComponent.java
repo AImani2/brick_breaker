@@ -13,15 +13,19 @@ public class BoardComponent extends JComponent {
 
     private final Ball ball;
     private final Paddle paddle;
-    private final ArrayList<Brick> bricks;
 
     public BoardComponent(Ball ball, Paddle paddle, ArrayList<Brick> bricks) {
         this.ball = ball;
         this.paddle = paddle;
-        this.bricks = bricks;
+        //this.bricks = bricks;
 
         setFocusable(true);
         requestFocusInWindow();
+    }
+
+    public BoardComponent(Simulation simulation) {
+        ball = simulation.getBall();
+        paddle = simulation.getPaddle();
     }
 
     @Override
@@ -39,16 +43,16 @@ public class BoardComponent extends JComponent {
 
 
         //draw the bricks
-        for (int i = 0; i < bricks.size(); i++) {
+        /*for (int i = 0; i < bricks.size(); i++) {
             Brick brick = bricks.get(i);
             g2.setColor(brick.getColor());
             if (!brick.getBroken()) {
                 g2.fill(brick);
             }
-        }
+        }*/
     }
 
-    public ArrayList<Brick> layBricksOnGrid() {
+    /*public ArrayList<Brick> layBricksOnGrid() {
         final int numOfBricks = 10;
         final int brickWidth = 100;
         final int brickHeight = 20;
@@ -77,7 +81,7 @@ public class BoardComponent extends JComponent {
             }
         }
         return bricks;
-    }
+    }*/
 
     public Color createRandomBrickColor() {
         Random rand = new Random();

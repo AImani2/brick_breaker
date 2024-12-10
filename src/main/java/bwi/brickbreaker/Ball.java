@@ -12,10 +12,17 @@ public class Ball extends Ellipse2D.Double {
     private final double initialVelocity;
     private final double initialAngle;
 
-    public Ball(double angle, double velocity, double x, double y, double diameter, Color color) {
+    private double dx;
+    private double dy;
+
+    public Ball(double x, double y, double diameter, double dx, double dy, Color color) {
         super(x, y, diameter, diameter);
-        this.angle = angle;
-        this.velocity = velocity; // should velocity always be the same?
+        //TODO do we want the angle to be 45 or 30?
+        //because we are now dealing with dx and dy - i dont know if we need an angle or velocity
+        this.angle = 45;
+        this.velocity = 1; // should velocity always be the same?
+        this.dx = dx;
+        this.dy = dy;
         this.color = color;
         initialVelocity = velocity;
         initialAngle = angle;
@@ -58,8 +65,29 @@ public class Ball extends Ellipse2D.Double {
     }
 
     public void move() {
-        x += velocity * Math.cos(Math.toRadians(angle));
-        y -= velocity * Math.sin(Math.toRadians(angle)); // Subtract for upward direction
+        x += dx;
+        y += dy;
+    }
+
+    public boolean collides(Paddle paddle) {
+
+        boolean collision = false;
+        if (paddle.getBounds().intersects(this.getBounds())) {
+            dy = -dy;
+            dx = (paddle.getCenterX() - this.getCenterX()) / (paddle.getWidth() / 2);
+            collision = true;
+        }
+
+        return collision;
+
+    }
+
+    public void collideWall() {
+        dx = -dx;
+    }
+
+    public void collideTopWall() {
+        dy = -dy;
     }
 
 }
