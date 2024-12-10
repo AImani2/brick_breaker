@@ -72,16 +72,20 @@ public class GameFrame extends JFrame {
         int y = (int) paddle.getY() - 20;
         Ball ball = new Ball(x, y, 20, 2.5, -2, Color.CYAN);
 
+
         if (neuralNetwork != null) {
             Simulation simulation = new Simulation(neuralNetwork, ball, paddle, 800, 600, brickFactory);
 
 
+            JLabel scoreLabel = new JLabel("Score: \n" + simulation.getScore());
+            add(scoreLabel, BorderLayout.NORTH);
             view = new BoardComponent(simulation);
             add(view);
             view.setPreferredSize(new Dimension(boardWidth, boardHeight - 100));
 
             Timer timer = new Timer(15, e -> {
                 simulation.advance();
+                scoreLabel.setText("Score: \n" + simulation.getScore());
                 view.repaint();
             });
 

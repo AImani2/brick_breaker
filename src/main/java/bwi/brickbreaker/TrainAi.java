@@ -73,7 +73,6 @@ public class TrainAi
         }
 
         topPerformers.get(0).getNetwork().writeToFile("nn_data");
-        System.out.println("High Score: " + topPerformers.get(0).getScore());
 
     }
 

@@ -95,9 +95,9 @@ public class Ball extends Ellipse2D.Double {
 
         if (brick.getBounds().intersects(this.getBounds())) {
             if (getCollisionSide(brick) == 0) {
-                dx = -dx;
-            } else {
                 dy = -dy;
+            } else {
+                dx = -dx;
             }
             collision = true;
             brick.setBroken(true);

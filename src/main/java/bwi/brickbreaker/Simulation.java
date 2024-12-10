@@ -90,7 +90,6 @@ public class Simulation
     // checks for collisions with paddle (increases score)
     public void checkPaddle() {
         if (ball.collides(paddle) && justHitBrick) {
-            System.out.println("Hit paddle ");
             score++;
             hitPaddle = true;
             justHitBrick = false;
@@ -135,7 +134,7 @@ public class Simulation
 
 
     public void movePaddle(NeuralNetwork neuralNetwork) {
-        double[] input = { ball.getX(), paddle.getX(), brick.getCenterX(), brick.getCenterY() };
+        double[] input = { ball.getCenterX(), paddle.getCenterX(), brick.getCenterX(), brick.getCenterY() };
         double[] output = neuralNetwork.guess(input);
 
         if (output[0] > output[1]) {
