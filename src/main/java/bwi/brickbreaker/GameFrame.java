@@ -33,7 +33,7 @@ public class GameFrame extends JFrame {
         paddle = new Paddle(350, 500, 20, 100, Color.MAGENTA);
         int x = (int) paddle.getX() + ((int) paddle.getWidth() / 2) - 10;
         int y = (int) paddle.getY() - 20;
-        Ball ball = new Ball( x, y, 20,2.5,-2, Color.CYAN);
+        Ball ball = new Ball(x, y, 20, 2.5, -2, Color.CYAN);
 
         view = new BoardComponent(ball, paddle, bricks);
 
@@ -67,7 +67,7 @@ public class GameFrame extends JFrame {
         paddle = new Paddle(350, 500, 20, 100, Color.MAGENTA);
         int x = (int) paddle.getX() + ((int) paddle.getWidth() / 2) - 10;
         int y = (int) paddle.getY() - 20;
-        Ball ball = new Ball(x, y, 20,2.5,-2, Color.CYAN);
+        Ball ball = new Ball(x, y, 20, 2.5, -2, Color.CYAN);
 
         view = new BoardComponent(ball, paddle, bricks);
 

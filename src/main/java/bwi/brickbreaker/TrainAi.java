@@ -8,17 +8,18 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 
-public class TrainAI {
+public class TrainAi
+{
 
     public static void main(String[] args) {
         Random rand = new Random();
         List<NetworkAndScore> population = new ArrayList<>();
-        int AGENTS = 1000;
-        int TOP_PERFORMERS = 10;
+        int agents = 1000;
+        int topTen = 10;
         Paddle paddle = new Paddle(350, 500, 20, 100, Color.MAGENTA);
         int x = (int) paddle.getX() + ((int) paddle.getWidth() / 2) - 10;
         int y = (int) paddle.getY() - 20;
-        Ball ball = new Ball(x, y, 20,rand.nextInt(175),-1, Color.CYAN);
+        Ball ball = new Ball(x, y, 20, rand.nextInt(175), -1, Color.CYAN);
         int viewWidth = 800;
         int viewHeight = 600;
         int generations = 5;
@@ -27,7 +28,7 @@ public class TrainAI {
 
 
         // Creates the first arrayList of agents
-        for (int i = 0; i < AGENTS; i++) {
+        for (int i = 0; i < agents; i++) {
             NeuralNetwork nn = new NeuralNetwork(2, 2, 4, 2);
             NetworkAndScore networkAndScore = new NetworkAndScore(nn, 0);
             population.add(networkAndScore);
@@ -48,20 +49,20 @@ public class TrainAI {
 
             population.sort(Comparator.comparingInt(NetworkAndScore::getScore).reversed());
 
-            topPerformers = new ArrayList<>(population.subList(0, TOP_PERFORMERS));
+            topPerformers = new ArrayList<>(population.subList(0, topTen));
 
             population.clear();
 
-            while (population.size() < AGENTS) {
-                for (int j = 0; j < TOP_PERFORMERS; j++) {
-                    for (int k = 0; k < TOP_PERFORMERS; k++) {
+            while (population.size() < agents) {
+                for (int j = 0; j < topTen; j++) {
+                    for (int k = 0; k < topTen; k++) {
                         NeuralNetwork parent1 = topPerformers.get(i).getNetwork();
                         NeuralNetwork parent2 = topPerformers.get(j).getNetwork();
 
                         NeuralNetwork offspring = parent1.merge(parent2);
                         offspring.mutate(0.1);
                         population.add(new NetworkAndScore(offspring, 0));
-                        if (population.size() == AGENTS) {
+                        if (population.size() == agents) {
                             break;
                         }
                     }

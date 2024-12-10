@@ -93,7 +93,6 @@ public class Simulation
     // checks for collisions with paddle (increases score)
     public void checkPaddle() {
         if (ball.collides(paddle)) {
-            System.out.println("hit paddle: Ball position: " + ball.getX() + "-" + (ball.getX() + ball.getWidth()) + ", " + ball.getY() + "-" + (ball.getY() + ball.getHeight()) + " Paddle position: " + paddle.getX() + "-" + (paddle.getX() + paddle.getWidth()) + ", " + paddle.getY());
             score++;
             hitPaddle = true;
         }

@@ -72,7 +72,7 @@ public class Ball extends Ellipse2D.Double {
     public boolean collides(Paddle paddle) {
 
         boolean collision = false;
-        if(paddle.getBounds().intersects(this.getBounds())) {
+        if (paddle.getBounds().intersects(this.getBounds())) {
             dy = -dy;
             dx = (paddle.getCenterX() - this.getCenterX()) / (paddle.getWidth() / 2);
             collision = true;

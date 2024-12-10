@@ -144,8 +144,8 @@ public class NeuralNetworkTakeTwo {
 
         // Check if the ball's bottom is near the top of the paddle
         // and if the ball is horizontally near the paddle
-        boolean intersectY = (bottomOfBall + bufferZone) >=
-                topOfPaddle && bottomOfBall <= topOfPaddle + bufferZone;
+        boolean intersectY = (bottomOfBall + bufferZone)
+                >= topOfPaddle && bottomOfBall <= topOfPaddle + bufferZone;
         boolean intersectX = rightOfBall >= leftOfPaddle - bufferZone
                 && leftOfBall <= rightOfPaddle + bufferZone;
 
@@ -157,8 +157,10 @@ public class NeuralNetworkTakeTwo {
             ball.setY(paddle.getY() - ball.getHeight() - 1);
 
             collision = true;
-        } else if (bottomOfBall > viewHeight) {
-        }
+        } /*else if (bottomOfBall > viewHeight)
+        {
+
+        }*/
         return collision;
     }
 
