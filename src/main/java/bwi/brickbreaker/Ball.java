@@ -60,7 +60,7 @@ public class Ball extends Ellipse2D.Double {
         this.y = y;
     }
 
-    /*public void setDx(double dx)
+    public void setDx(double dx)
     {
         this.dx = dx;
     }
@@ -68,7 +68,7 @@ public class Ball extends Ellipse2D.Double {
     public void setDy(double dy)
     {
         this.dy = dy;
-    }*/
+    }
 
     public Color getColor() {
         return color;

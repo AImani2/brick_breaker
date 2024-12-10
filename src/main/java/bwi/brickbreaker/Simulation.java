@@ -70,7 +70,7 @@ public class Simulation
     }
 
     public void movePaddle(NeuralNetwork neuralNetwork) {
-        double[] input = { ball.getX(), ball.getY(), brick.getCenterX(), brick.getCenterY() };
+        double[] input = { ball.getCenterX(), ball.getCenterY(), brick.getCenterX(), brick.getCenterY() };
         double[] output = neuralNetwork.guess(input);
 
         if (output[0] > output[1]) {
@@ -166,11 +166,17 @@ public class Simulation
         paddle.setValX((int) (Math.random() * (width - paddle.getWidth()))); // Randomize paddle X position
 
         ball.setAngle(Math.random() > 0.5 ? 45 : 30);
-        ball.setX(paddle.getX() + (paddle.getWidth() / 2) - (ball.getWidth() / 2));
-        ball.setY(paddle.getY() - ball.getHeight());
-        /*ball.setDx(rand.nextInt(175));
+
+        ball.setX(paddle.getX() + (paddle.getWidth() / 2) - 10);
+        ball.setY(paddle.getY() - 20);
+
+        /*ball.setX(paddle.getX() + (paddle.getWidth() / 2) - (ball.getWidth() / 2));
+        ball.setY(paddle.getY() - ball.getHeight());*/
+
+        /*ball.setDx((rand.nextDouble() * 4) - 2);
         ball.setDy(-1);*/
-        //brick = brickFactory.newBrick();
+
+        brick = brickFactory.newBrick();
 
     }
 
