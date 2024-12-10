@@ -35,7 +35,6 @@ public class TrainAi
         }
 
         for (int i = 0; i < generations; i++) {
-            System.out.println("Generation: " + (i + 1));
 
             //Have the neural networks play the game
             for (int j = 0; j < population.size(); j++) {
@@ -43,7 +42,6 @@ public class TrainAi
                         ball, paddle, viewWidth, viewHeight);
                 simulation.simulate();
                 population.get(j).setScore(simulation.getScore());
-                System.out.println("Score: " + simulation.getScore());
                 simulation.reset();
             }
 
@@ -71,8 +69,6 @@ public class TrainAi
         }
 
         topPerformers.get(0).getNetwork().writeToFile("nn_data");
-        System.out.println("Top score: " + topPerformers.get(0).getScore());
-
 
     }
 

@@ -31,12 +31,10 @@ public class Simulation
     public void simulate()
     {
         int maxNumOfRounds = 10_000;
-        System.out.println("New ball");
 
         for (int i = 0; i < maxNumOfRounds; i++) {
 
             if (!advance()) {
-                System.out.println("Break");
                 break;
             }
         }
@@ -72,7 +70,6 @@ public class Simulation
     public void checkWall() {
         if (ball.getX() <= 0 || ball.getX() + ball.getWidth() >= width)
         {
-            System.out.println("ht the wall");
             ball.collideWall();
             hitPaddle = false;
         }
@@ -106,7 +103,6 @@ public class Simulation
         double bottomOfBall = ball.getY() + ball.getHeight();
 
         if (bottomOfBall > height) {
-            System.out.println("ball fell ViewHeight:" + height + " Ball: " + bottomOfBall);
             gameOver = true;
             return false;
         }
