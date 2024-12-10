@@ -18,6 +18,9 @@ public class GameFrame extends JFrame {
     private final int boardHeight = 600;
     private ArrayList<Brick> bricks = new ArrayList<>();
     private BoardComponent view = null;
+    private final int brickHeight = 20;
+    private final int brickWidth = 100;
+    private BrickFactory brickFactory = new BrickFactory(boardWidth, boardHeight, brickWidth, brickHeight);
 
     private NeuralNetwork neuralNetwork;
 
@@ -69,20 +72,13 @@ public class GameFrame extends JFrame {
         int y = (int) paddle.getY() - 20;
         Ball ball = new Ball(x, y, 20, 2.5, -2, Color.CYAN);
 
-        view = new BoardComponent(ball, paddle, bricks);
-
-        BrickBreakerModel model = new BrickBreakerModel(ball, bricks);
-
-        add(view);
-        view.setPreferredSize(new Dimension(boardWidth, boardHeight - 100));
-
         if (neuralNetwork != null) {
-            Simulation simulation = new Simulation(neuralNetwork, ball, paddle, 800, 600);
+            Simulation simulation = new Simulation(neuralNetwork, ball, paddle, 800, 600, brickFactory);
 
-            /*while (simulation.advance()) {
-                view.repaint();
-            }*/
 
+            view = new BoardComponent(simulation);
+            add(view);
+            view.setPreferredSize(new Dimension(boardWidth, boardHeight - 100));
 
             Timer timer = new Timer(15, e -> {
                 simulation.advance();

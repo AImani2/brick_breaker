@@ -90,4 +90,47 @@ public class Ball extends Ellipse2D.Double {
         dy = -dy;
     }
 
+    public boolean collidesWithBrick(Brick brick) {
+        boolean collision = false;
+
+        if (brick.getBounds().intersects(this.getBounds())) {
+            if (getCollisionSide(brick) == 0) {
+                dx = -dx;
+            } else {
+                dy = -dy;
+            }
+            collision = true;
+            brick.setBroken(true);
+        }
+
+        return collision;
+    }
+
+    // 0 is horizontal & 1 is vertical
+    private int getCollisionSide(Brick brick)
+    {
+        double ballCenterX = getX() + getWidth() / 2;
+        double ballCenterY = getY() + getHeight() / 2;
+        double brickLeft = brick.getX();
+        double brickRight = brick.getX() + brick.getWidth();
+        double brickTop = brick.getY();
+        double brickBottom = brick.getY() + brick.getHeight();
+
+        // Determine the minimum distance to each side of the brick
+        double distanceToLeft = Math.abs(ballCenterX - brickLeft);
+        double distanceToRight = Math.abs(ballCenterX - brickRight);
+        double distanceToTop = Math.abs(ballCenterY - brickTop);
+        double distanceToBottom = Math.abs(ballCenterY - brickBottom);
+
+        // Check if the collision is vertical or horizontal by finding the smallest distance
+        if (distanceToTop < distanceToLeft && distanceToTop < distanceToRight && distanceToTop < distanceToBottom) {
+            return 0; // Top side collision
+        } else if (distanceToBottom < distanceToLeft && distanceToBottom < distanceToRight
+                && distanceToBottom < distanceToTop) {
+            return 0; // Bottom side collision
+        } else {
+            return 1; // Left or right side collision
+        }
+    }
+
 }

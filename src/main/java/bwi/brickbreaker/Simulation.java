@@ -17,8 +17,12 @@ public class Simulation
     private int score;
     private boolean hitPaddle;
     private boolean gameOver;
+    private Brick brick;
+    private BrickFactory brickFactory;
+    private boolean justHitPaddle = false;
+    private boolean justHitBrick = false;
 
-    public Simulation(NeuralNetwork nn, Ball ball, Paddle paddle, int width, int height)
+    public Simulation(NeuralNetwork nn, Ball ball, Paddle paddle, int width, int height, BrickFactory brickFactory)
     {
         this.nn = nn;
         this.ball = ball;
@@ -26,6 +30,8 @@ public class Simulation
         this.width = width;
         this.height = height;
         score = 0;
+        this.brickFactory = brickFactory;
+        brick = brickFactory.newBrick();
     }
 
     public void simulate()
@@ -51,11 +57,6 @@ public class Simulation
         {
             paddle.setValX((int) paddle.getX() - distanceToMove);
         }
-        /*if (paddle.getX() - distanceToMove < 0) {
-            paddle.setValX(0);
-        } else {
-            paddle.setValX((int) paddle.getX() - distanceToMove);
-        }*/
     }
 
     public void movePaddleRight() {
@@ -89,9 +90,11 @@ public class Simulation
 
     // checks for collisions with paddle (increases score)
     public void checkPaddle() {
-        if (ball.collides(paddle)) {
+        if (ball.collides(paddle) && justHitBrick) {
             score++;
             hitPaddle = true;
+            justHitBrick = false;
+            justHitPaddle = true;
         }
     }
 
@@ -109,6 +112,7 @@ public class Simulation
 
         movePaddle(nn);
 
+        checkBrick();
         checkWall();
         checkCeiling();
         if (!hitPaddle) {
@@ -133,7 +137,7 @@ public class Simulation
 
 
     public void movePaddle(NeuralNetwork neuralNetwork) {
-        double[] input = { ball.getX(), paddle.getX() };
+        double[] input = { ball.getX(), paddle.getX() , brick.getCenterX(), brick.getCenterY()};
         double[] output = neuralNetwork.guess(input);
 
         if (output[0] > output[1]) {
@@ -151,5 +155,23 @@ public class Simulation
     public Paddle getPaddle() {
         return paddle;
     }
+
+    public Brick getBrick() {
+        return brick;
+    }
+
+    public void checkBrick() {
+        if (ball.collidesWithBrick(brick)) {
+            brick = brickFactory.newBrick();
+
+            if (justHitPaddle) {
+                score++;
+                justHitBrick = true;
+                justHitPaddle = false;
+            }
+        }
+    }
+
+
 
 }
