@@ -83,16 +83,34 @@ public class GameFrame extends JFrame {
             add(view);
             view.setPreferredSize(new Dimension(boardWidth, boardHeight - 100));
 
-            Timer timer = new Timer(15, e -> {
-                simulation.advance();
-                scoreLabel.setText("Score: \n" + simulation.getScore());
-                view.repaint();
-            });
 
-            timer.start();
+            Timer timer1 = new Timer(15, e -> {
+                if (simulation.advance()) {
+                    scoreLabel.setText("Score:\n" + simulation.getScore());
+                    view.repaint();
+                } else {
+                    String message = "Game over!\nDo you want to start again?";
+                    int start = JOptionPane.showConfirmDialog(view, message, "Game Over", JOptionPane.YES_NO_OPTION);
+                    if (start == JOptionPane.YES_NO_OPTION) {
+                        simulation.reset();
+                        view.repaint();
+                    } else {
+                        SwingUtilities.getWindowAncestor(view).dispose();
+                        ((Timer) e.getSource()).stop();
+                    }
+                }
+            });
+            timer1.start();
+
+//            Timer timer = new Timer(15, e -> {
+//                simulation.advance();
+//                scoreLabel.setText("Score: \n" + simulation.getScore());
+//                view.repaint();
+//            });
+//
+//            timer.start();
         }
     }
-
 
 
 }
