@@ -1,4 +1,4 @@
-# Brick Breaker
+# Brick Breaker AI Trainer
 
 ## Overview
 This project leverages artificial intelligence to train an AI agent to play the classic game BrickBreaker. The AI learns through training iterations and displays its best-performing version in a graphical user interface (GUI). The project is developed in Java and uses IntelliJ IDEA as the primary development environment.
