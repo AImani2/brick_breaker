@@ -4,7 +4,8 @@ import basicneuralnetwork.NeuralNetwork;
 
 import java.io.IOException;
 
-public class MainNeuralNetwork {
+public class PlayAi
+{
 
     public static void main(String[] args)
     {
@@ -14,7 +15,7 @@ public class MainNeuralNetwork {
 
         try
         {
-            topNetwork = NeuralNetwork.readFromFile();
+            topNetwork = NeuralNetwork.readFromFile("nn_data.json");
         } catch (IOException e)
         {
             e.printStackTrace();

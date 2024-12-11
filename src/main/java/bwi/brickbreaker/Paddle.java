@@ -33,6 +33,6 @@ public class Paddle extends Rectangle {
     }
 
     public void setValY(int valY) {
-        this.x = valY;
+        this.y = valY;
     }
 }

@@ -18,6 +18,9 @@ public class GameFrame extends JFrame {
     private final int boardHeight = 600;
     private ArrayList<Brick> bricks = new ArrayList<>();
     private BoardComponent view = null;
+    private final int brickHeight = 40;
+    private final int brickWidth = 100;
+    private BrickFactory brickFactory = new BrickFactory(boardWidth, boardHeight, brickWidth, brickHeight);
 
     private NeuralNetwork neuralNetwork;
 
@@ -33,10 +36,9 @@ public class GameFrame extends JFrame {
         paddle = new Paddle(350, 500, 20, 100, Color.MAGENTA);
         int x = (int) paddle.getX() + ((int) paddle.getWidth() / 2) - 10;
         int y = (int) paddle.getY() - 20;
-        ball = new Ball(45, 5, x, y, 20, Color.CYAN);
+        Ball ball = new Ball(x, y, 20, 2.5, -2, Color.CYAN);
 
         view = new BoardComponent(ball, paddle, bricks);
-        bricks = view.layBricksOnGrid();
 
         BrickBreakerModel model = new BrickBreakerModel(ball, bricks);
         Controller controller = new Controller(ball, paddle, bricks, model, view);
@@ -68,24 +70,49 @@ public class GameFrame extends JFrame {
         paddle = new Paddle(350, 500, 20, 100, Color.MAGENTA);
         int x = (int) paddle.getX() + ((int) paddle.getWidth() / 2) - 10;
         int y = (int) paddle.getY() - 20;
-        ball = new Ball(45, 5, x, y, 20, Color.CYAN);
+        Ball ball = new Ball(x, y, 20, 2.5, -2, Color.CYAN);
 
-        view = new BoardComponent(ball, paddle, bricks);
-        bricks = view.layBricksOnGrid();
-
-        BrickBreakerModel model = new BrickBreakerModel(ball, bricks);
-        Controller controller = new Controller(ball, paddle, bricks, model, view);
-
-        controller.setBricks(bricks);
-
-        add(view);
-        view.setPreferredSize(new Dimension(boardWidth, boardHeight - 100));
 
         if (neuralNetwork != null) {
-            controller.startGameNeuralNetwork(neuralNetwork);
+            Simulation simulation = new Simulation(neuralNetwork, ball, paddle, 800, 600, brickFactory);
+
+
+            JLabel scoreLabel = new JLabel("Score: \n" + simulation.getScore());
+            add(scoreLabel, BorderLayout.NORTH);
+            view = new BoardComponent(simulation);
+            add(view);
+            view.setPreferredSize(new Dimension(boardWidth, boardHeight - 100));
+
+
+            Timer timer1 = new Timer(15, e -> {
+                if (simulation.advance()) {
+                    scoreLabel.setText("Score:\n" + simulation.getScore());
+                    view.repaint();
+                } else {
+                    String message = "Game over!\nDo you want to start again?";
+                    int start = JOptionPane.showConfirmDialog(view, message, "Game Over", JOptionPane.YES_NO_OPTION);
+                    if (start == JOptionPane.YES_NO_OPTION) {
+                        simulation.reset();
+                        view.repaint();
+                    } else {
+                        SwingUtilities.getWindowAncestor(view).dispose();
+                        ((Timer) e.getSource()).stop();
+                    }
+                }
+            });
+            timer1.start();
+
+            /*
+            Timer timer = new Timer(15, e -> {
+                simulation.advance();
+                scoreLabel.setText("Score: \n" + simulation.getScore());
+                view.repaint();
+            });
+
+            timer.start();
+             */
         }
     }
-
 
 
 }

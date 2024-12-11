@@ -15,10 +15,14 @@ public class Ball extends Ellipse2D.Double {
     private double dx;
     private double dy;
 
-    public Ball(double angle, double velocity, double x, double y, double diameter, Color color) {
+    public Ball(double x, double y, double diameter, double dx, double dy, Color color) {
         super(x, y, diameter, diameter);
-        this.angle = angle;
-        this.velocity = velocity; // should velocity always be the same?
+        //TODO do we want the angle to be 45 or 30?
+        //because we are now dealing with dx and dy - i dont know if we need an angle or velocity
+        this.angle = 45;
+        this.velocity = 1; // should velocity always be the same?
+        this.dx = dx;
+        this.dy = dy;
         this.color = color;
         initialVelocity = velocity;
         initialAngle = angle;
@@ -56,21 +60,89 @@ public class Ball extends Ellipse2D.Double {
         this.y = y;
     }
 
+    public void setDx(double dx)
+    {
+        this.dx = dx;
+    }
+
+    public void setDy(double dy)
+    {
+        this.dy = dy;
+    }
+
     public Color getColor() {
         return color;
     }
 
     public void move() {
-        /*x += velocity * Math.cos(Math.toRadians(angle));
-        y -= velocity * Math.sin(Math.toRadians(angle));*/ // Subtract for upward direction
         x += dx;
         y += dy;
     }
 
-    public double calculateAngleToPaddle(Paddle paddle) {
-        double deltaX = paddle.getX() + (paddle.getWidth() / 2) - (this.x + this.width / 2);
-        double deltaY = paddle.getY() - (this.y + this.height / 2);
-        return Math.toDegrees(Math.atan2(deltaY, deltaX)); // Angle in degrees
+    public boolean collides(Paddle paddle) {
+
+        boolean collision = false;
+        if (paddle.getBounds().intersects(this.getBounds())) {
+
+            dy = -dy;
+            dx = (paddle.getCenterX() - this.getCenterX()) / (paddle.getWidth() / 2);
+
+            collision = true;
+        }
+
+        return collision;
+
+    }
+
+    public void collideWall() {
+        dx = -dx;
+    }
+
+    public void collideTopWall() {
+        dy = -dy;
+    }
+
+    public boolean collidesWithBrick(Brick brick) {
+        boolean collision = false;
+
+        if (brick.getBounds().intersects(this.getBounds())) {
+            if (getCollisionSide(brick) == 0) {
+                dy = -dy; // Horizontal bounce (top or bottom)
+            } else {
+                dx = -dx; // Vertical bounce (left or right)
+            }
+            collision = true;
+            brick.setBroken(true);
+        }
+
+        return collision;
+    }
+
+    // 0 is horizontal & 1 is vertical
+    private int getCollisionSide(Brick brick)
+    {
+        double ballCenterX = getX() + getWidth() / 2;
+        double ballCenterY = getY() + getHeight() / 2;
+        double brickLeft = brick.getX();
+        double brickRight = brick.getX() + brick.getWidth();
+        double brickTop = brick.getY();
+        double brickBottom = brick.getY() + brick.getHeight();
+
+        // Determine the minimum distance to each side of the brick
+        double distanceToLeft = Math.abs(ballCenterX - brickLeft);
+        double distanceToRight = Math.abs(ballCenterX - brickRight);
+        double distanceToTop = Math.abs(ballCenterY - brickTop);
+        double distanceToBottom = Math.abs(ballCenterY - brickBottom);
+
+        // Check if the collision is vertical or horizontal by finding the smallest distance
+        if (distanceToTop < distanceToLeft && distanceToTop < distanceToRight && distanceToTop < distanceToBottom) {
+            return 0; // Top side collision
+        } else if (distanceToBottom < distanceToLeft && distanceToBottom < distanceToRight
+                && distanceToBottom < distanceToTop) {
+            return 0; // Bottom side collision
+        } else {
+            return 1; // Left or right side collision
+        }
     }
 
 }

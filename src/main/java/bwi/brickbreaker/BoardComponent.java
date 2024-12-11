@@ -13,15 +13,23 @@ public class BoardComponent extends JComponent {
 
     private final Ball ball;
     private final Paddle paddle;
-    private final ArrayList<Brick> bricks;
+    private Brick brick;
+    private Simulation simulation;
 
     public BoardComponent(Ball ball, Paddle paddle, ArrayList<Brick> bricks) {
         this.ball = ball;
         this.paddle = paddle;
-        this.bricks = bricks;
+        //this.bricks = bricks;
 
         setFocusable(true);
         requestFocusInWindow();
+    }
+
+    public BoardComponent(Simulation simulation) {
+        this.simulation = simulation;
+        ball = simulation.getBall();
+        paddle = simulation.getPaddle();
+        brick = simulation.getBrick();
     }
 
     @Override
@@ -37,56 +45,18 @@ public class BoardComponent extends JComponent {
         g2.setColor(paddle.getColor());
         g2.fill(paddle);
 
+        if (!brick.getBroken()) {
+            g2.setColor(Color.RED);
+            g2.fill(brick);
 
-        //draw the bricks
-        for (int i = 0; i < bricks.size(); i++) {
-            Brick brick = bricks.get(i);
-            g2.setColor(brick.getColor());
-            if (!brick.getBroken()) {
-                g2.fill(brick);
-            }
+            g2.setStroke(new BasicStroke(3));
+            g2.setColor(Color.BLACK);
+            g2.draw(brick);
+        } else {
+            brick = simulation.getBrick();
         }
+
     }
 
-    public ArrayList<Brick> layBricksOnGrid() {
-        final int numOfBricks = 10;
-        final int brickWidth = 100;
-        final int brickHeight = 20;
-        final int boardWidth = 800;
-        final int boardHeight = 600;
-        Random rand = new Random();
-
-        int x = 0;
-        int y = 0;
-        while (bricks.size() < numOfBricks) {
-            x = rand.nextInt(boardWidth - brickWidth);
-            y = rand.nextInt(boardHeight / 2);
-
-            Brick brick = new Brick(false, brickHeight, brickWidth, x, y, createRandomBrickColor());
-
-            boolean intersect = false;
-            for (int j = 0; j < bricks.size(); j++) {
-                if (brick.intersects(bricks.get(j))) {
-                    intersect = true;
-                    break;
-                }
-            }
-
-            if (!intersect) {
-                bricks.add(brick);
-            }
-        }
-        return bricks;
-    }
-
-    public Color createRandomBrickColor() {
-        Random rand = new Random();
-
-        int red = rand.nextInt(256);
-        int green = rand.nextInt(256);
-        int blue = rand.nextInt(256);
-
-        return new Color(red, green, blue);
-    }
 
 }
