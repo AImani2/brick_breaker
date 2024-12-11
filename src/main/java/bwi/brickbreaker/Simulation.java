@@ -167,6 +167,7 @@ public class Simulation
     public void checkBrick() {
         if (ball.collidesWithBrick(brick)) {
             brick = brickFactory.newBrick();
+            hitPaddle = false;
 
             if (justHitPaddle) {
                 score++;
