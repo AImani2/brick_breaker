@@ -102,13 +102,15 @@ public class GameFrame extends JFrame {
             });
             timer1.start();
 
-//            Timer timer = new Timer(15, e -> {
-//                simulation.advance();
-//                scoreLabel.setText("Score: \n" + simulation.getScore());
-//                view.repaint();
-//            });
-//
-//            timer.start();
+            /*
+            Timer timer = new Timer(15, e -> {
+                simulation.advance();
+                scoreLabel.setText("Score: \n" + simulation.getScore());
+                view.repaint();
+            });
+
+            timer.start();
+             */
         }
     }
 
