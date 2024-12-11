@@ -14,6 +14,7 @@ public class BrickBreakerRequestHandler
     @Override
     public BrickBreakerResponse handleRequest(BrickBreakerRequest request, Context context)
     {
+
         try
         {
             InputStream in = getClass().getClassLoader().getResourceAsStream("trained.json");
