@@ -22,14 +22,17 @@ public class TrainAi
         Ball ball = new Ball(x, y, 20, rand.nextInt(175), -1, Color.CYAN);
         int viewWidth = 800;
         int viewHeight = 600;
-        int generations = 5;
+        int brickWidth = 100;
+        int brickHeight = 20;
+        int generations = 100;
         List<NetworkAndScore> topPerformers = new ArrayList<>();
+        BrickFactory brickFactory = new BrickFactory(viewWidth, viewHeight, brickWidth, brickHeight);
 
 
 
         // Creates the first arrayList of agents
         for (int i = 0; i < agents; i++) {
-            NeuralNetwork nn = new NeuralNetwork(2, 2, 4, 2);
+            NeuralNetwork nn = new NeuralNetwork(4, 2, 4, 2);
             NetworkAndScore networkAndScore = new NetworkAndScore(nn, 0);
             population.add(networkAndScore);
         }
@@ -39,11 +42,12 @@ public class TrainAi
             //Have the neural networks play the game
             for (int j = 0; j < population.size(); j++) {
                 Simulation simulation = new Simulation(population.get(j).getNetwork(),
-                        ball, paddle, viewWidth, viewHeight);
+                        ball, paddle, viewWidth, viewHeight, brickFactory);
                 simulation.simulate();
                 population.get(j).setScore(simulation.getScore());
                 simulation.reset();
             }
+
 
             population.sort(Comparator.comparingInt(NetworkAndScore::getScore).reversed());
 
@@ -54,7 +58,7 @@ public class TrainAi
             while (population.size() < agents) {
                 for (int j = 0; j < topTen; j++) {
                     for (int k = 0; k < topTen; k++) {
-                        NeuralNetwork parent1 = topPerformers.get(i).getNetwork();
+                        NeuralNetwork parent1 = topPerformers.get(k).getNetwork();
                         NeuralNetwork parent2 = topPerformers.get(j).getNetwork();
 
                         NeuralNetwork offspring = parent1.merge(parent2);
