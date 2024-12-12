@@ -86,20 +86,15 @@ public class Ball extends Ellipse2D.Double {
         int maxAngle = 60;
         if (paddle.getBounds().intersects(this.getBounds())) {
 
-            // Determine how far along the paddle the ball hit
             double hitPosition = (x - paddle.getX()) / paddle.getWidth();
 
-            // Split the paddle into three sections: left, middle, and right
-            double leftBoundary = 0.33; // Left section ends at 33%
-            double rightBoundary = 0.67; // Right section starts at 67%
+            double leftBoundary = 0.33;
+            double rightBoundary = 0.67;
 
-            // Define angles for each section
-            double leftAngle = 135; // Ball hits left section
-            double centerAngle = 180; // Ball hits middle section
-            double rightAngle = 225; // Ball hits right section
+            double leftAngle = 135;
+            double centerAngle = 180;
+            double rightAngle = 225;
 
-            // Determine the bounce angle based on the section hit
-            double bounceAngle;
             if (hitPosition < leftBoundary) {
                 setAngle(leftAngle);
             } else if (hitPosition < rightBoundary) {
