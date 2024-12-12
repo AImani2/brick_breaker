@@ -3,6 +3,7 @@ package bwi.brickbreaker;
 import basicneuralnetwork.NeuralNetwork;
 
 import java.awt.*;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -11,7 +12,8 @@ import java.util.Random;
 public class TrainAi
 {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException
+    {
         Random rand = new Random();
         List<NetworkAndScore> population = new ArrayList<>();
         int agents = 1000;

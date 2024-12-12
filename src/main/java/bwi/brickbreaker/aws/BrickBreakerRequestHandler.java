@@ -3,6 +3,8 @@ package bwi.brickbreaker.aws;
 import basicneuralnetwork.NeuralNetwork;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
+import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.model.GetObjectRequest;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,14 +13,27 @@ import java.io.InputStream;
 public class BrickBreakerRequestHandler
         implements RequestHandler<BrickBreakerRequestHandler.BrickBreakerRequest, BrickBreakerRequestHandler.BrickBreakerResponse>
 {
+    private final S3Client s3Client;
+
+    public BrickBreakerRequestHandler()
+    {
+        s3Client = S3Client.create();
+    }
+
     @Override
     public BrickBreakerResponse handleRequest(BrickBreakerRequest request, Context context)
     {
 
+
         try
         {
-            InputStream in = getClass().getClassLoader().getResourceAsStream("trained.json");
-            NeuralNetwork network = NeuralNetwork.readFromFile("nn_data.json");
+            GetObjectRequest getObjectRequest = GetObjectRequest.builder()
+                    .bucket("bral.bbnn")
+                    .key("trained.json")
+                    .build();
+
+            InputStream in = s3Client.getObject(getObjectRequest);
+            NeuralNetwork network = NeuralNetwork.readFromFile(in);
             double guess[] = new double[4];
             guess[0] = request.xBall(); // x ball
             guess[1] = request.xPaddle(); // x paddle
