@@ -137,10 +137,8 @@ public class Simulation
         //Input for part 2 - 4 inputs
         double[] input = { ball.getCenterX(), paddle.getCenterX(), brick.getCenterX(), brick.getCenterY() };
 
-        /*
-        Input for part 1 - only 2 inputs
-        double[] input = { ball.getCenterX(), paddle.getCenterX() };
-        */
+        //Input for part 1 - only 2 inputs
+        //double[] input = { ball.getCenterX(), paddle.getCenterX() };
 
         double[] output = neuralNetwork.guess(input);
 

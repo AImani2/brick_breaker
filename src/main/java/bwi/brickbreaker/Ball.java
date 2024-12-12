@@ -82,8 +82,29 @@ public class Ball extends Ellipse2D.Double {
     public boolean collides(Paddle paddle) {
 
         boolean collision = false;
+
+        int maxAngle = 60;
         if (paddle.getBounds().intersects(this.getBounds())) {
 
+            double hitPosition = (x - paddle.getX()) / paddle.getWidth();
+
+            double leftBoundary = 0.33;
+            double rightBoundary = 0.67;
+
+            double leftAngle = 135;
+            double centerAngle = 180;
+            double rightAngle = 225;
+
+            if (hitPosition < leftBoundary) {
+                setAngle(leftAngle);
+            } else if (hitPosition < rightBoundary) {
+                setAngle(centerAngle);
+            } else {
+                setAngle(rightAngle);
+            }
+
+
+            // new code - based on instructions
             dy = -dy;
             dx = (paddle.getCenterX() - this.getCenterX()) / (paddle.getWidth() / 2);
 
@@ -93,6 +114,8 @@ public class Ball extends Ellipse2D.Double {
         return collision;
 
     }
+
+
 
     public void collideWall() {
         dx = -dx;
