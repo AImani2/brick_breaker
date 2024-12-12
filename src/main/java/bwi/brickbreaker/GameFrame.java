@@ -84,7 +84,7 @@ public class GameFrame extends JFrame {
             view.setPreferredSize(new Dimension(boardWidth, boardHeight - 100));
 
 
-            Timer timer1 = new Timer(15, e -> {
+            Timer timer1 = new Timer(1, e -> {
                 if (simulation.advance()) {
                     scoreLabel.setText("Score:\n" + simulation.getScore());
                     view.repaint();
