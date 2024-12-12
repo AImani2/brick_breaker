@@ -12,26 +12,22 @@ import java.io.InputStream;
 
 public class BrickBreakerRequestHandler
         implements RequestHandler<BrickBreakerRequestHandler.BrickBreakerRequest, BrickBreakerRequestHandler.BrickBreakerResponse>
-{
-    private final S3Client s3Client;
+{    private final S3Client s3Client;
 
-    public BrickBreakerRequestHandler()
-    {
+    public BrickBreakerRequestHandler() {
+        // Initialize the s3 client
         s3Client = S3Client.create();
     }
 
     @Override
     public BrickBreakerResponse handleRequest(BrickBreakerRequest request, Context context)
     {
-
-
         try
         {
             GetObjectRequest getObjectRequest = GetObjectRequest.builder()
                     .bucket("bral.bbnn")
-                    .key("trained.json")
+                    .key("nn_data.json")
                     .build();
-
             InputStream in = s3Client.getObject(getObjectRequest);
             NeuralNetwork network = NeuralNetwork.readFromFile(in);
             double guess[] = new double[4];

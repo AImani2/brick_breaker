@@ -22,14 +22,13 @@ checkstyle {
 }
 
 dependencies {
-
-    implementation files('libs/basic_neural_network-v0.5.2-jar-with-dependencies.jar')
     testImplementation platform('org.junit:junit-bom:5.9.1')
     testImplementation 'org.junit.jupiter:junit-jupiter'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
     implementation 'com.amazonaws:aws-lambda-java-core:1.2.2'
     implementation 'com.amazonaws:aws-lambda-java-events:3.11.1'
     implementation 'software.amazon.awssdk:s3:2.20.36'
+    implementation files('libs/basic_neural_network-v0.5.2-jar-with-dependencies.jar')
 }
 
 test {

@@ -11,7 +11,6 @@ import java.util.Random;
 
 public class TrainAi
 {
-
     public static void main(String[] args) throws IOException
     {
         Random rand = new Random();
@@ -74,7 +73,7 @@ public class TrainAi
             }
         }
 
-        topPerformers.get(0).getNetwork().writeToFile("nn_data");
+        topPerformers.get(0).getNetwork().writeToFile("nn_data.json");
 
     }
 
