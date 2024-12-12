@@ -1,6 +1,6 @@
 {
-  "xBall": 10,
-  "xPaddle": 20,
-  "xBrick": 40,
-  "yBrick": 80
+  "ballX": 10,
+  "paddleX": 20,
+  "brickX": 40,
+  "brickY": 80
 }

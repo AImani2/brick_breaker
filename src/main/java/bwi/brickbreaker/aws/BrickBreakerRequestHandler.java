@@ -11,8 +11,10 @@ import java.io.InputStream;
 
 
 public class BrickBreakerRequestHandler
-        implements RequestHandler<BrickBreakerRequestHandler.BrickBreakerRequest, BrickBreakerRequestHandler.BrickBreakerResponse>
-{    private final S3Client s3Client;
+        implements RequestHandler<BrickBreakerRequestHandler.BrickBreakerRequest,
+        BrickBreakerRequestHandler.BrickBreakerResponse>
+{
+    private final S3Client s3Client;
 
     public BrickBreakerRequestHandler() {
         // Initialize the s3 client
@@ -24,17 +26,18 @@ public class BrickBreakerRequestHandler
     {
         try
         {
+            double guess[] = new double[4];
+            guess[0] = request.ballX(); // x ball
+            guess[1] = request.paddleX(); // x paddle
+            guess[2] = request.brickX(); // x brick
+            guess[3] = request.brickY(); // y brick
+
             GetObjectRequest getObjectRequest = GetObjectRequest.builder()
                     .bucket("bral.bbnn")
                     .key("nn_data.json")
                     .build();
             InputStream in = s3Client.getObject(getObjectRequest);
             NeuralNetwork network = NeuralNetwork.readFromFile(in);
-            double guess[] = new double[4];
-            guess[0] = request.xBall(); // x ball
-            guess[1] = request.xPaddle(); // x paddle
-            guess[2] = request.xBrick(); // x brick
-            guess[3] = request.yBrick(); // y brick
             double[] output = network.guess(guess);
 
             BrickBreakerResponse response = new BrickBreakerResponse(
@@ -54,30 +57,23 @@ public class BrickBreakerRequestHandler
     // it creates some methods for you: toString, ...
     // only for classes that get created and don't get changed
     // POJOs: Plain Old Java Object
-    record BrickBreakerRequest
-    (
-        double xBall,
-        double xPaddle,
-        double xBrick,
-        double yBrick
-    ) {
-
+    record BrickBreakerRequest(
+        double ballX,
+        double paddleX,
+        double brickX,
+        double brickY) {
     }
 
-    record BrickBreakerResponse
-    (
+    record BrickBreakerResponse(
         // want to see what the difference in these values are.
         double right,
-        double left
-    ) {
+        double left) {
         public String moveString()
         {
             if (right > left)
             {
                 return "RIGHT";
-            }
-            else
-            {
+            } else {
                 return "LEFT";
             }
         }
